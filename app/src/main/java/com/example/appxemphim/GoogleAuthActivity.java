@@ -53,6 +53,7 @@ public class GoogleAuthActivity extends MainActivity {
                     }
                 })
                 .addOnFailureListener(this, e -> {
+
                     Toast.makeText(this, "Đăng nhập thất bại!", Toast.LENGTH_SHORT).show();
                     finish();
                 });
@@ -82,7 +83,7 @@ public class GoogleAuthActivity extends MainActivity {
                     if (task.isSuccessful()) {
                         FirebaseUser user = mAuth.getCurrentUser();
                         Toast.makeText(this, "Đăng nhập thành công: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                        finish(); // Quay về MainActivity
+                        startActivity(new Intent(GoogleAuthActivity.this,MainActivity.class));
                     } else {
                         Toast.makeText(this, "Xác thực thất bại!", Toast.LENGTH_SHORT).show();
                         finish();

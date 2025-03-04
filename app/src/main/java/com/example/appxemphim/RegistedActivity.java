@@ -65,8 +65,10 @@ public class RegistedActivity extends MainActivity {
                                         Toast.makeText(getApplicationContext(),user.getDisplayName(),Toast.LENGTH_LONG).show();
                                     }
                                 });
-                        Toast.makeText(getApplicationContext(),user.getEmail(),Toast.LENGTH_LONG).show();
-                        startActivity(new Intent(RegistedActivity.this, MainActivity.class));
+                        Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
+                        intent.putExtra("gmail", user.getEmail().toString());
+                        intent.putExtra("pass",password);
+                        startActivity(intent);
                     }else {
                         Log.w("TAG", "false ",task.getException());
                         Toast.makeText(RegistedActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();

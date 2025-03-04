@@ -6,35 +6,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".LoginActivity">
+
+    <EditText
+        android:id="@+id/editTextText5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="gmail" />
+
+    <EditText
+        android:id="@+id/editTextText6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="pass" />
 
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/button5"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-        android:onClick="siginwithgoogle"
-        android:text="Button" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="registed"
-        android:text="Button" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="TextView" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:onClick="logout"
-        android:text="logout" />
+        android:text="Button"
+        android:onClick="login"/>
 </LinearLayout>
