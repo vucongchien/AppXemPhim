@@ -2,6 +2,7 @@ package com.example.appxemphim;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,6 +19,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
+    FirebaseUser user;
     TextView name;
     Button logout;
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkout() {
-        FirebaseUser user = mAuth.getCurrentUser();
+        user = mAuth.getCurrentUser();
         if(user != null){
             name.setText("chào mừng "+user.getDisplayName()+" đến với app xem phim");
             name.setVisibility(View.VISIBLE);
@@ -60,5 +62,14 @@ public class MainActivity extends AppCompatActivity {
         name.setVisibility(View.GONE);
         logout.setVisibility(View.GONE);
         Toast.makeText(this, "bạn đã đăng xuất ", Toast.LENGTH_SHORT).show();
+    }
+
+    public void gotoprofile(View view) {
+        try {
+            Log.d("MainActivity", "Chuyển sang ProfileActivity...");
+            startActivity(new Intent(MainActivity.this, ProfileActivity.class));
+        } catch (Exception e) {
+            Log.e("MainActivity", "Lỗi khi mở ProfileActivity: " + e.getMessage());
+        }
     }
 }
