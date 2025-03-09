@@ -2,7 +2,7 @@ package com.example.appxemphim.object_data;
 
 import java.util.Date;
 
-public class Move {
+public class Movie {
     private int movive_Id;
     private String title; //tên của bộ phim
     private String description; // mô tả của bộ phim
@@ -11,7 +11,7 @@ public class Move {
     private String nation; // bộ phim thuộc quốc gia nào
     private Date created_at; // thời gian tạo phim
 
-    public Move(int movive_Id, String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
+    public Movie(int movive_Id, String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
         this.movive_Id = movive_Id;
         this.title = title;
         this.description = description;
