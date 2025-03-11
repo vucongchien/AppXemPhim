@@ -14,14 +14,14 @@
         android:layout_height="wrap_content"
 
         android:onClick="siginwithgoogle"
-        android:text="Button" />
+        android:text="Đăng nhập google" />
 
     <Button
         android:id="@+id/button3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="registed"
-        android:text="Button" />
+        android:text="Đăng ký" />
 
     <TextView
         android:id="@+id/textView"
@@ -44,4 +44,11 @@
         android:layout_height="wrap_content"
         android:text="avata"
         android:onClick="gotoprofile"/>
+
+    <Button
+        android:id="@+id/button11"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="forgetPass"
+        android:text="Quên mật khẩu" />
 </LinearLayout>

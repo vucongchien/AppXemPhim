@@ -43,7 +43,8 @@ public class ForgotPassword extends AppCompatActivity {
     EditText otp;
     TextView thongbao;
     TextView thongbaootp;
-    String code_otp;
+    String code_otp = "789555";
+    static boolean emailExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +82,11 @@ public class ForgotPassword extends AppCompatActivity {
                                        String json = response.body().string();
                                        JSONObject jsonObject= new JSONObject(json);
                                        String deliverability = jsonObject.optString("deliverability","UNDELIVERABLE");
-                                       boolean emailExists = "DELIVERABLE".equals(deliverability);
+                                       emailExists = "DELIVERABLE".equals(deliverability);
                                         if(!emailExists){
                                             runOnUiThread(() -> {
                                                 thongbao.setVisibility(View.VISIBLE);
-                                                thongbao.setText("email không tồn tại");
+                                                thongbao.setText("Email không tồn tại");
                                             });
                                         }
                                    }catch (JSONException e) {
@@ -106,10 +107,11 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     public void sendOtp(View view) {
-        code_otp = String.valueOf(new Random().nextInt(999999 - 100000) + 100000); // Tạo mã OTP 6 số
-        sendOTP(this ,email.getText().toString(), code_otp);
-        Toast.makeText(this, "Mã OTP đã được gửi đến email!", Toast.LENGTH_SHORT).show();
-
+        if(emailExists == true){
+            code_otp = String.valueOf(new Random().nextInt(999999 - 100000) + 100000); // Tạo mã OTP 6 số
+            sendOTP(this ,email.getText().toString(), code_otp);
+            Toast.makeText(this, "Mã OTP đã được gửi đến email!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 
@@ -117,7 +119,7 @@ public class ForgotPassword extends AppCompatActivity {
         if(!code_otp.equals(otp.getText().toString())){
             thongbaootp.setVisibility(View.VISIBLE);
             thongbaootp.setText("Mã OTP không chính xác");
-        }else{
+        }else {
             Intent intent = new Intent(ForgotPassword.this, SetPassWord.class);
             intent.putExtra("email",email.getText().toString());
             intent.putExtra("code_otp",code_otp);
