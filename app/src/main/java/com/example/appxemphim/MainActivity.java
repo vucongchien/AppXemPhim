@@ -72,4 +72,8 @@ public class MainActivity extends AppCompatActivity {
             Log.e("MainActivity", "Lỗi khi mở ProfileActivity: " + e.getMessage());
         }
     }
+
+    public void forgetPass(View view) {
+        startActivity(new Intent(MainActivity.this, ForgotPassword.class));
+    }
 }

@@ -24,6 +24,13 @@
         android:inputType="text"
         android:text="Name" />
 
+    <TextView
+        android:id="@+id/notiRegisterEmail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        />
+
     <EditText
         android:id="@+id/editTextText2"
         android:layout_width="match_parent"
