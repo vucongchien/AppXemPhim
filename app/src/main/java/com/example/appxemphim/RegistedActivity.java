@@ -35,11 +35,14 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class RegistedActivity extends MainActivity {
+<<<<<<< Updated upstream
     EditText email, username, pass, repass;
     boolean emailExists;
     TextView thongbao, thongbaodk;
     private boolean isCheckingEmail = false;
+=======
     EditText gmail, username, pass, repass;
+>>>>>>> Stashed changes
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -51,6 +54,7 @@ public class RegistedActivity extends MainActivity {
         username = findViewById(R.id.editTextText2);
         pass = findViewById(R.id.editTextText3);
         repass = findViewById(R.id.editTextText4);
+<<<<<<< Updated upstream
         thongbao = findViewById(R.id.notiRegisterEmail);
         thongbaodk = findViewById(R.id.thongbaodk);
         email.addTextChangedListener(new TextWatcher() {
@@ -105,6 +109,8 @@ public class RegistedActivity extends MainActivity {
 
             }
         });
+=======
+>>>>>>> Stashed changes
     }
 
     public void regist(View view) {
@@ -118,6 +124,7 @@ public class RegistedActivity extends MainActivity {
             return;
         }
 
+<<<<<<< Updated upstream
         if (!emailExists) {
             Toast.makeText(this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
             thongbaodk.setVisibility(View.VISIBLE);
@@ -138,6 +145,7 @@ public class RegistedActivity extends MainActivity {
                                 if (e.isSuccessful()) {
                                     Log.d("Firebase", "User name updated.");
                                     Toast.makeText(getApplicationContext(), user.getDisplayName(), Toast.LENGTH_LONG).show();
+=======
                 @Override
                 public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
                     if (response.isSuccessful() && response.body() != null) {
@@ -175,8 +183,8 @@ public class RegistedActivity extends MainActivity {
                                     });
                                 } else {
                                     Toast.makeText(RegistedActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+>>>>>>> Stashed changes
                                 }
-                            });
 
                             Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
                             intent.putExtra("gmail", user.getEmail());
