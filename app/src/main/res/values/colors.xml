@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="text">#FFFFFFFF</color>
+    <color name="text_2">#BACECECE</color>
+    <color name="background">#1b191a</color>
+    <color name="button_hover">#dd2e45</color>
+    <color name="button">#723a46</color>
+    <color name="green">#71E775</color>
+    <color name="background_2">#383537</color>
+    <color name="background_3">#625C62</color>
 </resources>

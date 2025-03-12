@@ -51,4 +51,11 @@
         android:layout_height="wrap_content"
         android:onClick="forgetPass"
         android:text="Quên mật khẩu" />
+
+    <Button
+        android:id="@+id/goHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="goHome"
+        android:onClick="goHomeActivity"/>
 </LinearLayout>
