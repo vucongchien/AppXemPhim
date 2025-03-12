@@ -35,14 +35,11 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class RegistedActivity extends MainActivity {
-<<<<<<< Updated upstream
+
     EditText email, username, pass, repass;
     boolean emailExists;
     TextView thongbao, thongbaodk;
     private boolean isCheckingEmail = false;
-=======
-    EditText gmail, username, pass, repass;
->>>>>>> Stashed changes
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -54,7 +51,6 @@ public class RegistedActivity extends MainActivity {
         username = findViewById(R.id.editTextText2);
         pass = findViewById(R.id.editTextText3);
         repass = findViewById(R.id.editTextText4);
-<<<<<<< Updated upstream
         thongbao = findViewById(R.id.notiRegisterEmail);
         thongbaodk = findViewById(R.id.thongbaodk);
         email.addTextChangedListener(new TextWatcher() {
@@ -109,8 +105,6 @@ public class RegistedActivity extends MainActivity {
 
             }
         });
-=======
->>>>>>> Stashed changes
     }
 
     public void regist(View view) {
@@ -124,7 +118,6 @@ public class RegistedActivity extends MainActivity {
             return;
         }
 
-<<<<<<< Updated upstream
         if (!emailExists) {
             Toast.makeText(this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
             thongbaodk.setVisibility(View.VISIBLE);
@@ -145,54 +138,15 @@ public class RegistedActivity extends MainActivity {
                                 if (e.isSuccessful()) {
                                     Log.d("Firebase", "User name updated.");
                                     Toast.makeText(getApplicationContext(), user.getDisplayName(), Toast.LENGTH_LONG).show();
-=======
-                @Override
-                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                    if (response.isSuccessful() && response.body() != null) {
-                        try {
-                            String json = response.body().string();
-                            JSONObject jsonObject = new JSONObject(json);
-                            String deliverability = jsonObject.optString("deliverability", "UNDELIVERABLE");
-                            boolean emailExists = "DELIVERABLE".equals(deliverability);
-                                if (emailExists) {
-                                    mAuth.createUserWithEmailAndPassword(emailtext,password).addOnCompleteListener(RegistedActivity.this, new OnCompleteListener<AuthResult>() {
-                                        @Override
-                                        public void onComplete(@NonNull Task<AuthResult> task) {
-                                            if(task.isSuccessful()){
-                                                Log.d("TAG", "true " );
-                                                FirebaseUser user=mAuth.getCurrentUser();
-                                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                                                        .setDisplayName(name)
-                                                        .build();
-                                                user.updateProfile(profileUpdates)
-                                                        .addOnCompleteListener(e -> {
-                                                            if (e.isSuccessful()) {
-                                                                Log.d("Firebase", "User name updated.");
-                                                                Toast.makeText(getApplicationContext(),user.getDisplayName(),Toast.LENGTH_LONG).show();
-                                                            }
-                                                        });
-                                                Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
-                                                intent.putExtra("gmail", user.getEmail().toString());
-                                                intent.putExtra("pass",password);
-                                                startActivity(intent);
-                                            }else {
-                                                Log.w("TAG", "false ",task.getException());
-                                                Toast.makeText(RegistedActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
-                                            }
-                                        }
-                                    });
+                                    Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
+                                    intent.putExtra("gmail", user.getEmail());
+                                    intent.putExtra("pass", password);
+                                    startActivity(intent);
                                 } else {
-                                    Toast.makeText(RegistedActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
->>>>>>> Stashed changes
+                                    Log.w("TAG", "false ", task.getException());
+                                    Toast.makeText(RegistedActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                 }
-
-                            Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
-                            intent.putExtra("gmail", user.getEmail());
-                            intent.putExtra("pass", password);
-                            startActivity(intent);
-                        } else {
-                            Log.w("TAG", "false ", task.getException());
-                            Toast.makeText(RegistedActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            });
                         }
                     }
                 });
