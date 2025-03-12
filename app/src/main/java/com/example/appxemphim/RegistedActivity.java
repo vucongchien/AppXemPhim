@@ -39,6 +39,7 @@ public class RegistedActivity extends MainActivity {
     boolean emailExists;
     TextView thongbao, thongbaodk;
     private boolean isCheckingEmail = false;
+    EditText gmail, username, pass, repass;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -137,6 +138,43 @@ public class RegistedActivity extends MainActivity {
                                 if (e.isSuccessful()) {
                                     Log.d("Firebase", "User name updated.");
                                     Toast.makeText(getApplicationContext(), user.getDisplayName(), Toast.LENGTH_LONG).show();
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    if (response.isSuccessful() && response.body() != null) {
+                        try {
+                            String json = response.body().string();
+                            JSONObject jsonObject = new JSONObject(json);
+                            String deliverability = jsonObject.optString("deliverability", "UNDELIVERABLE");
+                            boolean emailExists = "DELIVERABLE".equals(deliverability);
+                                if (emailExists) {
+                                    mAuth.createUserWithEmailAndPassword(emailtext,password).addOnCompleteListener(RegistedActivity.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if(task.isSuccessful()){
+                                                Log.d("TAG", "true " );
+                                                FirebaseUser user=mAuth.getCurrentUser();
+                                                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                                                        .setDisplayName(name)
+                                                        .build();
+                                                user.updateProfile(profileUpdates)
+                                                        .addOnCompleteListener(e -> {
+                                                            if (e.isSuccessful()) {
+                                                                Log.d("Firebase", "User name updated.");
+                                                                Toast.makeText(getApplicationContext(),user.getDisplayName(),Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+                                                Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
+                                                intent.putExtra("gmail", user.getEmail().toString());
+                                                intent.putExtra("pass",password);
+                                                startActivity(intent);
+                                            }else {
+                                                Log.w("TAG", "false ",task.getException());
+                                                Toast.makeText(RegistedActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    Toast.makeText(RegistedActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
                                 }
                             });
 

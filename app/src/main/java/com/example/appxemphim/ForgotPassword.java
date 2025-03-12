@@ -50,6 +50,8 @@ public class ForgotPassword extends MainActivity {
     TextView thongbaootp;
     String code_otp = "789555";
     static boolean emailExists;
+    String code_otp;
+    boolean emailExists;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class ForgotPassword extends MainActivity {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
+<<<<<<< Updated upstream
                         mAuth.fetchSignInMethodsForEmail(email.getText().toString()).addOnCompleteListener(new OnCompleteListener<SignInMethodQueryResult>() {
                             @Override
                             public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
@@ -91,6 +94,25 @@ public class ForgotPassword extends MainActivity {
                                         } else {
                                             thongbao.setVisibility(View.VISIBLE);
                                             thongbao.setText("Email chưa được đăng ký");
+                       checkEmailExistsAsync(email.getText().toString(), new Callback() {
+                           @Override
+                           public void onFailure(@NonNull Call call, @NonNull IOException e) {
+
+                           }
+
+                           @Override
+                           public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                               if(response.isSuccessful() && response.body() != null){
+                                   try {
+                                       String json = response.body().string();
+                                       JSONObject jsonObject= new JSONObject(json);
+                                       String deliverability = jsonObject.optString("deliverability","UNDELIVERABLE");
+                                       emailExists = "DELIVERABLE".equals(deliverability);
+                                        if(!emailExists){
+                                            runOnUiThread(() -> {
+                                                thongbao.setVisibility(View.VISIBLE);
+                                                thongbao.setText("email không tồn tại");
+                                            });
                                         }
                                     });
 
@@ -111,6 +133,9 @@ public class ForgotPassword extends MainActivity {
         if(emailExists == true){
             code_otp = String.valueOf(new Random().nextInt(999999 - 100000) + 100000); // Tạo mã OTP 6 số
             sendOTP(this ,email.getText().toString(), code_otp);
+        if(emailExists) {
+            code_otp = String.valueOf(new Random().nextInt(999999 - 100000) + 100000); // Tạo mã OTP 6 số
+            sendOTP(this, email.getText().toString(), code_otp);
             Toast.makeText(this, "Mã OTP đã được gửi đến email!", Toast.LENGTH_SHORT).show();
         }
     }
