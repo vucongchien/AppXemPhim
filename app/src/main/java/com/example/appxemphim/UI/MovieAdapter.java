@@ -8,20 +8,37 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.R;
+import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
-    private Context context;
-    private List<MovieUIModel> movieList;
+    private final Context context;
+    private final List<MovieUIModel> movieList;
+    private final OnMovieClickListener listener;
 
-    public MovieAdapter(List<MovieUIModel> movieList, Context context) {
-        this.movieList = movieList;
+    public MovieAdapter(Context context,List<MovieUIModel> initialList,OnMovieClickListener clickListener) {
+        this.movieList = new ArrayList<>(initialList);
         this.context = context;
+        this.listener=clickListener;
+    }
+
+    public void updateMovieList(List<MovieUIModel> newMovieList){
+        if (newMovieList == null) {
+            movieList.clear();
+            notifyDataSetChanged();
+            return;
+        }
+        DiffUtil.DiffResult diffResult=DiffUtil.calculateDiff(new MovieDiffCallBack(movieList,newMovieList));
+        movieList.clear();
+        movieList.addAll(newMovieList);
+        diffResult.dispatchUpdatesTo(this);
     }
 
     @NonNull
@@ -45,7 +62,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public int getItemCount() {
-        return movieList.size();
+        return movieList!=null?movieList.size():0;
     }
 
     public static class MovieViewHolder extends RecyclerView.ViewHolder{
@@ -59,4 +76,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             description=itemView.findViewById(R.id.textDetails);
         }
     }
+
+
+
 }
