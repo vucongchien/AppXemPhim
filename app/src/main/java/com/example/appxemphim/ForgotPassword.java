@@ -23,6 +23,7 @@ import androidx.core.view.WindowInsetsCompat;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.SignInMethodQueryResult;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -72,13 +73,24 @@ public class ForgotPassword extends MainActivity {
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        mAuth.signInWithEmailAndPassword(email.getText().toString(),"123")
+                        String emailInput = email.getText().toString().trim();
+                        if (emailInput.isEmpty()) return;
+
+                        mAuth.createUserWithEmailAndPassword(emailInput, "dummyPassword123")
                                 .addOnCompleteListener(task -> {
-                                    if (!task.isSuccessful()) {
+                                    if (task.isSuccessful()) {
+                                        FirebaseUser newUser = mAuth.getCurrentUser();
+                                        if (newUser != null) {
+                                            newUser.delete();
+                                        }
+                                        emailExists = false;
+                                    } else {
+                                        if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                             emailExists = true;
                                         } else {
                                             emailExists = false;
                                         }
+                                    }
 
                                     runOnUiThread(() -> {
                                         thongbao.setVisibility(View.VISIBLE);
