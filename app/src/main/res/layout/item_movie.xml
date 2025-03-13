@@ -20,19 +20,19 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <!-- Nút dấu cộng (+) -->
-    <ImageView
-        android:id="@+id/imgAdd"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/baseline_add_24"
-        android:background="@color/background_3"
-        android:alpha="0.4"
-        android:clickable="true"
-        android:focusable="true"
-        android:contentDescription="Add movie to favorites"
-        app:layout_constraintTop_toTopOf="@id/imgMovie"
-        app:layout_constraintStart_toStartOf="@id/imgMovie"
-        android:padding="12dp"/>
+<!--    <ImageView-->
+<!--        android:id="@+id/imgAdd"-->
+<!--        android:layout_width="48dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:src="@drawable/baseline_add_24"-->
+<!--        android:background="@color/background_3"-->
+<!--        android:alpha="0.4"-->
+<!--        android:clickable="true"-->
+<!--        android:focusable="true"-->
+<!--        android:contentDescription="Add movie to favorites"-->
+<!--        app:layout_constraintTop_toTopOf="@id/imgMovie"-->
+<!--        app:layout_constraintStart_toStartOf="@id/imgMovie"-->
+<!--        android:padding="12dp"/>-->
 
     <!-- Đánh giá -->
     <ImageView
