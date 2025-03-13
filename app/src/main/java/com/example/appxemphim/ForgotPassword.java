@@ -67,19 +67,18 @@ public class ForgotPassword extends MainActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 thongbao.setVisibility(View.GONE);
-                timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
+                timer.cancel();
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        mAuth.fetchSignInMethodsForEmail(email.getText().toString())
+                        mAuth.signInWithEmailAndPassword(email.getText().toString(),"123")
                                 .addOnCompleteListener(task -> {
-                                    if (task.isSuccessful() && task.getResult() != null) {
-                                        List<String> signInMethods = task.getResult().getSignInMethods();
-                                        emailExists = signInMethods != null && !signInMethods.isEmpty();
-                                    } else {
-                                        emailExists = false; // Tránh lỗi nếu có vấn đề với Firebase
-                                    }
+                                    if (!task.isSuccessful()) {
+                                            emailExists = true;
+                                        } else {
+                                            emailExists = false;
+                                        }
 
                                     runOnUiThread(() -> {
                                         thongbao.setVisibility(View.VISIBLE);
@@ -98,7 +97,7 @@ public class ForgotPassword extends MainActivity {
     }
 
     public void sendOtp(View view) {
-        if(emailExists == true){
+        if(emailExists){
             code_otp = String.valueOf(new Random().nextInt(999999 - 100000) + 100000); // Tạo mã OTP 6 số
             sendOTP(this ,email.getText().toString(), code_otp);
             Toast.makeText(this, "Mã OTP đã được gửi đến email!", Toast.LENGTH_SHORT).show();
