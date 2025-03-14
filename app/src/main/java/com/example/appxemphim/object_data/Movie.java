@@ -1,9 +1,11 @@
 package com.example.appxemphim.object_data;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Date;
 
 public class Movie {
-    private int movive_Id;
+    private String movie_Id;
     private String title; //tên của bộ phim
     private String description; // mô tả của bộ phim
     private String poster_url; // link ảnh poster
@@ -11,8 +13,8 @@ public class Movie {
     private String nation; // bộ phim thuộc quốc gia nào
     private Date created_at; // thời gian tạo phim
 
-    public Movie(int movive_Id, String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
-        this.movive_Id = movive_Id;
+    
+    public Movie(String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
         this.title = title;
         this.description = description;
         this.poster_url = poster_url;
@@ -21,12 +23,12 @@ public class Movie {
         this.created_at = created_at;
     }
 
-    public int getMovive_Id() {
-        return movive_Id;
+    public String getMovie_Id() {
+        return movie_Id;
     }
 
-    public void setMovive_Id(int movive_Id) {
-        this.movive_Id = movive_Id;
+    public void setMovie_Id(String movie_Id) {
+        this.movie_Id = movie_Id;
     }
 
     public String getTitle() {
