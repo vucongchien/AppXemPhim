@@ -1,25 +1,18 @@
 package com.example.appxemphim.object_data;
 
+import android.media.MediaMetadataRetriever;
+
+import java.io.IOException;
 import java.sql.Time;
 import java.util.HashMap;
 
-import android.media.MediaMetadataRetriever;
-import java.io.IOException;
-
 public class Video {
-    private int video_id;
+    private String video_id;
     private String video_url;
     private Time duration;
     private int view;
 
-    public Video(String video_url, Time duration, int movie_id, int view) {
-        this.video_url = video_url;
-        this.duration = duration;
-        this.movie_id = movie_id;
-        this.view = 0;
-    }
-
-    public Video(String video_id, String video_url, Time duration, int movie_id, int view) {
+    public Video(String video_id, String video_url, Time duration, int view) {
         this.video_id = video_id;
         this.video_url = video_url;
         this.duration = duration;
@@ -28,13 +21,6 @@ public class Video {
 
     public Video(String video_url) {
         this.video_url = video_url;
-    }
-
-    public Video(String video_id, String video_url, int view, Time duration) {
-        this.video_id = video_id;
-        this.video_url = video_url;
-        this.view = view;
-        this.duration = duration;
     }
 
     public Time getDuration() {
