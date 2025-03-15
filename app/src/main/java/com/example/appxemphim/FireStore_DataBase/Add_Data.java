@@ -6,8 +6,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.appxemphim.object_data.Movie;
+import com.example.appxemphim.object_data.Video;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Add_Data {
