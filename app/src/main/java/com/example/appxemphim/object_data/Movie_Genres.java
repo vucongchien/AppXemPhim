@@ -9,6 +9,9 @@ public class Movie_Genres {
         this.genres_id = genres_id;
     }
 
+    public Movie_Genres() {
+    }
+
     public String getMovive_Id() {
         return movive_Id;
     }

@@ -18,13 +18,7 @@ public class Review {
         Created_at = created_at;
     }
 
-    public Review(String review_id, String user_id, String movie_id, int rating, String description, Time created_at) {
-        Review_id = review_id;
-        User_id = user_id;
-        Movie_id = movie_id;
-        Rating = rating;
-        Description = description;
-        Created_at = created_at;
+    public Review() {
     }
 
     public String getReview_id() {

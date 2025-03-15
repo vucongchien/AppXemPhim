@@ -17,13 +17,8 @@ public class Comment {
         Created_at = created_at;
     }
 
-    public Comment(String parent_comment_id, String comment_id, String user_id, String movie_id, String content, Time created_at) {
-        Parent_comment_id = parent_comment_id;
-        Comment_id = comment_id;
-        User_id = user_id;
-        Movie_id = movie_id;
-        Content = content;
-        Created_at = created_at;
+    public Comment() {
+
     }
 
     public String getComment_id() {

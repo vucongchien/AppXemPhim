@@ -14,11 +14,8 @@ public class Favourite_List {
         Time_add = time_add;
     }
 
-    public Favourite_List(String favourite_list_id, String user_id, String movie_id, Time time_add) {
-        Favourite_list_id = favourite_list_id;
-        User_id = user_id;
-        Movie_id = movie_id;
-        Time_add = time_add;
+    public Favourite_List() {
+
     }
 
     public String getUser_id() {

@@ -16,12 +16,7 @@ public class History {
         Updated_at = updated_at;
     }
 
-    public History(String history_id, String user_id, String video_id, double person_view, Time updated_at) {
-        History_id = history_id;
-        User_id = user_id;
-        Video_id = video_id;
-        Person_view = person_view;
-        Updated_at = updated_at;
+    public History() {
     }
 
     public String getHistory_id() {

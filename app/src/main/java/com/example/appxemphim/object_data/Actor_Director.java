@@ -10,11 +10,7 @@ public class Actor_Director {
         this.name = name;
     }
 
-    public Actor_Director(String actor_Director_id, String name, String nation) {
-        Actor_Director_id = actor_Director_id;
-        this.name = name;
-        this.nation = nation;
-    }
+    public Actor_Director() {}
 
     public String getActor_Director_id() {
         return Actor_Director_id;

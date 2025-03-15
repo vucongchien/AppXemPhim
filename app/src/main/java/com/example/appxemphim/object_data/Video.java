@@ -26,11 +26,7 @@ public class Video {
     private int view;
 
 
-    public Video(String video_id, String video_url, long duration, int view) {
-        this.video_id = video_id;
-        this.video_url = video_url;
-        this.duration = duration;
-        this.view = view;
+    public Video() {
     }
 
     public Video(String video_url) {

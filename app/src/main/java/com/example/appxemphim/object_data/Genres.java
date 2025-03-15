@@ -9,6 +9,8 @@ public class Genres {
         this.genres_id = genres_id;
     }
 
+    public Genres() {}
+
     public String getGenres_id() {
         return genres_id;
     }
