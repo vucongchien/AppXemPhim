@@ -1,8 +1,11 @@
 package com.example.appxemphim.FireStore_DataBase;
 
+import static com.example.appxemphim.Utilities.GoogleDriveUtils.exportLink;
+
 import android.content.Context;
 import android.widget.Toast;
 
+import com.example.appxemphim.Utilities.GoogleDriveUtils;
 import com.example.appxemphim.object_data.Actor_Director;
 import com.example.appxemphim.object_data.Favourite_List;
 import com.example.appxemphim.object_data.Genres;
@@ -23,6 +26,7 @@ public class Add_Data {
         String movieId = db.collection("movies").document().getId();
         if (movieId != null) {
             movie.setMovie_Id(movieId);
+            movie.setPoster_url(exportLink(movie.getPoster_url()));
             db.collection("movies").document(movieId)
                     .set(movie)
                     .addOnSuccessListener(aVoid ->

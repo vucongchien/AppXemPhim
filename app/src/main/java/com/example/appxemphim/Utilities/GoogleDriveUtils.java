@@ -80,9 +80,14 @@ public class GoogleDriveUtils {
     }
 
     public static String extractFileId(String driveUrl) {
-        String regex = "https://drive\\.google\\.com/file/d/([a-zA-Z0-9_-]+)";
+        String regex = ".*(?:id=|/d/)([a-zA-Z0-9_-]+).*";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(driveUrl);
         return matcher.find() ? matcher.group(1) : null;
+    }
+
+    public static String exportLink(String driveUrl){
+        String fileId = extractFileId(driveUrl);
+        return (fileId != null) ? "https://drive.google.com/uc?export=download&id=" + fileId : null;
     }
 }

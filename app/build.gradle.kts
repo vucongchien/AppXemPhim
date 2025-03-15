@@ -65,4 +65,5 @@ dependencies {
     implementation("org.apache.httpcomponents.client5:httpclient5-fluent:5.2.1")
     implementation ("com.sun.mail:android-mail:1.6.2")
     implementation ("com.sun.mail:android-activation:1.6.2")
+    implementation ("com.squareup.picasso:picasso:2.8")
 }
