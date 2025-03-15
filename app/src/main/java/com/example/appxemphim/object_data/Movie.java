@@ -13,7 +13,7 @@ public class Movie {
     private String nation; // bộ phim thuộc quốc gia nào
     private Date created_at; // thời gian tạo phim
 
-    
+    public Movie() {}
     public Movie(String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
         this.title = title;
         this.description = description;
