@@ -17,11 +17,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.Firebase;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
-    FirebaseDatabase db;
+    FirebaseFirestore db;
     TextView name;
     Button logout;
 
@@ -33,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
         name =findViewById(R.id.textView);
         logout = findViewById(R.id.button6);
         mAuth= FirebaseAuth.getInstance();
-        db = FirebaseDatabase.getInstance();
+        db = FirebaseFirestore.getInstance();
        checkout();
 
     }

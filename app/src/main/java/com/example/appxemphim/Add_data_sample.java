@@ -23,8 +23,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public class Add_data_sample extends MainActivity {
-    ArrayList<EditText> editTexts;
-    ArrayList<String> text;
+    ArrayList<EditText> editTexts = new ArrayList<>();
+    ArrayList<String> text = new ArrayList<>();
     SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
     Date date;
 
@@ -33,6 +33,7 @@ public class Add_data_sample extends MainActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_add_data_sample);
+
         editTexts.add(findViewById(R.id.tenphim));
         editTexts.add(findViewById(R.id.mota));
         editTexts.add(findViewById(R.id.poster));
@@ -56,7 +57,8 @@ public class Add_data_sample extends MainActivity {
         }catch (ParseException e){
             e.printStackTrace();
         }
-
-        Add_Data_movie(db, new Movie(text.get(0),text.get(1),text.get(2),text.get(3),text.get(4),date));
+        Movie movie =new Movie(text.get(0),text.get(1),text.get(2),text.get(3),text.get(4),date);
+        Toast.makeText(this, movie.toString(), Toast.LENGTH_SHORT).show();
+        Add_Data_movie(this,db, movie);
     }
 }
