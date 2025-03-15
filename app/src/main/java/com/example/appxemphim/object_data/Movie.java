@@ -2,6 +2,7 @@ package com.example.appxemphim.object_data;
 
 import com.google.firebase.database.FirebaseDatabase;
 
+
 import java.util.Date;
 
 public class Movie {
@@ -15,6 +16,16 @@ public class Movie {
 
     
     public Movie(String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
+        this.title = title;
+        this.description = description;
+        this.poster_url = poster_url;
+        this.trailer_url = trailer_url;
+        this.nation = nation;
+        this.created_at = created_at;
+    }
+
+    public Movie(String movie_Id, String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
+        this.movie_Id = movie_Id;
         this.title = title;
         this.description = description;
         this.poster_url = poster_url;
