@@ -9,6 +9,9 @@ public class Movie_Actor_Director {
         Actor_Director_id = actor_Director_id;
     }
 
+    public Movie_Actor_Director() {
+    }
+
     public String getMovive_Id() {
         return movive_Id;
     }

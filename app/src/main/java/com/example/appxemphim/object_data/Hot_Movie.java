@@ -16,12 +16,7 @@ public class Hot_Movie {
         View = 0;
     }
 
-    public Hot_Movie(String hot_movie_id, String movie_id, Time time_start, Time time_end, int view) {
-        Hot_movie_id = hot_movie_id;
-        Movie_id = movie_id;
-        Time_start = time_start;
-        Time_end = time_end;
-        View = view;
+    public Hot_Movie() {
     }
 
     public String getHot_movie_id() {

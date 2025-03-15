@@ -23,15 +23,6 @@ public class Movie {
         this.created_at = created_at;
     }
 
-    public Movie(String movie_Id, String title, String description, String poster_url, String trailer_url, String nation, Date created_at) {
-        this.movie_Id = movie_Id;
-        this.title = title;
-        this.description = description;
-        this.poster_url = poster_url;
-        this.trailer_url = trailer_url;
-        this.nation = nation;
-        this.created_at = created_at;
-    }
 
     public String getMovie_Id() {
         return movie_Id;
