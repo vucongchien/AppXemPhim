@@ -3,10 +3,7 @@ package com.example.appxemphim.FireStore_DataBase;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.example.appxemphim.Add_data_sample;
 import com.example.appxemphim.object_data.Movie;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class Add_Data {
