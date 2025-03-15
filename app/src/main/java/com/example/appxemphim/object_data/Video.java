@@ -3,13 +3,20 @@ package com.example.appxemphim.object_data;
 import java.sql.Time;
 
 public class Video {
-    private int video_id;
+    private String video_id;
     private String video_url;
     private Time duration;
     private int movie_id;
     private int view;
 
-    public Video(int video_id, String video_url, Time duration, int movie_id, int view) {
+    public Video(String video_url, Time duration, int movie_id, int view) {
+        this.video_url = video_url;
+        this.duration = duration;
+        this.movie_id = movie_id;
+        this.view = 0;
+    }
+
+    public Video(String video_id, String video_url, Time duration, int movie_id, int view) {
         this.video_id = video_id;
         this.video_url = video_url;
         this.duration = duration;
@@ -17,19 +24,11 @@ public class Video {
         this.view = view;
     }
 
-    public Time getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Time duration) {
-        this.duration = duration;
-    }
-
-    public int getVideo_id() {
+    public String getVideo_id() {
         return video_id;
     }
 
-    public void setVideo_id(int video_id) {
+    public void setVideo_id(String video_id) {
         this.video_id = video_id;
     }
 
@@ -39,6 +38,14 @@ public class Video {
 
     public void setVideo_url(String video_url) {
         this.video_url = video_url;
+    }
+
+    public Time getDuration() {
+        return duration;
+    }
+
+    public void setDuration(Time duration) {
+        this.duration = duration;
     }
 
     public int getMovie_id() {
@@ -53,7 +60,7 @@ public class Video {
         return view;
     }
 
-    public void setView() {
-        this.view = this.view+1;
+    public void setView(int view) {
+        this.view = view;
     }
 }
