@@ -7,13 +7,20 @@ import android.media.MediaMetadataRetriever;
 import java.io.IOException;
 
 public class Video {
-    private String video_id;
-
+    private int video_id;
     private String video_url;
     private Time duration;
     private int view;
 
-    public Video( String video_url, Time duration, int movie_id, int view) {
+    public Video(String video_url, Time duration, int movie_id, int view) {
+        this.video_url = video_url;
+        this.duration = duration;
+        this.movie_id = movie_id;
+        this.view = 0;
+    }
+
+    public Video(String video_id, String video_url, Time duration, int movie_id, int view) {
+        this.video_id = video_id;
         this.video_url = video_url;
         this.duration = duration;
         this.view = view;
@@ -69,11 +76,12 @@ public class Video {
     }
 
 
+
     public int getView() {
         return view;
     }
 
-    public void setView() {
-        this.view = this.view+1;
+    public void setView(int view) {
+        this.view = view;
     }
 }
