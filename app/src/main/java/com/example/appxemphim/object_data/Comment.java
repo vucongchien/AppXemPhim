@@ -3,35 +3,42 @@ package com.example.appxemphim.object_data;
 import java.sql.Time;
 
 public class Comment {
-    private int Comment_id;
-    private int Parent_comment_id;
-    private int User_id;
-    private int Movie_id;
+    private String Comment_id;
+    private String Parent_comment_id;
+    private String User_id;
+    private String Movie_id;
     private String Content;
     private Time Created_at;
 
-    public Comment(int comment_id, int parent_comment_id, int user_id, int movie_id, String content, Time created_at) {
-        Comment_id = comment_id;
-        Parent_comment_id = parent_comment_id;
+    public Comment(String user_id, String movie_id, String content, Time created_at) {
         User_id = user_id;
         Movie_id = movie_id;
         Content = content;
         Created_at = created_at;
     }
 
-    public int getComment_id() {
+    public Comment(String parent_comment_id, String comment_id, String user_id, String movie_id, String content, Time created_at) {
+        Parent_comment_id = parent_comment_id;
+        Comment_id = comment_id;
+        User_id = user_id;
+        Movie_id = movie_id;
+        Content = content;
+        Created_at = created_at;
+    }
+
+    public String getComment_id() {
         return Comment_id;
     }
 
-    public int getParent_comment_id() {
+    public String getParent_comment_id() {
         return Parent_comment_id;
     }
 
-    public int getUser_id() {
+    public String getUser_id() {
         return User_id;
     }
 
-    public int getMovie_id() {
+    public String getMovie_id() {
         return Movie_id;
     }
 
@@ -43,11 +50,27 @@ public class Comment {
         return Created_at;
     }
 
+    public void setComment_id(String comment_id) {
+        Comment_id = comment_id;
+    }
+
+    public void setParent_comment_id(String parent_comment_id) {
+        Parent_comment_id = parent_comment_id;
+    }
+
+    public void setUser_id(String user_id) {
+        User_id = user_id;
+    }
+
     public void setContent(String content) {
         Content = content;
     }
 
     public void setCreated_at(Time created_at) {
         Created_at = created_at;
+    }
+
+    public void setMovie_id(String movie_id) {
+        Movie_id = movie_id;
     }
 }

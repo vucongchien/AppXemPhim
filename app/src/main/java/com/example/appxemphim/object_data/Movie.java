@@ -2,7 +2,6 @@ package com.example.appxemphim.object_data;
 
 import com.google.firebase.database.FirebaseDatabase;
 
-
 import java.util.Date;
 
 public class Movie {
