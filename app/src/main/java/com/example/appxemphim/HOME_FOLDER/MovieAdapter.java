@@ -1,4 +1,4 @@
-package com.example.appxemphim.UI;
+package com.example.appxemphim.HOME_FOLDER;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.R;
-import com.example.appxemphim.UI.Interface.OnMovieClickListener;
+import com.example.appxemphim.HOME_FOLDER.Interface.OnMovieClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
