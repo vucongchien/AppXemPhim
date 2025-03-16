@@ -1,4 +1,4 @@
-package com.example.appxemphim.UI;
+package com.example.appxemphim.HOME_FOLDER;
 
 import androidx.recyclerview.widget.DiffUtil;
 

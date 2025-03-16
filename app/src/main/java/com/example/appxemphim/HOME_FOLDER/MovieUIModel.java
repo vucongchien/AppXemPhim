@@ -1,4 +1,4 @@
-package com.example.appxemphim.UI;
+package com.example.appxemphim.HOME_FOLDER;
 
 public class MovieUIModel {
     private int movieId;
