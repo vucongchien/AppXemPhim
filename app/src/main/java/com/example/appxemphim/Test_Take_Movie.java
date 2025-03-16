@@ -3,10 +3,12 @@ package com.example.appxemphim;
 import static com.example.appxemphim.FireStore_DataBase.Take_Data.take_movie;
 import static com.example.appxemphim.Utilities.GoogleDriveUtils.exportLink;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,7 @@ import com.squareup.picasso.Callback;
 
 public class Test_Take_Movie extends MainActivity {
     ImageView avata;
+    VideoView demo;
     TextView thong;
     ArrayList<Movie> movies = new ArrayList<>();
 
@@ -33,6 +36,7 @@ public class Test_Take_Movie extends MainActivity {
         setContentView(R.layout.activity_test_take_movie);
         avata = findViewById(R.id.avata);
         thong = findViewById(R.id.non);
+        demo = findViewById(R.id.videoView);
         take_movie(this, db, new Take_Data.MovieCallback() {
             @Override
             public void onSuccess(ArrayList<Movie> movieList) {
@@ -44,13 +48,16 @@ public class Test_Take_Movie extends MainActivity {
                 }
 
                 String posterUrl = movies.get(0).getPoster_url();
+                String trailerUrl = movies.get(0).getTrailer_url();
                 if (posterUrl == null || posterUrl.isEmpty()) {
                     Toast.makeText(Test_Take_Movie.this, "Không có URL ảnh!", Toast.LENGTH_SHORT).show();
                     return;
                 }
 
                 String imageUrl = exportLink(posterUrl);
-                if (imageUrl != null && imageUrl.startsWith("http")) {
+                String videoUrl= exportLink(trailerUrl);
+                Uri videoUri = Uri.parse(videoUrl);
+                if (imageUrl != null && imageUrl.startsWith("http") && videoUrl != null && videoUrl.startsWith("http")) {
                     Picasso.get()
                             .load(imageUrl)
                             .error(R.drawable.intro_pic) // Hiển thị ảnh lỗi nếu load thất bại
@@ -66,6 +73,9 @@ public class Test_Take_Movie extends MainActivity {
 
                                 }
                             });
+                    demo.setVideoURI(videoUri);
+                    demo.start();
+
                 } else {
                     Toast.makeText(Test_Take_Movie.this, "URL ảnh không hợp lệ!", Toast.LENGTH_SHORT).show();
                 }
