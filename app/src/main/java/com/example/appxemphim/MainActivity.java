@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         name =findViewById(R.id.textView);
         logout = findViewById(R.id.button6);
         mAuth= FirebaseAuth.getInstance();
+        user= mAuth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
        checkout();
 
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void changepageaddmovie(View view) {
-        startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
+        //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
+        startActivity(new Intent(MainActivity.this,Add_data_sample.class));
     }
 }
