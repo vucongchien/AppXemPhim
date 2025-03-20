@@ -2,6 +2,8 @@ package com.example.appxemphim;
 
 import static com.example.appxemphim.FireStore_DataBase.Add_Data.Add_Data_movie;
 import static com.example.appxemphim.FireStore_DataBase.Add_Data.Add_Data_video;
+import static com.example.appxemphim.FireStore_DataBase.Add_Data.Add_Facourite_List;
+import static com.example.appxemphim.FireStore_DataBase.Add_Data.Add_History;
 
 import android.os.Bundle;
 import android.view.View;
@@ -67,5 +69,8 @@ public class Add_data_sample extends MainActivity {
             text.add(a.getText().toString());
         }
         Add_Data_video(this,db,new Video(text.get(0)),text.get(1));
+        //Add_Facourite_List(this, db, user,text.get(0));
+        //Add_History(this, db,user,text.get(0),Double.parseDouble(text.get(1)));
+
     }
 }
