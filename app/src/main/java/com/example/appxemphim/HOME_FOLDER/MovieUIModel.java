@@ -5,13 +5,21 @@ public class MovieUIModel {
     private String title;
     private String posterUrl;
     private String rating;
+    private String numView;
+    private String year;
+
+
+
     private String description;
 
-    public MovieUIModel(int movieId, String title, String posterUrl, String rating, String description) {
+
+    public MovieUIModel(int movieId, String title, String posterUrl, String rating,String numView,String year, String description) {
         this.movieId = movieId;
         this.title = title;
         this.posterUrl = posterUrl;
         this.rating = rating;
+        this.numView=numView;
+        this.year=year;
         this.description = description;
     }
 
@@ -53,5 +61,20 @@ public class MovieUIModel {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+    public String getNumView() {
+        return numView;
+    }
+
+    public void setNumView(String numView) {
+        this.numView = numView;
+    }
+
+    public String getYear() {
+        return year;
+    }
+
+    public void setYear(String year) {
+        this.year = year;
     }
 }
