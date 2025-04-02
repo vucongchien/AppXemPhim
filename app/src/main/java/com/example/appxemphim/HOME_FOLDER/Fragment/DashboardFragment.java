@@ -10,8 +10,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.PagerSnapHelper;
 
+import com.example.appxemphim.HOME_FOLDER.CarouselAdapter;
 import com.example.appxemphim.HOME_FOLDER.MovieAdapter;
 import com.example.appxemphim.HOME_FOLDER.MovieUIModel;
 import com.example.appxemphim.HOME_FOLDER.MovieViewModel;
@@ -23,8 +26,9 @@ import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
 
+    private CarouselAdapter carouselAdapter;
+    private MovieAdapter topRatedMovieAdapter;
     private MovieViewModel movieViewModel;
-    private MovieAdapter movieAdapter;
     private FragmentDashboardBinding binding;
 
     @Nullable
@@ -33,38 +37,72 @@ public class DashboardFragment extends Fragment {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-
         initializeUI();
         setupListeners();
         observeData();
-        movieViewModel.loadMovieData();
+        movieViewModel.LoadTopRatedData();
+        movieViewModel.LoadHotData();
 
         return view;
     }
 
-    private void initializeUI(){
+    private void initializeUI() {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
-        movieAdapter = new MovieAdapter(requireContext(), new ArrayList<>(), this::showMovieToast);
 
+        // Carousel setup
+        binding.recyclerViewCarousel.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false));
+        carouselAdapter = new CarouselAdapter(requireContext(), new ArrayList<>(), this::showMovieToast);
+        binding.recyclerViewCarousel.setAdapter(carouselAdapter);
+        binding.recyclerViewCarousel.setItemAnimator(new DefaultItemAnimator());
+
+
+        PagerSnapHelper snapHelper=new PagerSnapHelper();
+        snapHelper.attachToRecyclerView(binding.recyclerViewCarousel);
+
+
+
+        // Top-rated movies setup
+        topRatedMovieAdapter = new MovieAdapter(requireContext(), new ArrayList<>(), this::showMovieToast);
         binding.recyclerViewTopRated.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerViewTopRated.setAdapter(movieAdapter);
+        binding.recyclerViewTopRated.setAdapter(topRatedMovieAdapter);
         binding.recyclerViewTopRated.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelOffset(R.dimen.item_spacing)));
     }
 
     private void observeData() {
-        movieViewModel.getMovieList().observe(getViewLifecycleOwner(), resource -> {
+        // Quan sát danh sách phim hot cho carousel
+        movieViewModel.getHotMovieList().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
                 switch (resource.status) {
                     case "LOADING":
-                        Toast.makeText(requireContext(), "Loading...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), "Loading hot movies...", Toast.LENGTH_SHORT).show();
                         break;
                     case "SUCCESS":
                         if (resource.data != null) {
-                            movieAdapter.updateMovieList(resource.data);
+                            carouselAdapter.updateHotMovieList(resource.data);
                         }
                         break;
                     case "ERROR":
-                        movieAdapter.updateMovieList(new ArrayList<>());
+                        carouselAdapter.updateHotMovieList(new ArrayList<>());
+                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+
+        // Quan sát danh sách phim top-rated
+        movieViewModel.getTopRatedMovieList().observe(getViewLifecycleOwner(), resource -> {
+            if (resource != null) {
+                switch (resource.status) {
+                    case "LOADING":
+                        Toast.makeText(requireContext(), "Loading top-rated movies...", Toast.LENGTH_SHORT).show();
+                        break;
+                    case "SUCCESS":
+                        if (resource.data != null) {
+                            topRatedMovieAdapter.updateMovieList(resource.data);
+                        }
+                        break;
+                    case "ERROR":
+                        topRatedMovieAdapter.updateMovieList(new ArrayList<>());
                         Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -72,24 +110,21 @@ public class DashboardFragment extends Fragment {
         });
     }
 
-
     private void showMovieToast(MovieUIModel movie) {
         Toast.makeText(requireContext(), "Selected: " + movie.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
-    private void setupListeners(){
-        // Xử lý sự kiện cho nút Search
+    private void setupListeners() {
         binding.btnSearch.setOnClickListener(v ->
                 Toast.makeText(requireContext(), "Search clicked", Toast.LENGTH_SHORT).show()
         );
 
-        // Xử lý sự kiện cho nút Filter
         binding.btnFilter.setOnClickListener(v ->
                 Toast.makeText(requireContext(), "Filter clicked", Toast.LENGTH_SHORT).show()
         );
-
-
     }
+
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
