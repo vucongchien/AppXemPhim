@@ -4,9 +4,8 @@ public class Genres {
     private String  genres_id;
     private  String  name;
 
-    public Genres(String name, String genres_id) {
+    public Genres(String name) {
         this.name = name;
-        this.genres_id = genres_id;
     }
 
     public Genres() {}

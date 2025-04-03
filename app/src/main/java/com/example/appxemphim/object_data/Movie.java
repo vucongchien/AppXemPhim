@@ -10,6 +10,7 @@ public class Movie {
     private String description; // mô tả của bộ phim
     private String poster_url; // link ảnh poster
     private String trailer_url;// link trailer của bộ phim
+    private float rating;// đánh giá chung của phim
     private String nation; // bộ phim thuộc quốc gia nào
     private Date created_at; // thời gian tạo phim
 
@@ -21,6 +22,7 @@ public class Movie {
         this.trailer_url = trailer_url;
         this.nation = nation;
         this.created_at = created_at;
+        this.rating =0;
     }
 
 
@@ -78,5 +80,13 @@ public class Movie {
 
     public void setCreated_at(Date created_at) {
         this.created_at = created_at;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 }

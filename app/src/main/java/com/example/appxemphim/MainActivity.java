@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
     FirebaseFirestore db;
+    FirebaseDatabase realtime;
     TextView name;
     Button logout;
 
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         logout = findViewById(R.id.button6);
         mAuth= FirebaseAuth.getInstance();
         user= mAuth.getCurrentUser();
+        realtime = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
        checkout();
 

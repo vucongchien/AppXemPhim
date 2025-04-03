@@ -7,6 +7,7 @@ import android.widget.Toast;
 
 import com.example.appxemphim.Utilities.GoogleDriveUtils;
 import com.example.appxemphim.object_data.Actor_Director;
+import com.example.appxemphim.object_data.Comment;
 import com.example.appxemphim.object_data.Favourite_List;
 import com.example.appxemphim.object_data.Genres;
 import com.example.appxemphim.object_data.History;
@@ -17,6 +18,8 @@ import com.example.appxemphim.object_data.Movie_Genres;
 import com.example.appxemphim.object_data.Review;
 import com.example.appxemphim.object_data.Video;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -26,7 +29,9 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class Add_Data {
     public static void Add_Data_movie(Context context,FirebaseFirestore db, Movie movie){
@@ -80,7 +85,6 @@ public class Add_Data {
 
         }
     }
-
     public static void Add_Facourite_List(Context context, FirebaseFirestore db, FirebaseUser user, String ma_video){
         if(user == null){
             Toast.makeText(context, "loi user", Toast.LENGTH_SHORT).show();
@@ -116,7 +120,6 @@ public class Add_Data {
             );
         }
     }
-
     public static void Add_History(Context context, FirebaseFirestore db, FirebaseUser user, String ma_video,double person_view){
         if(user == null){
             Toast.makeText(context, "loi user", Toast.LENGTH_SHORT).show();
@@ -152,6 +155,57 @@ public class Add_Data {
             );
         }
     }
+    public static void Add_Review(Context context, FirebaseFirestore db,FirebaseUser user,String ma_movie, Review review){
+        if(user == null){
+            Toast.makeText(context, "loi user", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String test_id = user.getUid();
+        if (test_id != null) {
+            review.setUser_id(test_id);
+            review.setCreated_at(new Date());
+            AtomicReference<Integer> reviewCount = new AtomicReference<>(0);
+            AtomicReference<Float> ratings = new AtomicReference<>(0f);
+            db.collection("Movies").document(ma_movie)
+                    .update("reviews",FieldValue.arrayUnion(review))
+                    .addOnSuccessListener(aVoid ->{
+                        Toast.makeText(context, "Review đã được lưu thành công!", Toast.LENGTH_SHORT).show();
+                        db.collection("Movies").document(ma_movie)
+                                .get().addOnSuccessListener(tack->{
+                                    if(tack.exists()){
+                                        List<Review> reviews = (List<Review>) tack.get("reviews");
+                                        if(!reviews.isEmpty()){
+                                            reviewCount.set(reviews.size());
+                                        }
+                                        Number ratingValue = tack.getDouble("rating"); // Tránh lỗi null
+                                        if (ratingValue != null) {
+                                            ratings.set(ratingValue.floatValue());
+                                        }
+                                        int count = reviewCount.get();
+                                        if (count > 0) {
+                                            float newRating = (ratings.get() * (count - 1) + review.getRating()) / count;
+                                            db.collection("Movies").document(ma_movie)
+                                                    .update("rating", newRating)
+                                                    .addOnSuccessListener(no ->
+                                                            Toast.makeText(context, "Update Review đã được lưu thành công!", Toast.LENGTH_SHORT).show()
+                                                    )
+                                                    .addOnFailureListener(e ->
+                                                            Toast.makeText(context, "Lỗi khi lưu Review: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                                                    );
+                                        }
+                                    }
+                                });
+
+                    })
+                    .addOnFailureListener(e ->
+                            Toast.makeText(context, "Lỗi khi lưu Review: " + e.getMessage(), Toast.LENGTH_LONG).show()
+                    );
+
+
+
+
+        }
+    }
     public static void Add_Actor_Direction(Context context, FirebaseFirestore db, Actor_Director test){
         String test_id = db.collection("Actor_Direction").document().getId();
         if (test_id != null) {
@@ -166,8 +220,6 @@ public class Add_Data {
                     );
         }
     }
-
-
     public static void Add_Genres(Context context, FirebaseFirestore db, Genres test){
         String test_id = db.collection("Genres").document().getId();
         if (test_id != null) {
@@ -182,11 +234,9 @@ public class Add_Data {
                     );
         }
     }
-
     public static void Add_Hot_Movie(Context context, FirebaseFirestore db, Hot_Movie test){
         String test_id = db.collection("Hot_Movie").document().getId();
         if (test_id != null) {
-            test.setHot_movie_id(test_id);
             db.collection("Hot_Movie").document(test_id)
                     .set(test)
                     .addOnSuccessListener(aVoid ->
@@ -197,9 +247,8 @@ public class Add_Data {
                     );
         }
     }
-
-    public static void Add_Movie_Actor_Director(Context context, FirebaseFirestore db, Movie_Actor_Director test){
-        db.collection("Movie_Actor_Director")
+    public static void Add_Movie_Actor_Director(Context context, FirebaseFirestore db, Movie_Actor_Director test,String nametable){
+        db.collection(nametable)
                 .add(test)
                 .addOnSuccessListener(aVoid ->
                         Toast.makeText(context, "Movie_Actor_Director đã được lưu thành công!", Toast.LENGTH_SHORT).show()
@@ -208,7 +257,6 @@ public class Add_Data {
                         Toast.makeText(context, "Lỗi khi lưu Movie_Actor_Director: " + e.getMessage(), Toast.LENGTH_LONG).show()
                 );
     }
-
     public static void Add_Movie_Genres(Context context, FirebaseFirestore db, Movie_Genres test){
         db.collection("Movie_Genres")
                 .add(test)
@@ -220,19 +268,10 @@ public class Add_Data {
                 );
     }
 
-    public static void Add_Review(Context context, FirebaseFirestore db, Review test){
-        String test_id = db.collection("Review").document().getId();
-        if (test_id != null) {
-            test.setReview_id(test_id);
-            db.collection("Review").document(test_id)
-                    .set(test)
-                    .addOnSuccessListener(aVoid ->
-                            Toast.makeText(context, "Review đã được lưu thành công!", Toast.LENGTH_SHORT).show()
-                    )
-                    .addOnFailureListener(e ->
-                            Toast.makeText(context, "Lỗi khi lưu Review: " + e.getMessage(), Toast.LENGTH_LONG).show()
-                    );
-        }
+    public static void Add_Comment(Context context, FirebaseDatabase db,FirebaseUser user,String ma_movie, Comment comment){
+        DatabaseReference dbRef = db.getReference("Movies");
+        DatabaseReference commentRef = dbRef.child(ma_movie).child("comments").push();
+
     }
 
 }
