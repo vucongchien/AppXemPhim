@@ -47,7 +47,6 @@ public class SetPassWord extends MainActivity {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getCurrentUser();
                             if (user != null) {
-                                // Cập nhật mật khẩu mới
                                 user.updatePassword(newpass.getText().toString())
                                         .addOnCompleteListener(updateTask -> {
                                             if (updateTask.isSuccessful()) {

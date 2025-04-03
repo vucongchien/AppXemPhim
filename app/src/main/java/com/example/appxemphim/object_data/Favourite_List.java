@@ -1,37 +1,45 @@
 package com.example.appxemphim.object_data;
 
 import java.sql.Time;
+import java.util.Date;
 
 public class Favourite_List {
-    private int Favourite_list_id;
-    private int User_id;
-    private int Movie_id;
-    private Time Time_add;
+    //private String User_id;
+    private String Movie_id;
+    private Date Time_add;
 
-    public Favourite_List(int favourite_list_id, Time time_add, int user_id, int movie_id) {
-        Favourite_list_id = favourite_list_id;
-        Time_add = time_add;
-        User_id = user_id;
+    public Favourite_List() {
+
+    }
+
+    public Favourite_List( String movie_id, Date time_add) {
         Movie_id = movie_id;
+        Time_add = time_add;
     }
 
-    public int getFavourite_list_id() {
-        return Favourite_list_id;
-    }
+//    public String getUser_id() {
+//        return User_id;
+//    }
+//
+//    public void setUser_id(String user_id) {
+//        User_id = user_id;
+//    }
 
-    public int getUser_id() {
-        return User_id;
-    }
 
-    public int getMovie_id() {
+    public String getMovie_id() {
         return Movie_id;
     }
 
-    public Time getTime_add() {
+    public void setMovie_id(String movie_id) {
+        Movie_id = movie_id;
+    }
+
+    public Date getTime_add() {
         return Time_add;
     }
 
-    public void setTime_add(Time time_add) {
+    public void setTime_add(Date time_add) {
         Time_add = time_add;
     }
+
 }

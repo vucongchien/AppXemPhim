@@ -20,31 +20,35 @@ public class EmailOtp {
     private static String password;
 
     public static void sendOTP(Context context, String toEmail, String otp) {
-        email = context.getString(R.string.email);
-        password = context.getString(R.string.password);
-        Properties props = new Properties();
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+        new Thread(() -> {
+            try {
+                String email = context.getString(R.string.email);
+                String password = context.getString(R.string.password);
 
-        Session session = Session.getInstance(props, new Authenticator() {
-            protected PasswordAuthentication getPasswordAuthentication() {
-                return new PasswordAuthentication(email, password);
+                Properties props = new Properties();
+                props.put("mail.smtp.host", "smtp.gmail.com");
+                props.put("mail.smtp.port", "587");
+                props.put("mail.smtp.auth", "true");
+                props.put("mail.smtp.starttls.enable", "true");
+                props.put("mail.smtp.ssl.protocols", "TLSv1.2");
+
+                Session session = Session.getInstance(props, new Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(email, password);
+                    }
+                });
+
+                Message message = new MimeMessage(session);
+                message.setFrom(new InternetAddress(email));
+                message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
+                message.setSubject("Xác nhận tài khoản");
+                message.setText("Mã OTP của bạn là: " + otp);
+
+                Transport.send(message);
+
+            } catch (MessagingException e) {
+                e.printStackTrace();
             }
-        });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(email));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(toEmail));
-            message.setSubject("Xác nhận tài khoản");
-            message.setText("Mã OTP của bạn là: " + otp);
-
-            Transport.send(message);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        }
+        }).start();
     }
 }
