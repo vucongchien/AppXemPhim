@@ -15,10 +15,14 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseUser user;
+    FirebaseFirestore db;
+    FirebaseDatabase realtime;
     TextView name;
     Button logout;
 
@@ -30,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         name =findViewById(R.id.textView);
         logout = findViewById(R.id.button6);
         mAuth= FirebaseAuth.getInstance();
+        user= mAuth.getCurrentUser();
+        realtime = FirebaseDatabase.getInstance();
+        db = FirebaseFirestore.getInstance();
        checkout();
 
     }
@@ -74,6 +81,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void forgetPass(View view) {
         startActivity(new Intent(MainActivity.this, ForgotPassword.class));
+    }
+
+    public void changepageaddmovie(View view) {
+        //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
+        startActivity(new Intent(MainActivity.this,Add_data_sample.class));
     }
 
     public void goHomeActivity(View view) {

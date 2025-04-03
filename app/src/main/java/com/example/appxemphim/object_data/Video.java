@@ -1,35 +1,54 @@
 package com.example.appxemphim.object_data;
 
+import static com.example.appxemphim.Utilities.GoogleDriveUtils.getVideoDuration;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Time;
+import java.util.HashMap;
+
+import android.content.Context;
+import android.media.MediaMetadataRetriever;
+import android.widget.Toast;
+
+
+import com.example.appxemphim.Utilities.GoogleDriveUtils;
+
+import java.io.IOException;
 
 public class Video {
-    private int video_id;
+    private String video_id;
     private String video_url;
-    private Time duration;
-    private int movie_id;
+    private long duration;
     private int view;
 
-    public Video(int video_id, String video_url, Time duration, int movie_id, int view) {
-        this.video_id = video_id;
-        this.video_url = video_url;
-        this.duration = duration;
-        this.movie_id = movie_id;
-        this.view = view;
+
+    public Video() {
     }
 
-    public Time getDuration() {
+    public Video(String video_url) {
+        this.video_url = video_url;
+    }
+
+
+    public long getDuration() {
         return duration;
     }
 
-    public void setDuration(Time duration) {
-        this.duration = duration;
+
+    public void setDuration(long duration) {
+        this.duration=duration;
     }
 
-    public int getVideo_id() {
+
+    public String getVideo_id() {
         return video_id;
     }
 
-    public void setVideo_id(int video_id) {
+    public void setVideo_id(String video_id) {
         this.video_id = video_id;
     }
 
@@ -41,19 +60,13 @@ public class Video {
         this.video_url = video_url;
     }
 
-    public int getMovie_id() {
-        return movie_id;
-    }
 
-    public void setMovie_id(int movie_id) {
-        this.movie_id = movie_id;
-    }
 
     public int getView() {
         return view;
     }
 
-    public void setView() {
-        this.view = this.view+1;
+    public void setView(int view) {
+        this.view = view;
     }
 }

@@ -35,9 +35,11 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class RegistedActivity extends MainActivity {
+
     EditText email, username, pass, repass;
     boolean emailExists;
-    TextView thongbao;
+    TextView thongbao, thongbaodk;
+    private boolean isCheckingEmail = false;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -50,6 +52,7 @@ public class RegistedActivity extends MainActivity {
         pass = findViewById(R.id.editTextText3);
         repass = findViewById(R.id.editTextText4);
         thongbao = findViewById(R.id.notiRegisterEmail);
+        thongbaodk = findViewById(R.id.thongbaodk);
         email.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
             private final long DELAY = 1000;
@@ -59,6 +62,8 @@ public class RegistedActivity extends MainActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                thongbao.setVisibility(View.GONE);
+                isCheckingEmail = true;
                 timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
                 timer = new Timer();
                 timer.schedule(new TimerTask() {
@@ -67,11 +72,12 @@ public class RegistedActivity extends MainActivity {
                         checkEmailExistsAsync(email.getText().toString(), new Callback() {
                             @Override
                             public void onFailure(@NonNull Call call, @NonNull IOException e) {
-
+                                isCheckingEmail = false;
                             }
 
                             @Override
                             public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                                isCheckingEmail = false;
                                 if(response.isSuccessful() && response.body() != null){
                                     try {
                                         String json = response.body().string();
@@ -105,42 +111,44 @@ public class RegistedActivity extends MainActivity {
         String emailtext= email.getText().toString();
         String name = username.getText().toString();
         String password = pass.getText().toString();
-        if(!repass.getText().toString().equals(pass.getText().toString())){
+        if (!repass.getText().toString().equals(pass.getText().toString())) {
             Toast.makeText(this, "Nhập lại mật khẩu!", Toast.LENGTH_SHORT).show();
+            thongbaodk.setVisibility(View.VISIBLE);
+            thongbaodk.setText("mật khẩu sai");
+            return;
         }
-        else{
-            if (emailExists) {
-                mAuth.createUserWithEmailAndPassword(emailtext,password).addOnCompleteListener(RegistedActivity.this, new OnCompleteListener<AuthResult>() {
+
+        if (!emailExists) {
+            Toast.makeText(this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+            thongbaodk.setVisibility(View.VISIBLE);
+            thongbaodk.setText("Email không tồn tại");
+            return;
+        }
+
+        mAuth.createUserWithEmailAndPassword(emailtext, password)
+                .addOnCompleteListener(RegistedActivity.this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            Log.d("TAG", "true " );
-                            FirebaseUser user=mAuth.getCurrentUser();
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getCurrentUser();
                             UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                                     .setDisplayName(name)
                                     .build();
-                            user.updateProfile(profileUpdates)
-                                    .addOnCompleteListener(e -> {
-                                        if (e.isSuccessful()) {
-                                            Log.d("Firebase", "User name updated.");
-                                            Toast.makeText(getApplicationContext(),user.getDisplayName(),Toast.LENGTH_LONG).show();
-                                        }
-                                    });
-                            Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
-                            intent.putExtra("gmail", user.getEmail().toString());
-                            intent.putExtra("pass",password);
-                            startActivity(intent);
-                        }else {
-                            Log.w("TAG", "false ",task.getException());
-                            Toast.makeText(RegistedActivity.this,task.getException().getMessage(),Toast.LENGTH_SHORT).show();
+                            user.updateProfile(profileUpdates).addOnCompleteListener(e -> {
+                                if (e.isSuccessful()) {
+                                    Log.d("Firebase", "User name updated.");
+                                    Toast.makeText(getApplicationContext(), user.getDisplayName(), Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(RegistedActivity.this, LoginActivity.class);
+                                    intent.putExtra("gmail", user.getEmail());
+                                    intent.putExtra("pass", password);
+                                    startActivity(intent);
+                                } else {
+                                    Log.w("TAG", "false ", task.getException());
+                                    Toast.makeText(RegistedActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                     }
                 });
-            }
-            else{
-                Toast.makeText(RegistedActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
-            }
-
-        }
     }
 }
