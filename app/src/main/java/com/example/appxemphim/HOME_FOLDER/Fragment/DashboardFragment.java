@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appxemphim.HOME_FOLDER.CarouselAdapter;
 import com.example.appxemphim.HOME_FOLDER.MovieAdapter;
@@ -51,9 +52,32 @@ public class DashboardFragment extends Fragment {
 
         // Carousel setup
         binding.recyclerViewCarousel.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false));
-        carouselAdapter = new CarouselAdapter(requireContext(), new ArrayList<>(), this::showMovieToast);
+        carouselAdapter = new CarouselAdapter(requireContext(), new ArrayList<>(), this::showMovieDetailFragment);
         binding.recyclerViewCarousel.setAdapter(carouselAdapter);
         binding.recyclerViewCarousel.setItemAnimator(new DefaultItemAnimator());
+        binding.recyclerViewCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                if (newState==RecyclerView.SCROLL_STATE_IDLE){
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+                    if (layoutManager==null) return;
+
+                    int currentPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
+
+                    if (currentPosition!= RecyclerView.NO_POSITION){
+                        MovieUIModel currentMovie=carouselAdapter.getListMovie().get(currentPosition);
+
+                        binding.textNameFilm.setText(currentMovie.getTitle());
+                        binding.textYearFilmPublish.setText(currentMovie.getYear());
+                        binding.textRating.setText(currentMovie.getRating());
+
+                    }
+
+                }
+            }
+        });
 
 
         PagerSnapHelper snapHelper=new PagerSnapHelper();
@@ -112,6 +136,14 @@ public class DashboardFragment extends Fragment {
 
     private void showMovieToast(MovieUIModel movie) {
         Toast.makeText(requireContext(), "Selected: " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+    }
+
+    private void showMovieDetailFragment(MovieUIModel movieUIModel){
+        MovieDetailFragment movieDetailFragment=MovieDetailFragment.newInstance(movieUIModel);
+        getActivity().getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, movieDetailFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void setupListeners() {

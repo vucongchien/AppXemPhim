@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.example.appxemphim.HOME_FOLDER.Interface.OnMovieClickListener;
 import com.example.appxemphim.R;
 
@@ -50,17 +52,21 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.Carous
 
     @Override
     public void onBindViewHolder(@NonNull CarouseViewHolder holder, int position) {
-        MovieUIModel mainMovie = hotMovieList.get(position);
+        MovieUIModel movie = hotMovieList.get(position);
 //        int leftIndex = (position - 1 + hotMovieList.size()) % hotMovieList.size();
 //        int rightIndex = (position + 1) % hotMovieList.size();
 //        MovieUIModel leftMovie = hotMovieList.get(leftIndex);
 //        MovieUIModel rightMovie = hotMovieList.get(rightIndex);
 
         Glide.with(context)
-                .load(mainMovie.getPosterUrl())
+                .load(movie.getPosterUrl())
                 .placeholder(R.drawable.main_banner)
                 .error(R.drawable.main_banner)
                 .into(holder.mainImageView);
+
+        holder.itemView.setOnClickListener(view -> {
+            onClickListener.OnMovieClick(movie);
+        });
     }
 
     @Override
@@ -76,5 +82,9 @@ public class CarouselAdapter extends RecyclerView.Adapter<CarouselAdapter.Carous
             mainImageView = itemView.findViewById(R.id.mainImageView);
 
         }
+    }
+
+    public List<MovieUIModel> getListMovie(){
+        return hotMovieList;
     }
 }
