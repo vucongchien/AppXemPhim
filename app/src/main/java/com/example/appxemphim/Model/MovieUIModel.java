@@ -1,9 +1,12 @@
-package com.example.appxemphim.HOME_FOLDER;
+package com.example.appxemphim.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import java.util.Objects;
 
 public class MovieUIModel implements Parcelable{
     @Override
@@ -62,6 +65,19 @@ public class MovieUIModel implements Parcelable{
             return new MovieUIModel[i];
         }
     };
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if(this==obj) return true;
+        if (obj==null || getClass()!=obj.getClass()) return false;
+        MovieUIModel that=(MovieUIModel) obj;
+        return movieId==that.getMovieId();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(movieId);
+    }
 
     public int getMovieId() {
         return movieId;

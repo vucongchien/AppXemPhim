@@ -1,6 +1,8 @@
-package com.example.appxemphim.HOME_FOLDER;
+package com.example.appxemphim.Adapter;
 
 import androidx.recyclerview.widget.DiffUtil;
+
+import com.example.appxemphim.Model.MovieUIModel;
 
 import java.util.List;
 

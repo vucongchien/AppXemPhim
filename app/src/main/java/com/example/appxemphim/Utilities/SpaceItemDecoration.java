@@ -1,4 +1,4 @@
-package com.example.appxemphim.HOME_FOLDER;
+package com.example.appxemphim.Utilities;
 
 import android.graphics.Rect;
 import android.view.View;

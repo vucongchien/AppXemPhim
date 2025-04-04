@@ -1,4 +1,4 @@
-package com.example.appxemphim.HOME_FOLDER;
+package com.example.appxemphim.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,8 +12,9 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.appxemphim.Model.MovieUIModel;
 import com.example.appxemphim.R;
-import com.example.appxemphim.HOME_FOLDER.Interface.OnMovieClickListener;
+import com.example.appxemphim.Interface.OnMovieClickListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     @NonNull
     @Override
     public MovieAdapter.MovieViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view= LayoutInflater.from(context).inflate(R.layout.item_movie,parent,false);
+        View view= LayoutInflater.from(context).inflate(R.layout.item_movie_for_home_fragment,parent,false);
         return new MovieViewHolder(view);
     }
 

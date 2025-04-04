@@ -22,10 +22,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.appxemphim.FireStore_DataBase.Take_Data;
 import com.example.appxemphim.object_data.Movie;
 import com.example.appxemphim.object_data.Video;
-import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
-import com.squareup.picasso.Callback;
 
 public class Test_Take_Movie extends MainActivity {
     ImageView avata;
