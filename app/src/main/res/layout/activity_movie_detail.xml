@@ -2,11 +2,12 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".Activity.MovieDetailActivity"
     android:background="#141414"
-    tools:context=".HOME_FOLDER.Fragment.MovieDetailFragment">
-
+    android:fitsSystemWindows="true">
     <!-- Background Image -->
     <ImageView
         android:id="@+id/backgroundImage"

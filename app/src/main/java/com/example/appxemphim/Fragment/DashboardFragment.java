@@ -1,4 +1,4 @@
-package com.example.appxemphim.HOME_FOLDER.Fragment;
+package com.example.appxemphim.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -15,12 +15,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appxemphim.HOME_FOLDER.CarouselAdapter;
-import com.example.appxemphim.HOME_FOLDER.MovieAdapter;
-import com.example.appxemphim.HOME_FOLDER.MovieUIModel;
-import com.example.appxemphim.HOME_FOLDER.MovieViewModel;
-import com.example.appxemphim.HOME_FOLDER.SpaceItemDecoration;
+import com.example.appxemphim.Adapter.CarouselAdapter;
+import com.example.appxemphim.Adapter.MovieAdapter;
+import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.ViewModel.MovieViewModel;
+import com.example.appxemphim.Utilities.SpaceItemDecoration;
+import com.example.appxemphim.Activity.MovieDetailActivity;
 import com.example.appxemphim.R;
+import com.example.appxemphim.Activity.SearchActivity;
 import com.example.appxemphim.databinding.FragmentDashboardBinding;
 
 import java.util.ArrayList;
@@ -41,9 +43,8 @@ public class DashboardFragment extends Fragment {
         initializeUI();
         setupListeners();
         observeData();
-        movieViewModel.LoadTopRatedData();
-        movieViewModel.LoadHotData();
-
+        movieViewModel.loadTopRatedData();
+        movieViewModel.loadHotData();
         return view;
     }
 
@@ -51,8 +52,10 @@ public class DashboardFragment extends Fragment {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
 
         // Carousel setup
-        binding.recyclerViewCarousel.setLayoutManager(new LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false));
-        carouselAdapter = new CarouselAdapter(requireContext(), new ArrayList<>(), this::showMovieDetailFragment);
+        binding.recyclerViewCarousel.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
+        carouselAdapter = new CarouselAdapter(requireContext(), movie ->
+                MovieDetailActivity.showMovieDetailActivity(requireActivity(), movie)
+        );
         binding.recyclerViewCarousel.setAdapter(carouselAdapter);
         binding.recyclerViewCarousel.setItemAnimator(new DefaultItemAnimator());
         binding.recyclerViewCarousel.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -60,30 +63,24 @@ public class DashboardFragment extends Fragment {
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                if (newState==RecyclerView.SCROLL_STATE_IDLE){
+                if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-                    if (layoutManager==null) return;
+                    if (layoutManager == null) return;
 
                     int currentPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
 
-                    if (currentPosition!= RecyclerView.NO_POSITION){
-                        MovieUIModel currentMovie=carouselAdapter.getListMovie().get(currentPosition);
-
+                    if (currentPosition != RecyclerView.NO_POSITION) {
+                        MovieUIModel currentMovie = carouselAdapter.getMovieAt(currentPosition); // Sử dụng getItem thay vì getListMovie
                         binding.textNameFilm.setText(currentMovie.getTitle());
                         binding.textYearFilmPublish.setText(currentMovie.getYear());
                         binding.textRating.setText(currentMovie.getRating());
-
                     }
-
                 }
             }
         });
 
-
-        PagerSnapHelper snapHelper=new PagerSnapHelper();
+        PagerSnapHelper snapHelper = new PagerSnapHelper();
         snapHelper.attachToRecyclerView(binding.recyclerViewCarousel);
-
-
 
         // Top-rated movies setup
         topRatedMovieAdapter = new MovieAdapter(requireContext(), new ArrayList<>(), this::showMovieToast);
@@ -96,18 +93,18 @@ public class DashboardFragment extends Fragment {
         // Quan sát danh sách phim hot cho carousel
         movieViewModel.getHotMovieList().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
-                switch (resource.status) {
-                    case "LOADING":
+                switch (resource.getStatus()) {
+                    case LOADING:
                         Toast.makeText(requireContext(), "Loading hot movies...", Toast.LENGTH_SHORT).show();
                         break;
-                    case "SUCCESS":
-                        if (resource.data != null) {
-                            carouselAdapter.updateHotMovieList(resource.data);
+                    case SUCCESS:
+                        if (resource.getData() != null) {
+                            carouselAdapter.submitList(resource.getData()); // Sử dụng submitList để cập nhật danh sách
                         }
                         break;
-                    case "ERROR":
-                        carouselAdapter.updateHotMovieList(new ArrayList<>());
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
+                    case ERROR:
+                        carouselAdapter.submitList(new ArrayList<>());
+                        Toast.makeText(requireContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -116,18 +113,18 @@ public class DashboardFragment extends Fragment {
         // Quan sát danh sách phim top-rated
         movieViewModel.getTopRatedMovieList().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
-                switch (resource.status) {
-                    case "LOADING":
+                switch (resource.getStatus()) {
+                    case LOADING:
                         Toast.makeText(requireContext(), "Loading top-rated movies...", Toast.LENGTH_SHORT).show();
                         break;
-                    case "SUCCESS":
-                        if (resource.data != null) {
-                            topRatedMovieAdapter.updateMovieList(resource.data);
+                    case SUCCESS:
+                        if (resource.getData() != null) {
+                            topRatedMovieAdapter.updateMovieList(resource.getData());
                         }
                         break;
-                    case "ERROR":
+                    case ERROR:
                         topRatedMovieAdapter.updateMovieList(new ArrayList<>());
-                        Toast.makeText(requireContext(), resource.message, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(requireContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
@@ -138,24 +135,15 @@ public class DashboardFragment extends Fragment {
         Toast.makeText(requireContext(), "Selected: " + movie.getTitle(), Toast.LENGTH_SHORT).show();
     }
 
-    private void showMovieDetailFragment(MovieUIModel movieUIModel){
-        MovieDetailFragment movieDetailFragment=MovieDetailFragment.newInstance(movieUIModel);
-        getActivity().getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, movieDetailFragment)
-                .addToBackStack(null)
-                .commit();
-    }
-
     private void setupListeners() {
         binding.btnSearch.setOnClickListener(v ->
-                Toast.makeText(requireContext(), "Search clicked", Toast.LENGTH_SHORT).show()
+                SearchActivity.showSearchActivity(requireActivity())
         );
 
         binding.btnFilter.setOnClickListener(v ->
                 Toast.makeText(requireContext(), "Filter clicked", Toast.LENGTH_SHORT).show()
         );
     }
-
 
     @Override
     public void onDestroyView() {
