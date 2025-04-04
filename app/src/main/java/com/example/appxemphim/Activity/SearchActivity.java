@@ -3,11 +3,14 @@ package com.example.appxemphim.Activity;
 import static com.google.android.gms.common.internal.CallbackExecutor.executorService;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AutoCompleteTextView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -64,6 +67,7 @@ public class SearchActivity extends AppCompatActivity {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
         executorService= Executors.newSingleThreadExecutor();
         handler=new Handler(Looper.getMainLooper());
+
 
         // Tải dữ liệu
         observe();

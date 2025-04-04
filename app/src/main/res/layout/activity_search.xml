@@ -1,28 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activity.SearchActivity"
-    android:fitsSystemWindows="true">
-    <!-- Thanh tìm kiếm -->
+    android:background="@android:color/black"
+    tools:context=".Activity.SearchActivity">
+
+    <!-- Thanh tìm kiếm giống Netflix -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:queryHint="Tìm kiếm trên Netflix"
+        android:iconifiedByDefault="false"
+        android:background="@drawable/search_background"
         android:layout_margin="16dp"
+        android:clickable="true"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:background="@drawable/search_background" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageFilterButton"/>
 
-    <!-- Danh sách kết quả -->
+    <!-- Nút lọc, đặt ở góc phải cùng của thanh tìm kiếm -->
+    <androidx.appcompat.widget.AppCompatImageButton
+        android:id="@+id/imageFilterButton"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_marginEnd="16dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:contentDescription="hihi"
+        app:layout_constraintBottom_toBottomOf="@id/search_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/search_view"
+        app:srcCompat="@drawable/baseline_filter_alt_24" />
+
+    <!-- Danh sách kết quả hiển thị dạng grid hoặc danh sách -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/search_view"
-        android:layout_marginTop="8dp" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="16dp"
+        android:clipToPadding="false"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/search_view"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
-</RelativeLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
