@@ -41,7 +41,6 @@ public class SearchActivity extends AppCompatActivity {
     //for logic search
     private ExecutorService executorService;
     private Handler handler;
-    private ProgressBar progressBar;
     private static final long DEBOUNCE_DELAY = 300;
 
 
@@ -55,10 +54,6 @@ public class SearchActivity extends AppCompatActivity {
         binding = ActivitySearchBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        //progressbar
-        progressBar=new ProgressBar(this);
-        progressBar.setVisibility(View.GONE);
-        binding.getRoot().addView(progressBar);
 
         // Cài đặt RecyclerView
         setUpRecycleView();
@@ -87,7 +82,7 @@ public class SearchActivity extends AppCompatActivity {
 
     }
     private void filterResults(String query) {
-        progressBar.setVisibility(View.VISIBLE);
+        binding.progressBar.setVisibility(View.VISIBLE);
         executorService.execute(() -> {
             List<MovieUIModel> filteredList = new ArrayList<>();
             String lowerQuery = query.toLowerCase();
@@ -105,7 +100,7 @@ public class SearchActivity extends AppCompatActivity {
             // Cập nhật UI trên main thread
             runOnUiThread(() -> {
                 adapter.submitList(filteredList);
-                progressBar.setVisibility(View.GONE);
+                binding.progressBar.setVisibility(View.GONE);
                 if (filteredList.isEmpty() && !query.trim().isEmpty()) {
                     Toast.makeText(this, "No results found", Toast.LENGTH_SHORT).show();
                 }

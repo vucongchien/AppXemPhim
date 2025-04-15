@@ -1,9 +1,12 @@
 package com.example.appxemphim.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,21 +21,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.appxemphim.Adapter.CarouselAdapter;
 import com.example.appxemphim.Adapter.MovieAdapter;
 import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Utilities.Resource;
+import com.example.appxemphim.ViewModel.FilterManager;
 import com.example.appxemphim.ViewModel.MovieViewModel;
 import com.example.appxemphim.Utilities.SpaceItemDecoration;
 import com.example.appxemphim.Activity.MovieDetailActivity;
 import com.example.appxemphim.R;
 import com.example.appxemphim.Activity.SearchActivity;
 import com.example.appxemphim.databinding.FragmentDashboardBinding;
+import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
 public class DashboardFragment extends Fragment {
 
+    private TopResultsFragment topResultsFragment;
     private CarouselAdapter carouselAdapter;
     private MovieAdapter topRatedMovieAdapter;
     private MovieViewModel movieViewModel;
     private FragmentDashboardBinding binding;
+    private FilterManager filterManager;
 
     @Nullable
     @Override
@@ -42,14 +50,26 @@ public class DashboardFragment extends Fragment {
 
         initializeUI();
         setupListeners();
+        setUpSpinner();
         observeData();
         movieViewModel.loadTopRatedData();
         movieViewModel.loadHotData();
         return view;
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        topResultsFragment=(TopResultsFragment) getChildFragmentManager().findFragmentById(R.id.fragmentContainerView);
+        setupFilterListeners(); // Thiết lập lắng nghe sự kiện cho chip và spinner
+
+        movieViewModel.loadAllMovies();
+    }
+
     private void initializeUI() {
         movieViewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        filterManager = new FilterManager();
+
 
         // Carousel setup
         binding.recyclerViewCarousel.setLayoutManager(new LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -89,7 +109,65 @@ public class DashboardFragment extends Fragment {
         binding.recyclerViewTopRated.addItemDecoration(new SpaceItemDecoration(getResources().getDimensionPixelOffset(R.dimen.item_spacing)));
     }
 
+    private void setUpSpinner(){
+        ArrayAdapter<CharSequence> adapter=ArrayAdapter.createFromResource(
+          requireContext(),R.array.category_array,R.layout.spinner_item
+        );
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.categorySpinner.setAdapter(adapter);
+    }
+
+    /** Thiết lập lắng nghe sự kiện cho ChipGroup và Spinner */
+    private void setupFilterListeners() {
+
+        // Listener cho Spinner (category filter)
+        binding.categorySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String category = parent.getItemAtPosition(position).toString();
+                filterManager.updateCategoryFilter(position == 0 ? null : category); // 0 là mặc định
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                filterManager.updateCategoryFilter(null);
+            }
+        });
+    }
+
+
     private void observeData() {
+        // Quan sát danh sách phim gốc từ MovieViewModel
+        movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), resource -> {
+            if (resource.getStatus() == Resource.Status.SUCCESS && resource.getData() != null) {
+                filterManager.setAllMovies(resource.getData());
+            }
+        });
+
+        // Quan sát danh sách phim đã lọc từ FilterManager
+        filterManager.getFilteredMovies().observe(getViewLifecycleOwner(), filteredMovies -> {
+            if (topResultsFragment != null) {
+                topResultsFragment.updateFilteredMovies(filteredMovies);
+
+                // Hiển thị hoặc ẩn TopResultsFragment dựa trên bộ lọc
+                if (filterManager.isAnyFilterApplied()) {
+                    if (topResultsFragment.isHidden()) {
+                        getChildFragmentManager().beginTransaction()
+                                .show(topResultsFragment)
+                                .commit();
+                        binding.fragmentContainerView.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    if (!topResultsFragment.isHidden()) {
+                        getChildFragmentManager().beginTransaction()
+                                .hide(topResultsFragment)
+                                .commit();
+                        binding.fragmentContainerView.setVisibility(View.GONE);
+                    }
+                }
+            }
+        });
+
         // Quan sát danh sách phim hot cho carousel
         movieViewModel.getHotMovieList().observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
@@ -138,10 +216,6 @@ public class DashboardFragment extends Fragment {
     private void setupListeners() {
         binding.btnSearch.setOnClickListener(v ->
                 SearchActivity.showSearchActivity(requireActivity())
-        );
-
-        binding.btnFilter.setOnClickListener(v ->
-                Toast.makeText(requireContext(), "Filter clicked", Toast.LENGTH_SHORT).show()
         );
     }
 

@@ -26,7 +26,6 @@ public class MovieViewModel extends ViewModel {
     public LiveData<Resource<List<MovieUIModel>>> getAllMovies() {
         return allMovies;
     }
-
     public void loadHotData() {
         hotMovieList.setValue(Resource.loading());
         try {
