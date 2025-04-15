@@ -1,4 +1,4 @@
-package com.example.appxemphim.Adapter;
+package com.example.appxemphim.UI.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -7,17 +7,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.AsyncDifferConfig;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.appxemphim.Interface.OnMovieClickListener;
+import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 import com.example.appxemphim.Model.MovieUIModel;
 import com.example.appxemphim.R;
-
-import java.util.List;
 
 public class SearchAdapter extends ListAdapter<MovieUIModel, SearchAdapter.SearchViewHolder> {
     private OnMovieClickListener listener;

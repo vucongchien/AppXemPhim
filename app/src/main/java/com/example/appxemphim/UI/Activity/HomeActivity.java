@@ -1,4 +1,4 @@
-package com.example.appxemphim.Activity;
+package com.example.appxemphim.UI.Activity;
 
 import android.os.Bundle;
 
@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import com.example.appxemphim.Fragment.DashboardFragment;
-import com.example.appxemphim.Fragment.ProfileFragment;
+import com.example.appxemphim.UI.Fragment.DashboardFragment;
+import com.example.appxemphim.UI.Fragment.ProfileFragment;
 import com.example.appxemphim.R;
 import com.example.appxemphim.databinding.ActivityHomeBinding;
 

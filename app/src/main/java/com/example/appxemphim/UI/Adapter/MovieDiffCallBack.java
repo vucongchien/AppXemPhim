@@ -1,4 +1,4 @@
-package com.example.appxemphim.Adapter;
+package com.example.appxemphim.UI.Adapter;
 
 import androidx.recyclerview.widget.DiffUtil;
 

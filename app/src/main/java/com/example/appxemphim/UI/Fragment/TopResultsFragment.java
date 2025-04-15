@@ -1,4 +1,4 @@
-package com.example.appxemphim.Fragment;
+package com.example.appxemphim.UI.Fragment;
 
 import android.os.Bundle;
 
@@ -10,11 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.example.appxemphim.Activity.MovieDetailActivity;
-import com.example.appxemphim.Adapter.MovieAdapter;
+import com.example.appxemphim.UI.Activity.MovieDetailActivity;
+import com.example.appxemphim.UI.Adapter.MovieAdapter;
 import com.example.appxemphim.Model.MovieUIModel;
 import com.example.appxemphim.R;
-import com.example.appxemphim.Utilities.SpaceItemDecoration;
+import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.databinding.FragmentTopResultsBinding;
 
 import java.util.ArrayList;

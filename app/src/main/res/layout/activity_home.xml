@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:fitsSystemWindows="true"
-    tools:context=".Activity.HomeActivity">
+    tools:context=".UI.Activity.HomeActivity">
 
 
     <FrameLayout

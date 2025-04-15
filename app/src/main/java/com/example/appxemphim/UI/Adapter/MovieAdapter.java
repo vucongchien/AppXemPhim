@@ -1,4 +1,4 @@
-package com.example.appxemphim.Adapter;
+package com.example.appxemphim.UI.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,7 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.Model.MovieUIModel;
 import com.example.appxemphim.R;
-import com.example.appxemphim.Interface.OnMovieClickListener;
+import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
 import java.util.ArrayList;
 import java.util.List;

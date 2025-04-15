@@ -1,33 +1,24 @@
-package com.example.appxemphim.Activity;
-
-import static com.google.android.gms.common.internal.CallbackExecutor.executorService;
+package com.example.appxemphim.UI.Activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.AutoCompleteTextView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.appxemphim.Interface.OnMovieClickListener;
 import com.example.appxemphim.Model.MovieUIModel;
 import com.example.appxemphim.ViewModel.MovieViewModel;
-import com.example.appxemphim.Utilities.Resource;
-import com.example.appxemphim.Adapter.SearchAdapter;
+import com.example.appxemphim.UI.Adapter.SearchAdapter;
 import com.example.appxemphim.databinding.ActivitySearchBinding;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 

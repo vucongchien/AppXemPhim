@@ -1,4 +1,4 @@
-package com.example.appxemphim.Fragment;
+package com.example.appxemphim.UI.Fragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

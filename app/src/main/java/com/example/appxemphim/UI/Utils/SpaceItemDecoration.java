@@ -1,4 +1,4 @@
-package com.example.appxemphim.Utilities;
+package com.example.appxemphim.UI.Utils;
 
 import android.graphics.Rect;
 import android.view.View;
