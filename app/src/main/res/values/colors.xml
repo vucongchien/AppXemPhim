@@ -9,4 +9,9 @@
     <color name="green">#71E775</color>
     <color name="background_2">#383537</color>
     <color name="background_3">#625C62</color>
+    <color name="chip_background">#1b191a</color> <!-- Background for chips -->
+    <color name="chip_background_active">#383537</color>
+    <color name="chip_stroke">#FFFFFF</color> <!-- Stroke color for chips -->
+    <color name="chip_text">#FFFFFF</color> <!-- Text color for chips -->
+    <color name="spinner_text">#FFFFFF</color> <!-- Text color for spinner -->
 </resources>

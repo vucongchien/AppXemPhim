@@ -12,33 +12,45 @@
     <!-- Thanh tìm kiếm giống Netflix -->
     <androidx.appcompat.widget.SearchView
         android:id="@+id/search_view"
-        android:layout_width="0dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:queryHint="Tìm kiếm trên Netflix"
-        android:iconifiedByDefault="false"
-        android:background="@drawable/search_background"
         android:layout_margin="16dp"
+        android:background="@drawable/search_background"
         android:clickable="true"
         android:focusable="true"
-        android:focusableInTouchMode="true"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageFilterButton"/>
-
-    <!-- Nút lọc, đặt ở góc phải cùng của thanh tìm kiếm -->
-    <androidx.appcompat.widget.AppCompatImageButton
-        android:id="@+id/imageFilterButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="16dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:contentDescription="hihi"
-        app:layout_constraintBottom_toBottomOf="@id/search_view"
+        app:iconifiedByDefault="false"
+        android:queryHint="Tìm kiếm trên Netflix"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/search_view"
-        app:srcCompat="@drawable/baseline_filter_alt_24" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Danh sách kết quả hiển thị dạng grid hoặc danh sách -->
+       <!-- Danh sách kết quả hiển thị dạng grid hoặc danh sách -->
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_view" />
+
+    <Spinner
+        android:id="@+id/spinner2"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+        app:layout_constraintEnd_toStartOf="@+id/spinner" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/search_results_recycler"
         android:layout_width="0dp"
@@ -46,7 +58,7 @@
         android:layout_marginTop="16dp"
         android:clipToPadding="false"
         android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/search_view"
+        app:layout_constraintTop_toBottomOf="@id/spinner"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
