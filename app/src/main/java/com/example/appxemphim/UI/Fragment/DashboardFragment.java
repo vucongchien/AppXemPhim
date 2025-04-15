@@ -1,4 +1,4 @@
-package com.example.appxemphim.Fragment;
+package com.example.appxemphim.UI.Fragment;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -18,18 +18,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.PagerSnapHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.appxemphim.Adapter.CarouselAdapter;
-import com.example.appxemphim.Adapter.MovieAdapter;
+import com.example.appxemphim.UI.Adapter.CarouselAdapter;
+import com.example.appxemphim.UI.Adapter.MovieAdapter;
 import com.example.appxemphim.Model.MovieUIModel;
-import com.example.appxemphim.Utilities.Resource;
+import com.example.appxemphim.UI.Utils.Resource;
 import com.example.appxemphim.ViewModel.FilterManager;
 import com.example.appxemphim.ViewModel.MovieViewModel;
-import com.example.appxemphim.Utilities.SpaceItemDecoration;
-import com.example.appxemphim.Activity.MovieDetailActivity;
+import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
+import com.example.appxemphim.UI.Activity.MovieDetailActivity;
 import com.example.appxemphim.R;
-import com.example.appxemphim.Activity.SearchActivity;
+import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.databinding.FragmentDashboardBinding;
-import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
 
@@ -173,20 +172,24 @@ public class DashboardFragment extends Fragment {
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case LOADING:
+                        Log.d("DashboardFragment", "Loading hot movies...");
                         Toast.makeText(requireContext(), "Loading hot movies...", Toast.LENGTH_SHORT).show();
                         break;
                     case SUCCESS:
                         if (resource.getData() != null) {
-                            carouselAdapter.submitList(resource.getData()); // Sử dụng submitList để cập nhật danh sách
+                            carouselAdapter.submitList(resource.getData());
+                            Log.d("DashboardFragment", "Hot movies loaded successfully");
                         }
                         break;
                     case ERROR:
                         carouselAdapter.submitList(new ArrayList<>());
+                        Log.e("DashboardFragment", "Error loading hot movies: " + resource.getMessage());
                         Toast.makeText(requireContext(), resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
+
 
         // Quan sát danh sách phim top-rated
         movieViewModel.getTopRatedMovieList().observe(getViewLifecycleOwner(), resource -> {

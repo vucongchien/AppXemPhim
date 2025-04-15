@@ -1,4 +1,4 @@
-package com.example.appxemphim.Interface;
+package com.example.appxemphim.UI.Interface;
 
 import com.example.appxemphim.Model.MovieUIModel;
 

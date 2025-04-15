@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".Activity.SearchActivity">
+    tools:context=".UI.Activity.SearchActivity">
 
     <!-- Thanh tìm kiếm giống Netflix -->
     <androidx.appcompat.widget.SearchView

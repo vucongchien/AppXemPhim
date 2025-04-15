@@ -1,4 +1,4 @@
-package com.example.appxemphim.Activity;
+package com.example.appxemphim.UI.Activity;
 
 import android.app.Activity;
 import android.content.Intent;
