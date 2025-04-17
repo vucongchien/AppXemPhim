@@ -19,7 +19,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/logIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="46dp"
@@ -73,6 +73,7 @@
             android:layout_marginTop="10dp"
             android:textStyle="bold"
             android:onClick="Forgetpw"
+            android:minHeight="48dp"
             android:text="Forget Your Password" />
 
     </LinearLayout>
@@ -95,7 +96,7 @@
             android:text="Login" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/DontHaveAccout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -104,17 +105,18 @@
             android:layout_marginTop="30dp"
             android:text="Don't have an acount?" />
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/RegisterNow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
             android:gravity="center"
             android:textSize="18dp"
+            android:minHeight="48dp"
             android:textStyle="bold"
             android:onClick="GetRegister"
             android:text="Register now" />
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/Or"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/white"
@@ -128,44 +130,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:onClick="SignGG"
-            app:srcCompat="@drawable/gmail" />
+            app:srcCompat="@drawable/gmail"
+            android:minHeight="48dp"
+            android:minWidth="48dp"
+            android:contentDescription="gmailIcon"/>
 
     </LinearLayout>
 
 
 
 
-</LinearLayout>
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
-
-    <EditText
-        android:id="@+id/editTextText5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="gmail" />
-
-    <EditText
-        android:id="@+id/editTextText6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        android:hint="pass" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        android:onClick="login"/>
 </LinearLayout>
