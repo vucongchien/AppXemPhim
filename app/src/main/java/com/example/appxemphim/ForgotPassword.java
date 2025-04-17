@@ -9,9 +9,6 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 public class ForgotPassword extends AppCompatActivity {
     EditText editTextEmail;
@@ -45,7 +42,7 @@ public class ForgotPassword extends AppCompatActivity {
     }
 
     public void BackSign(View view) {
-        startActivity(new Intent(ForgotPassword.this, Login.class));
+        startActivity(new Intent(ForgotPassword.this, LoginActivity.class));
     }
 
     public void Back(View view) {

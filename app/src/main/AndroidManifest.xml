@@ -57,10 +57,10 @@
             android:name=".ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".Register"
+            android:name=".RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".Login"
+            android:name=".LoginActivity"
             android:exported="false" />
         <activity
             android:name=".GoogleAuthActivity"

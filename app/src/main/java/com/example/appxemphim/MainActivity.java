@@ -12,14 +12,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.UI.Activity.HomeActivity;
+import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-    public static FirebaseAuth mAuth;
-    public static FirebaseUser user;
+    private  FirebaseAuth mAuth;
+    private  FirebaseUser user;
     FirebaseFirestore db;
     FirebaseDatabase realtime;
     TextView name;
@@ -30,8 +31,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        mAuth= FirebaseAuth.getInstance();
-        user= mAuth.getCurrentUser();
+        mAuth= FirebaseUtils.getAuth();
+        user= FirebaseUtils.getUser();
         realtime = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
        checkout();
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void registed(View view) {
-        Intent intent = new Intent(MainActivity.this,Register.class);
+        Intent intent = new Intent(MainActivity.this, RegisterActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }

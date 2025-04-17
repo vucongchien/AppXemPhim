@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 
 import com.bumptech.glide.Glide;
+import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -23,6 +24,8 @@ import com.google.firebase.storage.StorageReference;
 public class ProfileActivity extends MainActivity {
     private static final  int IMAGE_REQUEST=2;
     private Uri imageUri;
+    private  FirebaseAuth mAuth;
+    private  FirebaseUser user;
 
     ImageView avata;
     @Override
@@ -30,8 +33,8 @@ public class ProfileActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         avata = findViewById(R.id.imageView);
-        mAuth = FirebaseAuth.getInstance();
-        user= mAuth.getCurrentUser();
+        mAuth= FirebaseUtils.getAuth();
+        user= FirebaseUtils.getUser();
         updateAvata(user);
 
     }

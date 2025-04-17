@@ -10,17 +10,19 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
-public class Login extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity {
     EditText editTextUserName, editTextPassword;
     Button btnLogin;
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
 
 
     @Override
@@ -28,6 +30,8 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
+        mAuth= FirebaseUtils.getAuth();
+        user= FirebaseUtils.getUser();
         editTextUserName = findViewById(R.id.editTextUserName);
         editTextPassword = findViewById(R.id.editTextPassword);
         btnLogin = findViewById(R.id.buttonLogin);
@@ -37,17 +41,17 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String username = editTextUserName.getText().toString();
                 String password = editTextPassword.getText().toString();
-                MainActivity.mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
-                            MainActivity.user = MainActivity.mAuth.getCurrentUser();
-                            MainActivity.user.getUid();
-                            Toast.makeText(Login.this, MainActivity.user.getUid(), Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(Login.this,MainActivity.class);
+                            user = mAuth.getCurrentUser();
+                            user.getUid();
+                            Toast.makeText(LoginActivity.this, user.getUid(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(LoginActivity.this,MainActivity.class);
                             startActivity(intent);
                         }else{
-                            Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -56,15 +60,15 @@ public class Login extends AppCompatActivity {
     }
 
     public void GetRegister(View view) {
-        startActivity(new Intent(Login.this, Register.class));
+        startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
     }
 
     public void Forgetpw(View view) {
-        startActivity(new Intent(Login.this, ForgotPassword.class));
+        startActivity(new Intent(LoginActivity.this, ForgotPassword.class));
     }
 
     public void SignGG(View view) {
-        Intent intent = new Intent(Login.this,GoogleAuthActivity.class);
+        Intent intent = new Intent(LoginActivity.this,GoogleAuthActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }
