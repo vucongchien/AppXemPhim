@@ -33,6 +33,8 @@ public class MovieUIModel implements Parcelable {
     @SerializedName("description")
     private String description;
 
+
+
     // Constructor
     public MovieUIModel(int movieId, String title, String posterUrl, String rating, String numView, String year, String description) {
         this.movieId = movieId;
