@@ -124,13 +124,14 @@ public class DashboardFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String category = parent.getItemAtPosition(position).toString();
-                filterManager.updateCategoryFilter(position == 0 ? null : category); // 0 là mặc định
+                filterManager.updateCategoryFilter(category);
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
                 filterManager.updateCategoryFilter(null);
             }
+
         });
     }
 
@@ -148,22 +149,13 @@ public class DashboardFragment extends Fragment {
             if (topResultsFragment != null) {
                 topResultsFragment.updateFilteredMovies(filteredMovies);
 
-                // Hiển thị hoặc ẩn TopResultsFragment dựa trên bộ lọc
-                if (filterManager.isAnyFilterApplied()) {
-                    if (topResultsFragment.isHidden()) {
-                        getChildFragmentManager().beginTransaction()
-                                .show(topResultsFragment)
-                                .commit();
-                        binding.fragmentContainerView.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    if (!topResultsFragment.isHidden()) {
-                        getChildFragmentManager().beginTransaction()
-                                .hide(topResultsFragment)
-                                .commit();
-                        binding.fragmentContainerView.setVisibility(View.GONE);
-                    }
+                if (topResultsFragment.isHidden()) {
+                    getChildFragmentManager().beginTransaction()
+                            .show(topResultsFragment)
+                            .commit();
                 }
+
+                binding.fragmentContainerView.setVisibility(View.VISIBLE);
             }
         });
 
@@ -225,6 +217,9 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        binding.recyclerViewCarousel.clearOnScrollListeners();
+        binding.recyclerViewCarousel.setAdapter(null);
+        binding.recyclerViewTopRated.setAdapter(null);
         binding = null;
     }
 }
