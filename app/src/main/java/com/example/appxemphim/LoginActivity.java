@@ -28,8 +28,8 @@ public class LoginActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
-        gmail = findViewById(R.id.editTextText5);
-        pass = findViewById(R.id.editTextText6);
+        gmail = findViewById(R.id.editTextUserName);
+        pass = findViewById(R.id.editTextPassword);
         checkLogin();
     }
 
