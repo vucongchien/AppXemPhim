@@ -11,11 +11,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.appxemphim.LoginRegister.ForgotPassword;
-import com.example.appxemphim.LoginRegister.RegisterActivity;
 import com.example.appxemphim.UI.Activity.HomeActivity;
-import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
-import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,18 +35,18 @@ public class MainActivity extends AppCompatActivity {
         user= FirebaseUtils.getUser();
         realtime = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
-       //checkout();
+       checkout();
 
     }
 
-//    private void checkout() {
-//        user = mAuth.getCurrentUser();
-//        if(user != null){
-//            name.setText("chào mừng "+user.getDisplayName()+" đến với app xem phim");
-//            name.setVisibility(View.VISIBLE);
-//            logout.setVisibility(View.VISIBLE);
-//        }
-//    }
+    private void checkout() {
+        user = mAuth.getCurrentUser();
+        if(user != null){
+            name.setText("chào mừng "+user.getDisplayName()+" đến với app xem phim");
+            name.setVisibility(View.VISIBLE);
+            logout.setVisibility(View.VISIBLE);
+        }
+    }
 
 
     public void registed(View view) {
@@ -79,9 +75,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, ForgotPassword.class));
     }
 
-    public void changepageaddmovie(View view) {
-        //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
-        //startActivity(new Intent(MainActivity.this,Add_data_sample.class));
+
+    public void goHomeActivity(View view) {
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+
     }
 
     public void GetStart(View view) {

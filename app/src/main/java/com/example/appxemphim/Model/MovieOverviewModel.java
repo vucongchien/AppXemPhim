@@ -6,67 +6,66 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.firebase.Timestamp;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Objects;
 
-public class MovieOverviewModel implements Parcelable {
+public class MovieUIModel implements Parcelable {
 
     @SerializedName("movie_Id")
-    private String movieId;
+    private int movieId;
+
     @SerializedName("title")
     private String title;
-    @SerializedName("description")
-    private String description;
+
     @SerializedName("poster_url")
     private String posterUrl;
-    @SerializedName("trailer_url")
-    private String trailerUrl;
+
     @SerializedName("rating")
-    private Double rating;
-    @SerializedName("nation")
-    private String nation;
+    private String rating;
+
     @SerializedName("num_view")
     private String numView;
-    @SerializedName("created_at")
-    private Timestamp createdAt;
 
-    public MovieOverviewModel() {
-    }
+    @SerializedName("year")
+    private String year;
 
-    public MovieOverviewModel(String movieId, String title, String description, String posterUrl,
-                            String trailerUrl, Double rating, String nation, String numView,
-                            Timestamp createdAt) {
+    @SerializedName("description")
+    private String description;
+
+
+
+    // Constructor
+    public MovieUIModel(int movieId, String title, String posterUrl, String rating, String numView, String year, String description) {
         this.movieId = movieId;
         this.title = title;
-        this.description = description;
         this.posterUrl = posterUrl;
-        this.trailerUrl = trailerUrl;
         this.rating = rating;
-        this.nation = nation;
         this.numView = numView;
-        this.createdAt = createdAt;
+        this.year = year;
+        this.description = description;
     }
 
     // Constructor dùng cho Parcelable
-    protected MovieOverviewModel(Parcel parcel) {
-        movieId = parcel.readString();
+    protected MovieUIModel(Parcel parcel) {
+        movieId = parcel.readInt();
         title = parcel.readString();
         posterUrl = parcel.readString();
-        rating = parcel.readDouble();
+        rating = parcel.readString();
         numView = parcel.readString();
+        year = parcel.readString();
         description = parcel.readString();
     }
 
     // Parcelable implementation
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {
-        parcel.writeString(movieId);
+        parcel.writeInt(movieId);
         parcel.writeString(title);
         parcel.writeString(posterUrl);
-        parcel.writeDouble(rating);
+        parcel.writeString(rating);
         parcel.writeString(numView);
+        parcel.writeString(year);
         parcel.writeString(description);
     }
 
@@ -75,15 +74,15 @@ public class MovieOverviewModel implements Parcelable {
         return 0;
     }
 
-    public static final Creator<MovieOverviewModel> CREATOR = new Creator<MovieOverviewModel>() {
+    public static final Creator<MovieUIModel> CREATOR = new Creator<MovieUIModel>() {
         @Override
-        public MovieOverviewModel createFromParcel(Parcel in) {
-            return new MovieOverviewModel(in);
+        public MovieUIModel createFromParcel(Parcel in) {
+            return new MovieUIModel(in);
         }
 
         @Override
-        public MovieOverviewModel[] newArray(int size) {
-            return new MovieOverviewModel[size];
+        public MovieUIModel[] newArray(int size) {
+            return new MovieUIModel[size];
         }
     };
 
@@ -92,13 +91,22 @@ public class MovieOverviewModel implements Parcelable {
     public boolean equals(@Nullable Object obj) {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
-        MovieOverviewModel that = (MovieOverviewModel) obj;
+        MovieUIModel that = (MovieUIModel) obj;
         return movieId == that.movieId;
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(movieId);
+    }
+
+    // Getter & Setter
+    public int getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {
@@ -109,22 +117,6 @@ public class MovieOverviewModel implements Parcelable {
         this.title = title;
     }
 
-    public String getMovieId() {
-        return movieId;
-    }
-
-    public void setMovieId(String movieId) {
-        this.movieId = movieId;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
     public String getPosterUrl() {
         return posterUrl;
     }
@@ -133,28 +125,12 @@ public class MovieOverviewModel implements Parcelable {
         this.posterUrl = posterUrl;
     }
 
-    public String getTrailerUrl() {
-        return trailerUrl;
-    }
-
-    public void setTrailerUrl(String trailerUrl) {
-        this.trailerUrl = trailerUrl;
-    }
-
-    public Double getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(Double rating) {
+    public void setRating(String rating) {
         this.rating = rating;
-    }
-
-    public String getNation() {
-        return nation;
-    }
-
-    public void setNation(String nation) {
-        this.nation = nation;
     }
 
     public String getNumView() {
@@ -165,26 +141,19 @@ public class MovieOverviewModel implements Parcelable {
         this.numView = numView;
     }
 
-    public Timestamp getCreatedAt() {
-        return createdAt;
+    public String getYear() {
+        return year;
     }
 
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
+    public void setYear(String year) {
+        this.year = year;
     }
 
-    @Override
-    public String toString() {
-        return "MovieOverviewModel{" +
-                "movieId='" + movieId + '\'' +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
-                ", posterUrl='" + posterUrl + '\'' +
-                ", trailerUrl='" + trailerUrl + '\'' +
-                ", rating=" + rating +
-                ", nation='" + nation + '\'' +
-                ", numView='" + numView + '\'' +
-                ", createdAt=" + createdAt +
-                '}';
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }
