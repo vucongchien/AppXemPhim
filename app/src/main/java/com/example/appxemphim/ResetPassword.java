@@ -10,12 +10,11 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ResetPassword extends AppCompatActivity {
@@ -23,7 +22,8 @@ public class ResetPassword extends AppCompatActivity {
     Button buttonUpdate;
 
     String email,otp;
-
+    private FirebaseAuth mAuth;
+    private FirebaseUser user;
     //email,DTO lấy tên SharedPreferences
 
 
@@ -32,6 +32,8 @@ public class ResetPassword extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reset_password);
+        mAuth= FirebaseUtils.getAuth();
+        user= FirebaseUtils.getUser();
         editTextNewPassword = findViewById(R.id.editTextNewPassword);
         editTextConfirmNewPassword = findViewById(R.id.editTextConfirmNewPassword);
         buttonUpdate = findViewById(R.id.buttonResetPassword);
@@ -47,15 +49,15 @@ public class ResetPassword extends AppCompatActivity {
                 }else {
                     if(newPassword.equals(confirmNewPassword)){
                         AuthCredential credential = EmailAuthProvider.getCredential(email, otp);
-                        MainActivity.mAuth.signInWithCredential(credential)
+                        mAuth.signInWithCredential(credential)
                                 .addOnCompleteListener(task -> {
                                     if (task.isSuccessful()) {
-                                        MainActivity.user = MainActivity.mAuth.getCurrentUser();
-                                        if (MainActivity.user != null) {
-                                            MainActivity.user.updatePassword(newPassword)
+                                        user = mAuth.getCurrentUser();
+                                        if (user != null) {
+                                            user.updatePassword(newPassword)
                                                     .addOnCompleteListener(updateTask -> {
                                                         if (updateTask.isSuccessful()) {
-                                                            Intent intent= new Intent(ResetPassword.this, Login.class);
+                                                            Intent intent= new Intent(ResetPassword.this, LoginActivity.class);
                                                             intent.putExtra("gmail",email);
                                                             intent.putExtra("pass",newPassword);
                                                             startActivity(intent);
