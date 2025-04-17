@@ -18,8 +18,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
-    FirebaseAuth mAuth;
-    FirebaseUser user;
+    public static FirebaseAuth mAuth;
+    public static FirebaseUser user;
     FirebaseFirestore db;
     FirebaseDatabase realtime;
     TextView name;
@@ -48,14 +48,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    public void siginwithgoogle(View view) {
-        Intent intent = new Intent(MainActivity.this,GoogleAuthActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-        startActivity(intent);
-    }
-
     public void registed(View view) {
-        Intent intent = new Intent(MainActivity.this,RegistedActivity.class);
+        Intent intent = new Intent(MainActivity.this,Register.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
         startActivity(intent);
     }

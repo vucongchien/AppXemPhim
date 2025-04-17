@@ -50,7 +50,7 @@ public class SetPassWord extends MainActivity {
                                 user.updatePassword(newpass.getText().toString())
                                         .addOnCompleteListener(updateTask -> {
                                             if (updateTask.isSuccessful()) {
-                                                Intent intent= new Intent(SetPassWord.this, LoginActivity.class);
+                                                Intent intent= new Intent(SetPassWord.this, Login.class);
                                                 intent.putExtra("gmail",email);
                                                 intent.putExtra("pass",newpass.getText().toString());
                                                 startActivity(intent);

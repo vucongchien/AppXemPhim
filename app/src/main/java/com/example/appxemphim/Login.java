@@ -8,10 +8,15 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 
 public class Login extends AppCompatActivity {
     EditText editTextUserName, editTextPassword;
@@ -32,11 +37,20 @@ public class Login extends AppCompatActivity {
             public void onClick(View v) {
                 String username = editTextUserName.getText().toString();
                 String password = editTextPassword.getText().toString();
-                if(username.equals("admin") && password.equals("tung12345")){
-                    Toast.makeText(Login.this, "Đăng nhập thành công", Toast.LENGTH_SHORT).show();
-                }else{
-                    Toast.makeText(Login.this, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show();
-                }
+                MainActivity.mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()){
+                            MainActivity.user = MainActivity.mAuth.getCurrentUser();
+                            MainActivity.user.getUid();
+                            Toast.makeText(Login.this, MainActivity.user.getUid(), Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(Login.this,MainActivity.class);
+                            startActivity(intent);
+                        }else{
+                            Toast.makeText(Login.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
             }
         });
     }
@@ -50,6 +64,9 @@ public class Login extends AppCompatActivity {
     }
 
     public void SignGG(View view) {
+        Intent intent = new Intent(Login.this,GoogleAuthActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+        startActivity(intent);
     }
 
 }
