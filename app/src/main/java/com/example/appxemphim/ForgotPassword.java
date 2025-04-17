@@ -30,7 +30,10 @@ public class ForgotPassword extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email = editTextEmail.getText().toString();
+                //API check email tồn tại Trong db
                 if(email.equals("truongtung9ctcv@gmail.com")){
+                    //API sent DTO
+                    //lưa SharedPreferences
                     startActivity(new Intent(ForgotPassword.this, VerifyOTP.class));
                 }else{
                     Toast.makeText(ForgotPassword.this, "email không tồn tại", Toast.LENGTH_SHORT).show();

@@ -24,6 +24,7 @@ public class VerifyOTP extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_verify_otp);
+        //lấy DTO từ SharedPreferences
         otp1 = findViewById(R.id.otp1);
         otp2 = findViewById(R.id.otp2);
         otp3 = findViewById(R.id.otp3);
@@ -46,7 +47,7 @@ public class VerifyOTP extends AppCompatActivity {
                 if(otp.length() < 6){
                     Toast.makeText(VerifyOTP.this, "Vui lòng nhập otp",Toast.LENGTH_SHORT).show();
                 }else{
-                    if (otp.equals("123456")){
+                    if (otp.equals("123456")){//bằng giá trị trong SharedPreferences
                         startActivity(new Intent(VerifyOTP.this, ResetPassword.class));
                     }else{
                         Toast.makeText(VerifyOTP.this, "OTP không đúng",Toast.LENGTH_SHORT).show();
