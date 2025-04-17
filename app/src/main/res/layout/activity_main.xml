@@ -6,64 +6,69 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="50dp"
+    android:background="@color/main_color"
+
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
 
-        android:onClick="siginwithgoogle"
-        android:text="Đăng nhập google" />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="registed"
-        android:text="Đăng ký" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:text="TextView" />
+            <ImageView
+                android:id="@+id/imageViewHome"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/intro_pic" />
 
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:onClick="logout"
-        android:text="logout" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginHorizontal="30dp"
+                android:orientation="vertical">
 
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="avata"
-        android:onClick="gotoprofile"/>
+                <TextView
+                    android:id="@+id/textView1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:textColor="@android:color/white"
+                    android:text="Discover Your" />
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="23dp"
+                    android:textColor="@android:color/holo_red_light"
+                    android:text="Favorite Show" />
+                <TextView
+                    android:id="@+id/textView3"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="30dp"
+                    android:textColor="@android:color/white"
+                    android:text="Watch Now Or Watch Later" />
+                <Button
+                    android:id="@+id/buttonGetStart"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="60dp"
+                    android:textSize="18dp"
+                    android:padding="5dp"
+                    android:onClick="GetStart"
+                    android:backgroundTint="@color/btn1"
+                    android:text="Get Started" />
 
-    <Button
-        android:id="@+id/button11"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="forgetPass"
-        android:text="Quên mật khẩu" />
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/button13"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="changepageaddmovie"
-        android:text="ADDMOVIE" />
 
-    <Button
-        android:id="@+id/goHome"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="goHome"
-        android:onClick="goHomeActivity"/>
+        </LinearLayout>
+    </ScrollView>
+
+
 </LinearLayout>

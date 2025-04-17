@@ -91,4 +91,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
     }
+
+    public void GetStart(View view) {
+        startActivity(new Intent(MainActivity.this, Login.class));
+    }
 }
