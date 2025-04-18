@@ -1,17 +1,18 @@
-package com.example.appxemphim;
+package com.example.appxemphim.LoginRegister;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
+import com.example.appxemphim.MainActivity;
+import com.example.appxemphim.Network.ApiLoginRegisterService;
+import com.example.appxemphim.Network.RetrofitInstance;
+import com.example.appxemphim.R;
+import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -22,6 +23,11 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class GoogleAuthActivity extends MainActivity {
     private SignInClient oneTapClient;
@@ -87,9 +93,40 @@ public class GoogleAuthActivity extends MainActivity {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, task -> {
                     if (task.isSuccessful()) {
-                        FirebaseUser user = mAuth.getCurrentUser();
-                        Toast.makeText(this, "Đăng nhập thành công: " + user.getDisplayName(), Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(GoogleAuthActivity.this,MainActivity.class));
+                        user = mAuth.getCurrentUser();
+                        ApiLoginRegisterService api = RetrofitInstance.getApiService();
+                        Call<ResponseBody> call = api.loginWithToken(user.getUid());
+                        call.enqueue(new Callback<ResponseBody>() {
+                            @Override
+                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                                if (response.isSuccessful()) {
+                                    if(response.code()==200){
+                                        try {
+                                            String token = response.body().string();
+                                            SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPref.edit();
+                                            editor.putString("Email", user.getEmail());
+                                            editor.putString("Token", token);
+                                            editor.apply();
+                                            Intent intent = new Intent(GoogleAuthActivity.this, HomeActivity.class);
+                                            startActivity(intent);
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(GoogleAuthActivity.this, "Lỗi xử lý dữ liệu phản hồi", Toast.LENGTH_SHORT).show();
+                                        }
+
+                                    }else {
+                                        Toast.makeText(GoogleAuthActivity.this, "Lỗi laays token", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Log.e("API_ERROR", "Code: " + response.code());
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                                Log.e("API_FAILURE", t.getMessage());
+                            }
+                        });
                     } else {
                         Toast.makeText(this, "Xác thực thất bại!", Toast.LENGTH_SHORT).show();
                         finish();
