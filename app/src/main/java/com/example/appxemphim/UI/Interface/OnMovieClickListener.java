@@ -1,7 +1,7 @@
 package com.example.appxemphim.UI.Interface;
 
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 
 public interface OnMovieClickListener {
-    void OnMovieClick(MovieUIModel movieUIModel);
+    void OnMovieClick(MovieOverviewModel movieOverviewModel);
 }

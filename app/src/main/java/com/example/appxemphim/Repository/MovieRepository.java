@@ -1,9 +1,15 @@
 package com.example.appxemphim.Repository;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.lifecycle.MutableLiveData;
 
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieDetailModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
+import com.example.appxemphim.Network.MovieApiService;
+import com.example.appxemphim.Network.RetrofitClient;
 import com.example.appxemphim.Network.RetrofitInstance;
+import com.example.appxemphim.Responese.MovieOverviewResponse;
 import com.example.appxemphim.UI.Utils.Resource;
 
 import java.util.List;
@@ -14,25 +20,160 @@ import retrofit2.Response;
 
 public class MovieRepository {
 
-    public void fetchHotMovies(MutableLiveData<Resource<List<MovieUIModel>>> liveData) {
-        liveData.setValue(Resource.loading());
+    private final MovieApiService apiService;
 
-//        RetrofitInstance.getApiService().getHotMovies().enqueue(new Callback<List<MovieUIModel>>() {
-//            @Override
-//            public void onResponse(Call<List<MovieUIModel>> call, Response<List<MovieUIModel>> response) {
-//                if (response.isSuccessful() && response.body() != null) {
-//                    liveData.setValue(Resource.success(response.body()));
-//                } else {
-//                    liveData.setValue(Resource.error("No data available"));
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<List<MovieUIModel>> call, Throwable t) {
-//                liveData.setValue(Resource.error("Error: " + t.getMessage()));
-//            }
-//        });
+    public MovieRepository() {
+        this.apiService = RetrofitClient.getInstance().getApiService();
     }
 
-    // Bạn có thể thêm fetchTopRatedMovies(), fetchAllMovies() tương tự ở đây
+    public void fetchHotMovies(MutableLiveData<Resource<List<MovieOverviewModel>>> liveData) {
+        liveData.setValue(Resource.loading());
+
+        Call<MovieOverviewResponse> call = apiService.getMovies(
+                null,       // title
+                null,       // genres
+                null,       // years
+                null,       // nations
+                8.0,        // minRating
+                0,          // page
+                10          // size
+        );
+
+        call.enqueue(new Callback<MovieOverviewResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(Resource.success(response.body().getContent()));
+                } else {
+                    liveData.postValue(Resource.error("Không thể tải dữ liệu phim hot"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieOverviewResponse> call, Throwable t) {
+                liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
+    public void fetchTopRatedMovies(MutableLiveData<Resource<List<MovieOverviewModel>>> liveData) {
+        liveData.setValue(Resource.loading());
+        Call<MovieOverviewResponse> call = apiService.getMovies(
+                null,       // title
+                null,       // genres
+                null,       // years
+                null,       // nations
+                9.0,        // minRating
+                0,          // page
+                10          // size
+        );
+
+        call.enqueue(new Callback<MovieOverviewResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(Resource.success(response.body().getContent()));
+                } else {
+                    liveData.postValue(Resource.error("Không thể tải dữ liệu phim top rated"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieOverviewResponse> call, Throwable t) {
+                liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
+    public void fetchAllMovies(MutableLiveData<Resource<List<MovieOverviewModel>>> liveData) {
+        liveData.setValue(Resource.loading());
+
+        Call<MovieOverviewResponse> call = apiService.getMovies(
+                null,       // title
+                null,       // genres
+                null,       // years
+                null,       // nations
+                0.0,        // minRating
+                0,          // page
+                20          // size
+        );
+
+        call.enqueue(new Callback<MovieOverviewResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(Resource.success(response.body().getContent()));
+                } else {
+                    liveData.postValue(Resource.error("Không thể tải dữ liệu toàn bộ phim "));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieOverviewResponse> call, Throwable t) {
+                liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
+    public void fetchDetailMovieById(String id, MutableLiveData<Resource<MovieDetailModel>> liveData) {
+        liveData.setValue(Resource.loading());
+
+        Call<MovieDetailModel> call = apiService.getMovieById(id);
+
+        call.enqueue(new Callback<MovieDetailModel>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieDetailModel> call, @NonNull Response<MovieDetailModel> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(Resource.success(response.body()));
+                } else {
+                    liveData.postValue(Resource.error("Không thể tải chi tiết phim"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieDetailModel> call, @NonNull Throwable t) {
+                liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
+    public void searchMovies(
+            @Nullable String title,
+            @Nullable List<String> genres,
+            @Nullable List<Integer> years,
+            @Nullable List<String> nations,
+            @Nullable Double minRating,
+            int page,
+            int size,
+            MutableLiveData<Resource<List<MovieOverviewModel>>> liveData
+    ) {
+        liveData.setValue(Resource.loading());
+
+        Call<MovieOverviewResponse> call = apiService.getMovies(
+                title,
+                genres,
+                years,
+                nations,
+                minRating,
+                page,
+                size
+        );
+
+        call.enqueue(new Callback<MovieOverviewResponse>() {
+            @Override
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call, @NonNull Response<MovieOverviewResponse> response) {
+                if (response.isSuccessful() && response.body() != null) {
+                    liveData.postValue(Resource.success(response.body().getContent()));
+                } else {
+                    liveData.postValue(Resource.error("Không tìm thấy kết quả phù hợp"));
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<MovieOverviewResponse> call, @NonNull Throwable t) {
+                liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
 }

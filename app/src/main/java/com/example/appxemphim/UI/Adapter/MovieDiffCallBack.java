@@ -2,15 +2,15 @@ package com.example.appxemphim.UI.Adapter;
 
 import androidx.recyclerview.widget.DiffUtil;
 
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 
 import java.util.List;
 
 public class MovieDiffCallBack extends DiffUtil.Callback {
-    private final List<MovieUIModel> oldList;
-    private final List<MovieUIModel> newList;
+    private final List<MovieOverviewModel> oldList;
+    private final List<MovieOverviewModel> newList;
 
-    public MovieDiffCallBack(List<MovieUIModel> oldList, List<MovieUIModel> newList) {
+    public MovieDiffCallBack(List<MovieOverviewModel> oldList, List<MovieOverviewModel> newList) {
         this.oldList = oldList;
         this.newList = newList;
     }

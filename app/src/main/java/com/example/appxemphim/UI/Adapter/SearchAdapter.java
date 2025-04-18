@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 
-public class SearchAdapter extends ListAdapter<MovieUIModel, SearchAdapter.SearchViewHolder> {
+public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter.SearchViewHolder> {
     private OnMovieClickListener listener;
 
     public SearchAdapter() {
@@ -24,14 +24,14 @@ public class SearchAdapter extends ListAdapter<MovieUIModel, SearchAdapter.Searc
     }
 
     //DiffcallBack
-    private static final DiffUtil.ItemCallback<MovieUIModel> DIFF_CALLBACK =new DiffUtil.ItemCallback<MovieUIModel>() {
+    private static final DiffUtil.ItemCallback<MovieOverviewModel> DIFF_CALLBACK =new DiffUtil.ItemCallback<MovieOverviewModel>() {
         @Override
-        public boolean areItemsTheSame(@NonNull MovieUIModel oldItem, @NonNull MovieUIModel newItem) {
+        public boolean areItemsTheSame(@NonNull MovieOverviewModel oldItem, @NonNull MovieOverviewModel newItem) {
             return oldItem.getMovieId() == newItem.getMovieId();
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull MovieUIModel oldItem, @NonNull MovieUIModel newItem) {
+        public boolean areContentsTheSame(@NonNull MovieOverviewModel oldItem, @NonNull MovieOverviewModel newItem) {
             return oldItem.equals(newItem);
         }
     };
@@ -46,7 +46,7 @@ public class SearchAdapter extends ListAdapter<MovieUIModel, SearchAdapter.Searc
 
     @Override
     public void onBindViewHolder(@NonNull SearchViewHolder holder, int position) {
-        MovieUIModel item = getItem(position);
+        MovieOverviewModel item = getItem(position);
         holder.titleTextView.setText(item.getTitle());
         holder.descriptionTextView.setText(item.getDescription());
 
