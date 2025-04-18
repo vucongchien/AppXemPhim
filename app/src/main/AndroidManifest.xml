@@ -36,34 +36,34 @@
             android:name=".SetPassWord"
             android:exported="false" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
         <activity
             android:name=".ProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginRegister.LoginActivity"
             android:exported="false" />
         <activity
             android:name=".RegistedActivity"
             android:exported="false" />
         <activity
-            android:name=".ResetPassword"
+            android:name=".LoginRegister.ResetPassword"
             android:exported="false" />
         <activity
-            android:name=".VerifyOTP"
+            android:name=".LoginRegister.VerifyOTP"
             android:exported="false" />
         <activity
-            android:name=".ForgotPassword"
+            android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".LoginRegister.RegisterActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".LoginRegister.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".GoogleAuthActivity"
+            android:name=".LoginRegister.GoogleAuthActivity"
             android:exported="false"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity

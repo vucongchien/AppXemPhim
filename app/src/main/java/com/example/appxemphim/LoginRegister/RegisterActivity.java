@@ -1,4 +1,4 @@
-package com.example.appxemphim;
+package com.example.appxemphim.LoginRegister;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,11 +14,14 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appxemphim.R;
+import com.example.appxemphim.UI.Utils.CheckEmail;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -29,6 +32,7 @@ public class RegisterActivity extends AppCompatActivity {
     EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
+
     Button buttonRegister;
     private boolean isCheckingEmail = false;
     boolean emailExists;
@@ -59,10 +63,21 @@ public class RegisterActivity extends AppCompatActivity {
                 isCheckingEmail = true;
                 timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
                 timer = new Timer();
+                String email = charSequence.toString().trim();
                 timer.schedule(new TimerTask() {
                     @Override
                     public void run() {
-                        //API check Email
+                        CheckEmail.checkEmailFromApi(email, RegisterActivity.this, new CheckEmail.EmailCheckCallback() {
+                            @Override
+                            public void onResult(boolean exists) {
+                                isCheckingEmail = exists;
+                                if (!exists) {
+                                    isCheckingEmail = false;
+                                    Toast.makeText(RegisterActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+                                    //thongbao.setText("Email không tồn tại");
+                                }
+                            }
+                        });
                     }
                 }, DELAY);
             }
@@ -113,6 +128,15 @@ public class RegisterActivity extends AppCompatActivity {
                                                 Toast.makeText(RegisterActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                                             }
                                         });
+                                    } else {
+                                        Exception exception = task.getException();
+                                        if (exception instanceof FirebaseAuthUserCollisionException) {
+                                            //thongbaodk.setVisibility(View.VISIBLE);
+                                            //thongbaodk.setText("Email đã được đăng ký");
+                                            Toast.makeText(RegisterActivity.this, "Email đã được đăng ký", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            Toast.makeText(RegisterActivity.this, "Lỗi: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
                                     }
                                 }
                             });
@@ -129,4 +153,8 @@ public class RegisterActivity extends AppCompatActivity {
     public void Back(View view) {
         finish();//đi về sign
     }
+
+
+
+
 }

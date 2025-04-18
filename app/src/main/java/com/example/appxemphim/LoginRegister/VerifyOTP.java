@@ -1,6 +1,7 @@
-package com.example.appxemphim;
+package com.example.appxemphim.LoginRegister;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,9 +10,8 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
+import com.example.appxemphim.R;
 
 public class VerifyOTP extends AppCompatActivity {
     EditText otp1,otp2,otp3,otp4,otp5,otp6;
@@ -24,7 +24,9 @@ public class VerifyOTP extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_verify_otp);
-        //lấy DTO từ SharedPreferences
+        SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
+        String ma = sharedPref.getString("OTP","");
+        Toast.makeText(this, ma, Toast.LENGTH_SHORT).show();
         otp1 = findViewById(R.id.otp1);
         otp2 = findViewById(R.id.otp2);
         otp3 = findViewById(R.id.otp3);
@@ -47,7 +49,7 @@ public class VerifyOTP extends AppCompatActivity {
                 if(otp.length() < 6){
                     Toast.makeText(VerifyOTP.this, "Vui lòng nhập otp",Toast.LENGTH_SHORT).show();
                 }else{
-                    if (otp.equals("123456")){//bằng giá trị trong SharedPreferences
+                    if (otp.equals(ma)){
                         startActivity(new Intent(VerifyOTP.this, ResetPassword.class));
                     }else{
                         Toast.makeText(VerifyOTP.this, "OTP không đúng",Toast.LENGTH_SHORT).show();
