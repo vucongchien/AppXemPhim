@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.appxemphim.UI.Activity.MovieDetailActivity;
 import com.example.appxemphim.UI.Adapter.MovieAdapter;
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.databinding.FragmentTopResultsBinding;
@@ -46,7 +46,7 @@ public class TopResultsFragment extends Fragment {
         return view;
     }
 
-    public void updateFilteredMovies(List<MovieUIModel> filteredMovies) {
+    public void updateFilteredMovies(List<MovieOverviewModel> filteredMovies) {
         topResultsAdapter.updateMovieList(filteredMovies);
         Toast.makeText(requireContext(),"fiteredMovie size: "+filteredMovies.size(),Toast.LENGTH_SHORT).show();
     }

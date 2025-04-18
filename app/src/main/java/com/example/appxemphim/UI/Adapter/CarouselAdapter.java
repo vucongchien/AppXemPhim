@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 
-public class CarouselAdapter extends ListAdapter<MovieUIModel,CarouselAdapter.CarouseViewHolder> {
+public class CarouselAdapter extends ListAdapter<MovieOverviewModel,CarouselAdapter.CarouseViewHolder> {
 
     private final Context context;
     private final OnMovieClickListener onClickListener;
@@ -29,14 +29,14 @@ public class CarouselAdapter extends ListAdapter<MovieUIModel,CarouselAdapter.Ca
     }
 
     // Định nghĩa DiffUtil.ItemCallback
-    private static final DiffUtil.ItemCallback<MovieUIModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<MovieUIModel>() {
+    private static final DiffUtil.ItemCallback<MovieOverviewModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<MovieOverviewModel>() {
         @Override
-        public boolean areItemsTheSame(@NonNull MovieUIModel oldItem, @NonNull MovieUIModel newItem) {
+        public boolean areItemsTheSame(@NonNull MovieOverviewModel oldItem, @NonNull MovieOverviewModel newItem) {
             return oldItem.getMovieId() == newItem.getMovieId(); // Giả sử MovieUIModel có getMovieId()
         }
 
         @Override
-        public boolean areContentsTheSame(@NonNull MovieUIModel oldItem, @NonNull MovieUIModel newItem) {
+        public boolean areContentsTheSame(@NonNull MovieOverviewModel oldItem, @NonNull MovieOverviewModel newItem) {
             return oldItem.equals(newItem); // So sánh toàn bộ nội dung
         }
     };
@@ -50,7 +50,7 @@ public class CarouselAdapter extends ListAdapter<MovieUIModel,CarouselAdapter.Ca
 
     @Override
     public void onBindViewHolder(@NonNull CarouseViewHolder holder, int position) {
-        MovieUIModel movie = getItem(position);
+        MovieOverviewModel movie = getItem(position);
         Glide.with(context)
                 .load(movie.getPosterUrl())
                 .placeholder(R.drawable.main_banner)
@@ -69,7 +69,7 @@ public class CarouselAdapter extends ListAdapter<MovieUIModel,CarouselAdapter.Ca
         }
     }
 
-    public MovieUIModel getMovieAt(int position){
+    public MovieOverviewModel getMovieAt(int position){
         return getItem(position);
     }
 }

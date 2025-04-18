@@ -11,11 +11,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 
 public class MovieDetailActivity extends AppCompatActivity {
-    private MovieUIModel movie;
+    private MovieOverviewModel movie;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class MovieDetailActivity extends AppCompatActivity {
         }
     }
 
-    public static void showMovieDetailActivity(Activity activity, MovieUIModel movie) {
+    public static void showMovieDetailActivity(Activity activity, MovieOverviewModel movie) {
         Intent intent = new Intent(activity, MovieDetailActivity.class);
         intent.putExtra("movie", movie);
         activity.startActivity(intent);

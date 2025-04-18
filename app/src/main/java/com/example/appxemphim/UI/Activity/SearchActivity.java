@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.ViewModel.MovieViewModel;
 import com.example.appxemphim.UI.Adapter.SearchAdapter;
 import com.example.appxemphim.databinding.ActivitySearchBinding;
@@ -27,7 +27,7 @@ public class SearchActivity extends AppCompatActivity {
     private ActivitySearchBinding binding; // Biến binding
     private SearchAdapter adapter;
     private MovieViewModel movieViewModel;
-    private List<MovieUIModel> allData;
+    private List<MovieOverviewModel> allData;
 
     //for logic search
     private ExecutorService executorService;
@@ -75,13 +75,13 @@ public class SearchActivity extends AppCompatActivity {
     private void filterResults(String query) {
         binding.progressBar.setVisibility(View.VISIBLE);
         executorService.execute(() -> {
-            List<MovieUIModel> filteredList = new ArrayList<>();
+            List<MovieOverviewModel> filteredList = new ArrayList<>();
             String lowerQuery = query.toLowerCase();
 
             if (query.trim().isEmpty()) {
                 filteredList.addAll(allData); // Nếu query rỗng, hiển thị toàn bộ
             } else {
-                for (MovieUIModel item : allData) {
+                for (MovieOverviewModel item : allData) {
                     if (item.getTitle().toLowerCase().contains(lowerQuery)) {
                         filteredList.add(item);
                     }
@@ -117,14 +117,14 @@ public class SearchActivity extends AppCompatActivity {
     private void observe(){
             movieViewModel.loadAllMovies();
 
-        movieViewModel.getAllMovies().observe(this, resource -> {
+        movieViewModel.allMovies.observe(this, resource -> {
             if (resource == null) return;
             switch (resource.getStatus()) {
                 case LOADING:
                     // Hiển thị loading indicator nếu cần
                     break;
                 case SUCCESS:
-                    List<MovieUIModel> data = resource.getData();
+                    List<MovieOverviewModel> data = resource.getData();
                     if (data != null) {
                         allData.clear(); // Xóa dữ liệu cũ trước khi thêm mới
                         allData.addAll(data);

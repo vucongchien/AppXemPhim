@@ -20,8 +20,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appxemphim.UI.Adapter.CarouselAdapter;
 import com.example.appxemphim.UI.Adapter.MovieAdapter;
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.UI.Utils.Resource;
+import com.example.appxemphim.Utilities.Utils;
 import com.example.appxemphim.ViewModel.FilterManager;
 import com.example.appxemphim.ViewModel.MovieViewModel;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
@@ -51,8 +52,8 @@ public class DashboardFragment extends Fragment {
         setupListeners();
         setUpSpinner();
         observeData();
-        movieViewModel.loadTopRatedData();
-        movieViewModel.loadHotData();
+        movieViewModel.loadTopRatedMovies();
+        movieViewModel.loadHotMovies();
         return view;
     }
 
@@ -89,10 +90,10 @@ public class DashboardFragment extends Fragment {
                     int currentPosition = layoutManager.findFirstCompletelyVisibleItemPosition();
 
                     if (currentPosition != RecyclerView.NO_POSITION) {
-                        MovieUIModel currentMovie = carouselAdapter.getMovieAt(currentPosition); // Sử dụng getItem thay vì getListMovie
+                        MovieOverviewModel currentMovie = carouselAdapter.getMovieAt(currentPosition); // Sử dụng getItem thay vì getListMovie
                         binding.textNameFilm.setText(currentMovie.getTitle());
-                        binding.textYearFilmPublish.setText(currentMovie.getYear());
-                        binding.textRating.setText(currentMovie.getRating());
+                        binding.textYearFilmPublish.setText(Utils.getYearFromTimestamp(currentMovie.getCreatedAt()));
+                        binding.textRating.setText(currentMovie.getRating().toString());
                     }
                 }
             }
@@ -137,7 +138,7 @@ public class DashboardFragment extends Fragment {
 
     private void observeData() {
         // Quan sát danh sách phim gốc từ MovieViewModel
-        movieViewModel.getAllMovies().observe(getViewLifecycleOwner(), resource -> {
+        movieViewModel.hotMovies.observe(getViewLifecycleOwner(), resource -> {
             if (resource.getStatus() == Resource.Status.SUCCESS && resource.getData() != null) {
                 filterManager.setAllMovies(resource.getData());
             }
@@ -168,7 +169,7 @@ public class DashboardFragment extends Fragment {
         });
 
         // Quan sát danh sách phim hot cho carousel
-        movieViewModel.getHotMovieList().observe(getViewLifecycleOwner(), resource -> {
+        movieViewModel.hotMovies.observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case LOADING:
@@ -192,7 +193,7 @@ public class DashboardFragment extends Fragment {
 
 
         // Quan sát danh sách phim top-rated
-        movieViewModel.getTopRatedMovieList().observe(getViewLifecycleOwner(), resource -> {
+        movieViewModel.topRatedMovies.observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case LOADING:
@@ -212,8 +213,8 @@ public class DashboardFragment extends Fragment {
         });
     }
 
-    private void showMovieToast(MovieUIModel movie) {
-        Toast.makeText(requireContext(), "Selected: " + movie.getTitle(), Toast.LENGTH_SHORT).show();
+    private void showMovieToast(MovieOverviewModel movie) {
+        Toast.makeText(requireContext(), "Selected: " + movie, Toast.LENGTH_SHORT).show();
     }
 
     private void setupListeners() {

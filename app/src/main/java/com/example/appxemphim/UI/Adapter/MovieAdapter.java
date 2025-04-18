@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.example.appxemphim.Model.MovieUIModel;
+import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
@@ -21,16 +21,16 @@ import java.util.List;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
     private final Context context;
-    private final List<MovieUIModel> movieList;
+    private final List<MovieOverviewModel> movieList;
     private final OnMovieClickListener listener;
 
-    public MovieAdapter(Context context,List<MovieUIModel> initialList,OnMovieClickListener clickListener) {
+    public MovieAdapter(Context context, List<MovieOverviewModel> initialList, OnMovieClickListener clickListener) {
         this.movieList = new ArrayList<>(initialList);
         this.context = context;
         this.listener=clickListener;
     }
 
-    public void updateMovieList(List<MovieUIModel> newMovieList){
+    public void updateMovieList(List<MovieOverviewModel> newMovieList){
         if (newMovieList == null) {
             movieList.clear();
             notifyDataSetChanged();
@@ -51,11 +51,11 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieAdapter.MovieViewHolder holder, int position) {
-        MovieUIModel movie=movieList.get(position);
+        MovieOverviewModel movie=movieList.get(position);
 
 
         holder.textTitle.setText(movie.getTitle());
-        holder.textRating.setText(movie.getRating());
+        holder.textRating.setText(movie.getRating().toString());
         holder.description.setText(movie.getDescription());
 
         Glide.with(context).load(movie.getPosterUrl()).into(holder.imgPoster);
