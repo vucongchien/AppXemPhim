@@ -14,7 +14,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appxemphim.LoginRegister.ForgotPassword;
 import com.example.appxemphim.LoginRegister.LoginActivity;
 import com.example.appxemphim.LoginRegister.RegisterActivity;
-import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -81,11 +80,6 @@ public class MainActivity extends AppCompatActivity {
     public void changepageaddmovie(View view) {
         //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
         //startActivity(new Intent(MainActivity.this,Add_data_sample.class));
-    }
-
-    public void goHomeActivity(View view) {
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
-
     }
 
     public void GetStart(View view) {

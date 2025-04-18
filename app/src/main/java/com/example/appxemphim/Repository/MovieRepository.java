@@ -34,7 +34,7 @@ public class MovieRepository {
                 null,       // genres
                 null,       // years
                 null,       // nations
-                8.0,        // minRating
+                0.0,        // minRating
                 0,          // page
                 10          // size
         );
@@ -63,7 +63,7 @@ public class MovieRepository {
                 null,       // genres
                 null,       // years
                 null,       // nations
-                9.0,        // minRating
+                0.0,        // minRating
                 0,          // page
                 10          // size
         );

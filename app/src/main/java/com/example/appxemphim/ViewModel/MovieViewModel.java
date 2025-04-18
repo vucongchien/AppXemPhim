@@ -13,8 +13,11 @@ import com.example.appxemphim.UI.Utils.Resource;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
+
 public class MovieViewModel extends ViewModel {
-    private final MovieRepository repository;
+    private final MovieRepository repository=new MovieRepository();
 
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _hotMovies = new MutableLiveData<>();
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _topRatedMovies = new MutableLiveData<>();
@@ -24,8 +27,8 @@ public class MovieViewModel extends ViewModel {
     public LiveData<Resource<List<MovieOverviewModel>>> topRatedMovies = _topRatedMovies;
     public LiveData<Resource<List<MovieOverviewModel>>> allMovies = _allMovies;
 
-    public MovieViewModel(MovieRepository repository) {
-        this.repository = repository;
+    public MovieViewModel() {
+
     }
 
     public void loadHotMovies() {

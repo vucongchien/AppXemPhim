@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.100.7:8081/";  // Thay bằng URL thật của bạn
+    private static final String BASE_URL = "http://192.168.100.7:8081/";
     private static RetrofitClient instance;
     private final Retrofit retrofit;
 
