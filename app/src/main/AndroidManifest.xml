@@ -20,7 +20,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".UI.Activity.MovieDetails"
+            android:name=".UI.Activity.MovieDetailsActivity"
             android:exported="false" />
         <activity
             android:name=".UI.Activity.SearchActivity"
