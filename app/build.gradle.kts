@@ -1,7 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
-    id("io.freefair.lombok") version "8.4"
+    id("com.google.dagger.hilt.android")
+    id("org.jetbrains.kotlin.android")
+    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -37,10 +39,9 @@ android {
         }
     }
 
-    buildFeatures{
-        viewBinding=true
+    buildFeatures {
+        viewBinding = true
     }
-
 }
 
 dependencies {
@@ -60,26 +61,29 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.facebook.android:facebook-login:latest.release")
-    implementation ("androidx.annotation:annotation:1.6.0")
+    implementation("androidx.annotation:annotation:1.6.0")
     implementation("androidx.credentials:credentials:1.3.0")
     implementation("androidx.credentials:credentials-play-services-auth:1.3.0")
     implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-
-    implementation ("com.google.firebase:firebase-auth:22.1.1")
-    implementation ("com.github.bumptech.glide:glide:4.16.0")
-    implementation ("com.squareup.okhttp3:okhttp:4.9.3")
+    implementation("com.google.firebase:firebase-auth:22.1.1")
+    implementation("com.github.bumptech.glide:glide:4.16.0")
+    implementation("com.squareup.okhttp3:okhttp:4.9.3")
     implementation("org.apache.httpcomponents.client5:httpclient5-fluent:5.2.1")
-    implementation ("com.sun.mail:android-mail:1.6.2")
-    implementation ("com.sun.mail:android-activation:1.6.2")
-    implementation ("com.squareup.picasso:picasso:2.8")
-    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
-    implementation ("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    implementation ("com.squareup.okhttp3:okhttp:4.12.0")
-    implementation ("com.google.android.material:material:1.6.0")
+    implementation("com.sun.mail:android-mail:1.6.2")
+    implementation("com.sun.mail:android-activation:1.6.2")
+    implementation("com.squareup.picasso:picasso:2.8")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("com.google.android.material:material:1.6.0")
 
+    // Hilt dependencies
+    implementation("com.google.dagger:hilt-android:2.44")
+    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
+    kapt("androidx.hilt:hilt-compiler:1.0.0")
 
-
-
-
+    // Preferences dependency
+    implementation("androidx.preference:preference:1.2.1")
 }
