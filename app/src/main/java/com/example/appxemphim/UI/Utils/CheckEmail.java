@@ -1,4 +1,4 @@
-package com.example.appxemphim.app.src.main.UI.Utils;
+package com.example.appxemphim.UI.Utils;
 
 import android.content.Context;
 import android.widget.Toast;
