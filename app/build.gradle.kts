@@ -2,8 +2,6 @@ plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
     id("com.google.dagger.hilt.android")
-    id("org.jetbrains.kotlin.android")
-    id("org.jetbrains.kotlin.kapt")
 }
 
 android {
@@ -80,9 +78,9 @@ dependencies {
 
     // Hilt dependencies
     implementation("com.google.dagger:hilt-android:2.44")
-    kapt("com.google.dagger:hilt-android-compiler:2.44")
+    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
     implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
+    annotationProcessor("androidx.hilt:hilt-compiler:1.0.0")
 
     // Preferences dependency
     implementation("androidx.preference:preference:1.2.1")
