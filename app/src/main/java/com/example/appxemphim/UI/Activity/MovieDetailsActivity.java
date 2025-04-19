@@ -1,7 +1,5 @@
 package com.example.appxemphim.UI.Activity;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.SpannableString;
@@ -18,12 +16,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
-import com.example.appxemphim.LoginRegister.ForgotPassword;
-import com.example.appxemphim.LoginRegister.VerifyOTP;
 import com.example.appxemphim.Model.ActorModel;
 import com.example.appxemphim.Model.DirectorModel;
 import com.example.appxemphim.Model.MovieDetailModel;
@@ -31,18 +24,14 @@ import com.example.appxemphim.Network.MovieApiService;
 import com.example.appxemphim.Network.RetrofitClient;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Adapter.ListVideoAdapter;
-import com.google.gson.Gson;
-
-import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 
-import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MovieDetails extends AppCompatActivity {
+public class MovieDetailsActivity extends AppCompatActivity {
 
     TextView description,actor,directors,title,year;
     ListView videoList;
@@ -75,10 +64,10 @@ public class MovieDetails extends AppCompatActivity {
                             movieDetails = response.body();
                         }catch (Exception e) {
                             e.printStackTrace();
-                            Toast.makeText(MovieDetails.this, "Lỗi xử lý dữ liệu phản hồi", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MovieDetailsActivity.this, "Lỗi xử lý dữ liệu phản hồi", Toast.LENGTH_SHORT).show();
                         }
                     }else {
-                        Toast.makeText(MovieDetails.this, "Lỗi Sent DTO", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(MovieDetailsActivity.this, "Lỗi Sent DTO", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     Log.e("API_ERROR", "Code: " + response.code());
