@@ -12,16 +12,9 @@ public class RetrofitClient {
     private final Retrofit retrofit;
 
     private RetrofitClient() {
-        // Cấu hình OkHttpClient với timeout
-        OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .connectTimeout(30, TimeUnit.SECONDS)  // timeout khi kết nối
-                .readTimeout(30, TimeUnit.SECONDS)     // timeout khi đọc dữ liệu
-                .writeTimeout(30, TimeUnit.SECONDS)    // timeout khi ghi dữ liệu
-                .build();
 
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
-                .client(okHttpClient) // Gán client với timeout vào Retrofit
+                .baseUrl(BASE_URL)// Gán client với timeout vào Retrofit
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
