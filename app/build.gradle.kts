@@ -1,7 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
     id("com.google.gms.google-services")
-    id("com.google.dagger.hilt.android")
 }
 
 android {
@@ -76,12 +75,9 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
     implementation("com.google.android.material:material:1.6.0")
 
-    // Hilt dependencies
-    implementation("com.google.dagger:hilt-android:2.44")
-    annotationProcessor("com.google.dagger:hilt-android-compiler:2.44")
-    implementation("androidx.hilt:hilt-lifecycle-viewmodel:1.0.0-alpha03")
-    annotationProcessor("androidx.hilt:hilt-compiler:1.0.0")
-
     // Preferences dependency
     implementation("androidx.preference:preference:1.2.1")
+
+    implementation ("androidx.media3:media3-ui:1.3.1")
+    implementation ("androidx.media3:media3-exoplayer:1.3.1")
 }

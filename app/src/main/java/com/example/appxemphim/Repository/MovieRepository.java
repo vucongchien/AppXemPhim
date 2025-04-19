@@ -9,7 +9,7 @@ import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.Network.MovieApiService;
 import com.example.appxemphim.Network.RetrofitClient;
 import com.example.appxemphim.Network.RetrofitInstance;
-import com.example.appxemphim.Responese.MovieOverviewResponse;
+import com.example.appxemphim.Response.MovieOverviewResponse;
 import com.example.appxemphim.UI.Utils.Resource;
 
 import java.util.List;
