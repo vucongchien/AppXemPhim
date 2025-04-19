@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appxemphim.MainActivity;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
@@ -104,7 +105,7 @@ public class ForgotPassword extends AppCompatActivity {
                                     editor.putString("OTP", OTP);
                                     editor.apply();
                                     Toast.makeText(ForgotPassword.this, OTP, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ForgotPassword.this, VerifyOTP.class);
+                                    Intent intent = new Intent(ForgotPassword.this, MainActivity.class);
                                     startActivity(intent);
                                 }catch (Exception e) {
                                     e.printStackTrace();

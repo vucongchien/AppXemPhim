@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- VIDEO PREVIEW -->
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop" />
+
+        <!-- PHIM TITLE & INFO -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blade Runner 2049"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:layout_marginTop="12dp" />
+
+        <!-- Sub Info -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp">
+
+            <TextView
+                android:id="@+id/year"
+                android:text="2017"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:text="16+"
+                android:layout_height="20dp"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
+                android:layout_width="wrap_content"/>
+
+
+            <TextView
+                android:text="HD"
+                android:textColor="#FFFFFF"
+                android:background="#444"
+                android:padding="2dp"
+                android:layout_height="20dp"
+                android:layout_width="wrap_content"/>
+        </LinearLayout>
+
+        <!-- BUTTON PLAY -->
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Play"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="12dp"
+            android:textColor="#000"
+            android:drawableStart="@drawable/play_video"
+            android:drawablePadding="8dp"
+            android:background="@drawable/play_button_bg"/>
+
+        <!-- NÚT DOWNLOAD -->
+        <Button
+            android:id="@+id/btnDownload"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:text="Download"
+            android:textColor="#FFF"
+            android:layout_marginTop="8dp"
+            android:background="#444" />
+
+        <!-- MÔ TẢ -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="The contents of a hidden grave draw the interest of an industrial titan..."
+            android:textColor="#CCC"
+            android:linksClickable="true"
+            android:autoLink="none"
+            android:layout_marginTop="12dp" />
+
+        <!-- CAST -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/actor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cast: "
+                android:textColor="#888"
+                android:textSize="12sp"
+                android:layout_marginTop="8dp" />
+            <TextView
+                android:id="@+id/directors"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Director: "
+                android:textColor="#888"
+                android:textSize="12sp"
+                android:layout_marginTop="8dp" />
+
+        </LinearLayout>
+
+
+
+        <!-- NÚT DANH MỤC -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:layout_marginTop="16dp"
+            android:background="#000000">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/plus"
+                    android:textColor="#FFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My List"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <!-- Rate -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/like"
+                    android:textColor="#FFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <!-- Share -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/share"
+                    android:textColor="#FFF" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <!--video-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textvideo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Listvideo" />
+
+            <ListView
+                android:id="@+id/list_video"
+                android:layout_width="wrap_content"
+                android:layout_height="250dp" />
+        </LinearLayout>
+
+
+        <!--commnet-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Comment" />
+
+            <ListView
+                android:id="@+id/list_comment"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                />
+        </LinearLayout>
+
+        <!-- MORE LIKE THIS -->
+
+        <TextView
+            android:text="More Like This"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:layout_marginTop="24dp"
+            android:textStyle="bold"
+            android:layout_height="20dp"
+            android:layout_width="wrap_content"/>
+
+        <!-- HORIZONTAL LIST -->
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listmovie"
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:layout_marginTop="8dp"
+            android:scrollbars="horizontal"/>
+
+    </LinearLayout>
+</ScrollView>

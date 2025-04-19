@@ -13,10 +13,10 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.appxemphim.MainActivity;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
-import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
                                                 editor.putString("Token", token);
                                                 editor.apply();
                                                 Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
-                                                Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
                                             }catch (Exception e){
                                                 e.printStackTrace();
