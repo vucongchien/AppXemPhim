@@ -1,7 +1,7 @@
 package com.example.appxemphim.Network;
 
 import com.example.appxemphim.Model.MovieDetailModel;
-import com.example.appxemphim.Responese.MovieOverviewResponse;
+import com.example.appxemphim.Response.MovieOverviewResponse;
 
 import java.util.List;
 

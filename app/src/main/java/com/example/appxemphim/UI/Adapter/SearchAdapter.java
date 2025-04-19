@@ -15,15 +15,15 @@ import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
-import javax.inject.Inject;
-
 public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter.SearchViewHolder> {
-    private final OnMovieClickListener clickListener;
+    private OnMovieClickListener clickListener;
 
-    @Inject
-    public SearchAdapter(OnMovieClickListener clickListener) {
+    public SearchAdapter() {
         super(DIFF_CALLBACK);
-        this.clickListener = clickListener;
+    }
+
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.clickListener = listener;
     }
 
     private static final DiffUtil.ItemCallback<MovieOverviewModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<MovieOverviewModel>() {
@@ -57,7 +57,9 @@ public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter
                 .override(100, 150)
                 .into(holder.thumbnailImageView);
 
-        holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item));
+        if (clickListener != null) {
+            holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item));
+        }
     }
 
     static class SearchViewHolder extends RecyclerView.ViewHolder {

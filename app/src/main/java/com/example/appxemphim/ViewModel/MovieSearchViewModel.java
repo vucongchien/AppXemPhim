@@ -10,17 +10,11 @@ import com.example.appxemphim.UI.Utils.Resource;
 
 import java.util.List;
 
-import javax.inject.Inject;
-
-import dagger.hilt.android.lifecycle.HiltViewModel;
-
-@HiltViewModel
 public class MovieSearchViewModel extends ViewModel {
     private final MovieRepository repository;
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _result = new MutableLiveData<>();
     public LiveData<Resource<List<MovieOverviewModel>>> result = _result;
 
-    @Inject
     public MovieSearchViewModel(MovieRepository repository) {
         this.repository = repository;
     }
