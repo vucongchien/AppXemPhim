@@ -12,7 +12,7 @@ import com.example.appxemphim.MainActivity;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
-import com.example.appxemphim.UI.Activity.HomeActivity;
+
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.identity.Identity;
@@ -108,7 +108,7 @@ public class GoogleAuthActivity extends MainActivity {
                                             editor.putString("Email", user.getEmail());
                                             editor.putString("Token", token);
                                             editor.apply();
-                                            Intent intent = new Intent(GoogleAuthActivity.this, HomeActivity.class);
+                                            Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         }catch (Exception e) {
                                             e.printStackTrace();
