@@ -23,21 +23,6 @@
             android:name=".UI.Activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.MovieDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Test_Take_Movie"
-            android:exported="false" />
-        <activity
-            android:name=".Add_data_sample"
-            android:exported="false" />
-        <activity
-            android:name=".SetPassWord"
-            android:exported="false" />
-        <activity
-            android:name=".LoginRegister.ForgotPassword"
-            android:exported="false" />
-        <activity
             android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
         <activity
@@ -47,19 +32,13 @@
             android:name=".LoginRegister.LoginActivity"
             android:exported="false" />
         <activity
-            android:name=".LoginRegister.LoginActivity"
-            android:exported="false" />
-        <activity
-            android:name=".RegistedActivity"
+            android:name=".LoginRegister.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginRegister.ResetPassword"
             android:exported="false" />
         <activity
             android:name=".LoginRegister.VerifyOTP"
-            android:exported="false" />
-        <activity
-            android:name=".LoginRegister.RegisterActivity"
             android:exported="false" />
         <activity
             android:name=".LoginRegister.GoogleAuthActivity"
@@ -74,7 +53,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".UI.Activity.HomeActivity" />
     </application>
 
 </manifest>

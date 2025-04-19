@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.GridLayoutManager;
 
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Adapter.SearchAdapter;
+import com.example.appxemphim.ViewModel.MovieSearchViewModel;
 import com.example.appxemphim.databinding.ActivitySearchBinding;
 
 public class SearchActivity extends AppCompatActivity {
     private ActivitySearchBinding binding;
     private SearchAdapter searchAdapter;
+    private MovieSearchViewModel searchViewModel;
 
 
     @Override

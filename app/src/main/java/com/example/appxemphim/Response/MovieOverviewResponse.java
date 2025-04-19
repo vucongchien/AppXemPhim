@@ -1,4 +1,4 @@
-package com.example.appxemphim.Responese;
+package com.example.appxemphim.Response;
 
 import com.example.appxemphim.Model.MovieOverviewModel;
 import com.google.gson.annotations.SerializedName;
