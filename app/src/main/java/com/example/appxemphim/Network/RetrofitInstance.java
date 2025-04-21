@@ -14,6 +14,7 @@ public class RetrofitInstance {
 
     private static final String BASE_URL = "http://10.0.2.2:8081/";
 
+
     // 1. Không cần static retrofit cố định khi dùng token động
     private static Retrofit createRetrofit(String token) {
         OkHttpClient client = new OkHttpClient.Builder()
