@@ -27,9 +27,7 @@ public class MovieSearchViewModel extends ViewModel {
             List<String> genres,
             List<Integer> years,
             List<String> nations,
-            Double minRating,
-            int page,
-            int size) {
+            Double minRating) {
         _result.setValue(Resource.loading());
         repository.searchMovies(
                 title,
@@ -37,8 +35,6 @@ public class MovieSearchViewModel extends ViewModel {
                 years,
                 nations,
                 minRating,
-                page,
-                size,
                 _result
         );
     }

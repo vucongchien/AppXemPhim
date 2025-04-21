@@ -7,20 +7,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.appxemphim.Repository.MovieRepository;
 
 public class MovieSearchViewModelFactory implements ViewModelProvider.Factory {
-    private final MovieRepository movieRepository;
+    private final MovieRepository repository;
 
-    public MovieSearchViewModelFactory(MovieRepository movieRepository) {
-        this.movieRepository = movieRepository;
+    public MovieSearchViewModelFactory(MovieRepository repository) {
+        this.repository = repository;
     }
 
     @NonNull
     @Override
-    @SuppressWarnings("unchecked")
     public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
         if (modelClass.isAssignableFrom(MovieSearchViewModel.class)) {
-            return (T) new MovieSearchViewModel(movieRepository);
+            return (T) new MovieSearchViewModel(repository);
         }
         throw new IllegalArgumentException("Unknown ViewModel class");
     }
-
 }
