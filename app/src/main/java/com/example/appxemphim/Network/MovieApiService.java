@@ -1,7 +1,7 @@
 package com.example.appxemphim.Network;
 
 import com.example.appxemphim.Model.MovieDetailModel;
-import com.example.appxemphim.Model.MovieOverviewModel;
+import com.example.appxemphim.Response.MovieOverviewResponse;
 
 import java.util.List;
 
@@ -13,12 +13,14 @@ import retrofit2.http.Query;
 
 public interface MovieApiService {
     @GET("api/v1/movies")
-    Call<List<MovieOverviewModel>> getMovies(
+    Call<MovieOverviewResponse> getMovies(
             @Query("title") String title,
             @Query("genres") List<String> genres,
             @Query("years") List<Integer> years,
             @Query("nations") List<String> nations,
-            @Query("minRating") Double minRating
+            @Query("minRating") Double minRating,
+            @Query("page") int page,
+            @Query("size") int size
     );
 
     // Lấy chi tiết phim theo ID
