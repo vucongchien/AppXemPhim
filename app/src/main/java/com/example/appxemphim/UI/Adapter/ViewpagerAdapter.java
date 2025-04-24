@@ -1,9 +1,11 @@
-package com.example.appxemphim.Home;
+package com.example.appxemphim.UI.Adapter;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.viewpager2.adapter.FragmentStateAdapter;
+
+import com.example.appxemphim.UI.Fragment.HomeFragment;
 
 public class ViewpagerAdapter extends FragmentStateAdapter {
 
