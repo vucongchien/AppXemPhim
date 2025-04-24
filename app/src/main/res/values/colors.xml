@@ -2,4 +2,26 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+<<<<<<< Updated upstream
+=======
+    <color name="gray">#dddddddd</color>
+    <color name="btn1">#E3632C</color>
+    <color name="main_color">#1F102B</color>
+
+    <color name="text">#FFFFFFFF</color>
+    <color name="text_2">#BACECECE</color>
+    <color name="background">#1b191a</color>
+    <color name="button_hover">#dd2e45</color>
+    <color name="button">#723a46</color>
+    <color name="green">#71E775</color>
+    <color name="background_2">#383537</color>
+    <color name="background_3">#625C62</color>
+    <color name="chip_background">#1b191a</color> <!-- Background for chips -->
+    <color name="chip_background_active">#383537</color>
+    <color name="chip_stroke">#FFFFFF</color> <!-- Stroke color for chips -->
+    <color name="chip_text">#FFFFFF</color> <!-- Text color for chips -->
+    <color name="spinner_text">#FFFFFF</color> <!-- Text color for spinner -->
+    <color name="tím">#FF2A2939</color>
+    <color name="home">#CC000000</color>
+>>>>>>> Stashed changes
 </resources>
