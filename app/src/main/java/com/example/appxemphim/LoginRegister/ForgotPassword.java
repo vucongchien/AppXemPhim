@@ -15,10 +15,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.MainActivity;
+import com.example.appxemphim.Model.DTO.EmailDTO;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
+import com.example.appxemphim.Repository.AuthRepository;
 import com.example.appxemphim.UI.Utils.CheckEmail;
+import com.example.appxemphim.ViewModel.AuthViewModel;
+import com.example.appxemphim.databinding.ActivityForgotPasswordBinding;
+import com.example.appxemphim.databinding.ActivityMovieDetailsBinding;
 
 import org.json.JSONObject;
 
@@ -31,96 +36,92 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class ForgotPassword extends AppCompatActivity {
-    EditText editTextEmail;
-    Button btnSendEmail;
     Boolean isCheckingEmail;
+    private android.app.ProgressDialog progressDialog;
+    private ActivityForgotPasswordBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_forgot_password);
+        progressDialog = new android.app.ProgressDialog(this);
+        progressDialog.setMessage("Đang tải dữ liệu...");
+        progressDialog.setCancelable(true);
+        binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+//        binding.editTextEmailtoOtp.addTextChangedListener(new TextWatcher() {
+//            private Timer timer = new Timer();
+//            private final long DELAY = 1000;
+//            @Override
+//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//                //thongbao.setVisibility(View.GONE);
+//                isCheckingEmail = true;
+//                timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
+//                timer = new Timer();
+//                String email = charSequence.toString().trim();
+//                timer.schedule(new TimerTask() {
+//                    @Override
+//                    public void run() {
+//                        CheckEmail.checkEmailFromApi(email, ForgotPassword.this, new CheckEmail.EmailCheckCallback() {
+//                            @Override
+//                            public void onResult(boolean exists) {
+//                                isCheckingEmail = exists;
+//                                if (!exists) {
+//                                    isCheckingEmail = false;
+//                                    Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//                    }
+//                }, DELAY);
+//            }
+//            @Override
+//            public void afterTextChanged(Editable editable) {
+//
+//            }
+//        });
 
-        editTextEmail = findViewById(R.id.editTextEmailtoOtp);
-        btnSendEmail = findViewById(R.id.buttonSendEmail);
-
-        editTextEmail.addTextChangedListener(new TextWatcher() {
-            private Timer timer = new Timer();
-            private final long DELAY = 1000;
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                //thongbao.setVisibility(View.GONE);
-                isCheckingEmail = true;
-                timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
-                timer = new Timer();
-                String email = charSequence.toString().trim();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        CheckEmail.checkEmailFromApi(email, ForgotPassword.this, new CheckEmail.EmailCheckCallback() {
-                            @Override
-                            public void onResult(boolean exists) {
-                                isCheckingEmail = exists;
-                                if (!exists) {
-                                    isCheckingEmail = false;
-                                    Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                }, DELAY);
-            }
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        btnSendEmail.setOnClickListener(new View.OnClickListener() {
+        binding.buttonSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!isCheckingEmail) {
-                    Toast.makeText(ForgotPassword.this, "email không tồn tại", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                ApiLoginRegisterService api = RetrofitInstance.getApiService();
-                Call<ResponseBody> call = api.sentDTO(editTextEmail.getText().toString().trim());
-                call.enqueue(new Callback<ResponseBody>() {
-                    @Override
-                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                        if (response.isSuccessful()) {
-                            if(response.code()==200){
-                                try {
-                                    String responseString = response.body().string();
-                                    JSONObject jsonObject = new JSONObject(responseString);
-                                    String OTP = jsonObject.getString("ma");
-                                    String email = jsonObject.getString("email");
+//                if(!isCheckingEmail) {
+//                    Toast.makeText(ForgotPassword.this, "email không tồn tại", Toast.LENGTH_SHORT).show();
+//                    return;
+//                }
+
+                AuthViewModel authViewModel = new AuthViewModel();
+                authViewModel.sendDTO(binding.editTextEmailtoOtp.getText().toString().trim());
+                authViewModel.sentDtoResult.observe(ForgotPassword.this, resource -> {
+                    if (resource != null) {
+                        switch (resource.getStatus()) {
+                            case LOADING:
+                                progressDialog.show();
+                                break;
+
+                            case SUCCESS:
+                                // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
+                                progressDialog.dismiss();
+                                EmailDTO emailDTO = resource.getData();
+                                if (emailDTO != null) {
                                     SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
                                     SharedPreferences.Editor editor = sharedPref.edit();
-                                    editor.putString("Email", email);
-                                    editor.putString("OTP", OTP);
+                                    editor.putString("Email", emailDTO.getEmail());
+                                    editor.putString("OTP", emailDTO.getMa());
                                     editor.apply();
-                                    Toast.makeText(ForgotPassword.this, OTP, Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(ForgotPassword.this, MainActivity.class);
+                                    Toast.makeText(ForgotPassword.this, "OTP: " + emailDTO.getMa(), Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(ForgotPassword.this, VerifyOTP.class);
                                     startActivity(intent);
-                                }catch (Exception e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(ForgotPassword.this, "Lỗi xử lý dữ liệu phản hồi", Toast.LENGTH_SHORT).show();
+
                                 }
-                            }else {
-                                Toast.makeText(ForgotPassword.this, "Lỗi Sent DTO", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Log.e("API_ERROR", "Code: " + response.code());
+                                break;
+                            case ERROR:
+                                progressDialog.dismiss();
+                                Toast.makeText(ForgotPassword.this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                                break;
                         }
-                    }
-                    @Override
-                    public void onFailure(Call<ResponseBody> call, Throwable t) {
-                        Log.e("API_FAILURE", t.getMessage());
                     }
                 });
             }
