@@ -3,6 +3,9 @@ package com.example.appxemphim.LoginRegister;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,44 +15,45 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.R;
+import com.example.appxemphim.databinding.ActivityResetPasswordBinding;
+import com.example.appxemphim.databinding.ActivityVerifyOtpBinding;
 
 public class VerifyOTP extends AppCompatActivity {
-    EditText otp1,otp2,otp3,otp4,otp5,otp6;
+    private ActivityVerifyOtpBinding binding;
+    private EditText[] otpInputs;
+    String ma;
 
-    Button buttonVerify;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_verify_otp);
+        binding = ActivityVerifyOtpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
-        String ma = sharedPref.getString("OTP","");
+        ma = sharedPref.getString("OTP","");
         Toast.makeText(this, ma, Toast.LENGTH_SHORT).show();
-        otp1 = findViewById(R.id.otp1);
-        otp2 = findViewById(R.id.otp2);
-        otp3 = findViewById(R.id.otp3);
-        otp4 = findViewById(R.id.otp4);
-        otp5 = findViewById(R.id.otp5);
-        otp6 = findViewById(R.id.otp6);
-
-        buttonVerify = findViewById(R.id.buttonVerify);
-
-        buttonVerify.setOnClickListener(new View.OnClickListener() {
+        otpInputs = new EditText[]{
+                binding.otp1,
+                binding.otp2,
+                binding.otp3,
+                binding.otp4,
+                binding.otp5,
+                binding.otp6
+        };
+        setupOTPInputs();
+        binding.btnVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String otp = otp1.getText().toString().trim() +
-                        otp2.getText().toString().trim() +
-                        otp3.getText().toString().trim() +
-                        otp4.getText().toString().trim() +
-                        otp5.getText().toString().trim() +
-                        otp6.getText().toString().trim();
+                StringBuilder otp = new StringBuilder();
+                for (EditText editText : otpInputs) {
+                    otp.append(editText.getText().toString());
+                }
 
                 if(otp.length() < 6){
                     Toast.makeText(VerifyOTP.this, "Vui lòng nhập otp",Toast.LENGTH_SHORT).show();
                 }else{
-                    if (otp.equals(ma)){
+                    if (otp.toString().equals(ma)){
                         startActivity(new Intent(VerifyOTP.this, ResetPassword.class));
                     }else{
                         Toast.makeText(VerifyOTP.this, "OTP không đúng",Toast.LENGTH_SHORT).show();
@@ -59,8 +63,36 @@ public class VerifyOTP extends AppCompatActivity {
         });
 
     }
+    private void setupOTPInputs() {
+        for (int i = 0; i < otpInputs.length; i++) {
+            final int index = i;
 
-    public void Back(View view) {
-        finish();
+            otpInputs[index].addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (!s.toString().isEmpty() && index < otpInputs.length - 1) {
+                        otpInputs[index + 1].requestFocus();
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) { }
+            });
+
+            otpInputs[index].setOnKeyListener((v, keyCode, event) -> {
+                if (event.getAction() == KeyEvent.ACTION_DOWN &&
+                        keyCode == KeyEvent.KEYCODE_DEL &&
+                        otpInputs[index].getText().toString().isEmpty() &&
+                        index > 0) {
+                    otpInputs[index - 1].setText("");
+                    otpInputs[index - 1].requestFocus();
+                    return true;
+                }
+                return false;
+            });
+        }
     }
 }

@@ -12,9 +12,16 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.LoginRegister.ForgotPassword;
+import com.example.appxemphim.LoginRegister.LoginActivity;
 import com.example.appxemphim.LoginRegister.RegisterActivity;
+import com.example.appxemphim.LoginRegister.ResetPassword;
+import com.example.appxemphim.LoginRegister.VerifyOTP;
+import com.example.appxemphim.Model.MovieDetailModel;
+import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
+import com.example.appxemphim.UI.Activity.testter;
 import com.example.appxemphim.Utilities.FirebaseUtils;
+import com.example.appxemphim.ViewModel.MovieDetailViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase realtime;
     TextView name;
     Button logout;
+    MovieDetailViewModel movieDetailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

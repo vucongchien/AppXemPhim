@@ -17,6 +17,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Utils.CheckEmail;
 import com.example.appxemphim.Utilities.FirebaseUtils;
+import com.example.appxemphim.databinding.ActivityLoginBinding;
+import com.example.appxemphim.databinding.ActivityRegisterBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -29,28 +31,21 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class RegisterActivity extends AppCompatActivity {
-    EditText editTextFirstName, editTextLastName, editTextEmail, editTextPassword, editTextConfirmPassword;
+    private ActivityRegisterBinding binding;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
-    Button buttonRegister;
     private boolean isCheckingEmail = false;
     boolean emailExists;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_register);
         mAuth= FirebaseUtils.getAuth();
         user= FirebaseUtils.getUser();
-        editTextFirstName = findViewById(R.id.editTextFirstName);
-        editTextLastName = findViewById(R.id.editTextLastName);
-        editTextEmail = findViewById(R.id.editTextEmail);
-        editTextPassword = findViewById(R.id.editTextPasswordRegister);
-        editTextConfirmPassword = findViewById(R.id.editTextConfirmPassword);
+        binding = ActivityRegisterBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
-        buttonRegister = findViewById(R.id.buttonRegister);
-        editTextEmail.addTextChangedListener(new TextWatcher() {
+        binding.editTextEmail.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
             private final long DELAY = 1000;
             @Override
@@ -87,14 +82,14 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
-        buttonRegister.setOnClickListener(new View.OnClickListener() {
+        binding.buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String firstName = editTextFirstName.getText().toString();
-                String lastName = editTextLastName.getText().toString();
-                String email = editTextEmail.getText().toString();
-                String password = editTextPassword.getText().toString();
-                String confirmPassword = editTextConfirmPassword.getText().toString();
+                String firstName = binding.editTextFirstName.getText().toString();
+                String lastName = binding.editTextLastName.getText().toString();
+                String email = binding.editTextEmail.getText().toString();
+                String password = binding.editTextPasswordRegister.getText().toString();
+                String confirmPassword = binding.editTextConfirmPassword.getText().toString();
 
                 if (!emailExists) {
                     Toast.makeText(RegisterActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
