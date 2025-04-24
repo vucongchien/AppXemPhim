@@ -15,6 +15,9 @@ import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter.SearchViewHolder> {
     private OnMovieClickListener clickListener;
 
@@ -29,7 +32,7 @@ public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter
     private static final DiffUtil.ItemCallback<MovieOverviewModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<MovieOverviewModel>() {
         @Override
         public boolean areItemsTheSame(@NonNull MovieOverviewModel oldItem, @NonNull MovieOverviewModel newItem) {
-            return oldItem.getMovieId() == newItem.getMovieId();
+            return oldItem.getMovieId().equals(newItem.getMovieId());
         }
 
         @Override
@@ -59,6 +62,14 @@ public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter
 
         if (clickListener != null) {
             holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item));
+        }
+    }
+
+    public void addItems(List<MovieOverviewModel> newItems) {
+        if (newItems != null && !newItems.isEmpty()) {
+            List<MovieOverviewModel> currentList = new ArrayList<>(getCurrentList());
+            currentList.addAll(newItems);
+            submitList(currentList);
         }
     }
 
