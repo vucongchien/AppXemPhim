@@ -11,6 +11,7 @@ import com.example.appxemphim.UI.Utils.Resource;
 import java.util.List;
 
 public class MovieSearchViewModel extends ViewModel {
+
     private final MovieRepository repository;
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _result = new MutableLiveData<>();
     public LiveData<Resource<List<MovieOverviewModel>>> result = _result;
