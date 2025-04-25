@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- Nền của ProgressBar -->
+    <item android:id="@android:id/background">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" /> <!-- Màu nền nhạt -->
+            <corners android:radius="8dp" />
+        </shape>
+    </item>
+
+    <!-- Phần hiển thị tiến độ -->
+    <item android:id="@android:id/progress">
+        <clip>
+            <shape android:shape="rectangle">
+                <solid android:color="#96C248" /> <!-- Màu xanh lá đậm -->
+                <corners android:radius="8dp" />
+            </shape>
+        </clip>
+    </item>
+
+</layer-list>

@@ -19,4 +19,11 @@
     <color name="chip_stroke">#FFFFFF</color> <!-- Stroke color for chips -->
     <color name="chip_text">#FFFFFF</color> <!-- Text color for chips -->
     <color name="spinner_text">#FFFFFF</color> <!-- Text color for spinner -->
+    <color name="star5">#15E03A</color>
+    <color name="star4">#5BD02C</color>
+    <color name="star3">#B5D904</color>
+    <color name="star2">#ED540F</color>
+    <color name="star1">#FF0000</color>
+    <color name="teal_700">#018786</color>
+    <color name="yellow">#FAF634</color>
 </resources>

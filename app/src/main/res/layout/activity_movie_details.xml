@@ -196,9 +196,9 @@
                 android:padding="8dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/like"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/start"
                     android:onClick="rate"/>
 
                 <TextView
