@@ -86,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, ForgotPassword.class));
     }
 
-    public void changepageaddmovie(View view) {
-        //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
-        //startActivity(new Intent(MainActivity.this,Add_data_sample.class));
+
+    public void goHomeActivity(View view) {
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+
     }
 
     public void GetStart(View view) {
