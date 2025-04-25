@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.Model.VideoModel;
 import com.example.appxemphim.R;
+import com.example.appxemphim.databinding.VideoItemBinding;
 
 import java.util.List;
 
@@ -43,31 +44,35 @@ public class ListVideoAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
-        Toast.makeText(context, String.valueOf(i), Toast.LENGTH_SHORT).show();
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        VideoItemBinding binding;
         if (view == null) {
-            view = inflater.inflate(R.layout.video_item, null);
+            binding = VideoItemBinding.inflate(LayoutInflater.from(context), viewGroup, false);
+            view = binding.getRoot();
+            view.setTag(binding); // lưu binding lại
+        } else {
+            binding = (VideoItemBinding) view.getTag();
         }
-        ImageView imageView =  view.findViewById(R.id.thumbnail);
-        TextView title = view.findViewById(R.id.episode_title);
-        TextView duration = view.findViewById(R.id.episode_duration);
+
         VideoModel videoModel = videoModels.get(i);
+
         Glide.with(context)
                 .load(Uri.parse(videoModel.getVideo_url()))
                 .thumbnail(0.1f)
-                .into(imageView);
-        title.setText(videoModel.getVideo_id());
+                .into(binding.thumbnail);
+
+        binding.episodeTitle.setText(videoModel.getVideo_id());
+
         long totalSeconds = videoModel.getDuration() / 1000;
         long minutes = (totalSeconds / 60) % 60;
         long hours = totalSeconds / 3600;
         long totalMinutes = totalSeconds / 60;
-        String timeFormatted;
-        if (hours > 1) {
-            timeFormatted = String.format("%dh %02dm", hours, minutes);
-        } else {
-            timeFormatted = String.format("%dm", totalMinutes);
-        }
-        duration.setText(timeFormatted);
+
+        String timeFormatted = (hours > 1)
+                ? String.format("%dh %02dm", hours, minutes)
+                : String.format("%dm", totalMinutes);
+
+        binding.episodeDuration.setText(timeFormatted);
+
         return view;
     }
 }

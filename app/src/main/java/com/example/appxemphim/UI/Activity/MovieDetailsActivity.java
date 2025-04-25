@@ -3,6 +3,7 @@ package com.example.appxemphim.UI.Activity;
 import static com.google.api.ResourceProto.resource;
 
 import android.app.Application;
+import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
@@ -73,7 +74,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         break;
 
                     case SUCCESS:
-                        // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
                         progressDialog.dismiss();
                         movieDetails = resource.getData();
                         if (movieDetails != null) {
@@ -215,5 +215,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     public void rate(View view) {
+        startActivity(new Intent(MovieDetailsActivity.this,ReviewDetailsActivity.class));
     }
 }
