@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void goHomeActivity(View view) {
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+       // startActivity(new Intent(MainActivity.this, HomeActivity.class));
 
     }
 

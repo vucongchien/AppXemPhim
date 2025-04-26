@@ -25,12 +25,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:backgroundTint="@color/background"
-            android:contentDescription="Search"
-            android:src="@drawable/baseline_search_24" />
+            android:contentDescription="Search" />
 
     </LinearLayout>
 
-    <!-- Filter Section -->
+    <!-- Filter Section
+     android:src="@drawable/baseline_search_24"-->
 
 
     <!-- Main view -->
@@ -59,21 +59,21 @@
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp">
 
-                <!-- Spinner for Category -->
+                <!-- Spinner for Category android:background="@drawable/spinner_background" -->
                 <Spinner
                     android:id="@+id/categorySpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center_vertical"
                     android:layout_margin="8dp"
-                    android:background="@drawable/spinner_background"
+
                     android:entries="@array/category_array"
                     android:spinnerMode="dropdown" />
             </LinearLayout>
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView"
-                android:name="com.example.appxemphim.UI.Fragment.TopResultsFragment"
+                android:name="com.example.appxemphim.UI.Fragment.DashboardFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
