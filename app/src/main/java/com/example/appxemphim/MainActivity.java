@@ -13,7 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.LoginRegister.ForgotPassword;
 import com.example.appxemphim.LoginRegister.RegisterActivity;
-import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.Utilities.FirebaseUtils;
@@ -85,6 +84,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        startActivity(new Intent(MainActivity.this, SearchActivity.class));
     }
 }
