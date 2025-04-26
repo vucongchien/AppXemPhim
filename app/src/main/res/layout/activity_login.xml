@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_color"
     android:orientation="vertical"
-    tools:context=".LoginActivity">
+    tools:context=".LoginRegister.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:startIconDrawable="@drawable/btn_4"
+            app:startIconDrawable="@drawable/person"
             android:hint="Username">
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/editTextUserName"

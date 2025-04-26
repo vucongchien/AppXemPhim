@@ -1,40 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
-    android:fitsSystemWindows="true"
-    tools:context=".UI.Activity.HomeActivity">
+    android:background="@drawable/gradient_background_home">
 
-
-    <FrameLayout
-        android:id="@+id/fragment_container"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    </FrameLayout>
+        <TextView
+            android:id="@+id/header_content"
+            android:layout_width="wrap_content"
+            android:layout_height="26dp"
+            android:contentDescription="1234"
+            android:text="For Axel"
+            android:textSize="22dp"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/header_button1"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginRight="10dp"
+            android:contentDescription="1234"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@id/header"
+            app:layout_constraintEnd_toStartOf="@id/header_button2"
+            app:layout_constraintTop_toTopOf="@id/header"
+            app:srcCompat="@drawable/broadcast" />
+
+        <ImageButton
+            android:id="@+id/header_button2"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:contentDescription="1234"
+            android:background="@android:color/transparent"
+            app:layout_constraintBottom_toBottomOf="@id/header"
+            app:layout_constraintEnd_toEndOf="@id/header"
+            app:layout_constraintTop_toTopOf="@id/header"
+            app:srcCompat="@drawable/search" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:contentDescription="1234"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/header"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottom_navbar"
+        android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@android:color/transparent"
-        android:elevation="0dp"
-        app:itemBackground="@null"
-        app:itemIconSize="20dp"
-        app:labelVisibilityMode="unlabeled"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bottom_nav_menu">
-
-    </com.google.android.material.bottomnavigation.BottomNavigationView>
-
+        app:menu="@menu/bottom_nav_menu"
+        android:background="@color/home"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

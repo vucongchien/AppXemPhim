@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp">
+
+        <!-- VIDEO PREVIEW -->
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/thumbnail"
+            android:layout_width="0dp"
+            android:layout_height="200dp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- TITLE -->
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Blade Runner 2049"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            app:layout_constraintTop_toBottomOf="@id/thumbnail"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginTop="12dp" />
+
+        <!-- SUB INFO HORIZONTAL -->
+        <LinearLayout
+            android:id="@+id/sub_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/title"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="2017"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="16+"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:text="HD"
+                android:textColor="#FFFFFF"
+                android:background="#444"
+                android:padding="2dp" />
+        </LinearLayout>
+
+        <!-- BUTTON PLAY -->
+        <Button
+            android:id="@+id/btnPlay"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:text="Play"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#000"
+            android:drawableStart="@drawable/play_video"
+            android:drawablePadding="8dp"
+            android:background="@drawable/play_button_bg"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/sub_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- BUTTON DOWNLOAD -->
+        <Button
+            android:id="@+id/btnDownload"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:text="Download"
+            android:textColor="#FFF"
+            android:layout_marginTop="8dp"
+            android:background="#444"
+            app:layout_constraintTop_toBottomOf="@id/btnPlay"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- DESCRIPTION -->
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="The contents of a hidden grave draw the interest of an industrial titan..."
+            android:textColor="#CCC"
+            android:clickable="true"
+            android:focusable="true"
+            android:maxLines="3"
+            android:ellipsize="end"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="8dp"
+            app:layout_constraintTop_toBottomOf="@id/btnDownload"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- CAST INFO -->
+        <TextView
+            android:id="@+id/actor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Cast: "
+            android:textColor="#888"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/description"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/directors"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Director: "
+            android:textColor="#888"
+            android:textSize="12sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/actor"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <!-- ACTION BUTTONS (MY LIST, RATE, SHARE) -->
+        <LinearLayout
+            android:id="@+id/menu_buttons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:background="#000"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/directors"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <!-- My List -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/plus" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="My List"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <!-- Rate -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/like" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Rate"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+
+            <!-- Share -->
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:padding="8dp">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:src="@drawable/share" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Share"
+                    android:textColor="#FFF"
+                    android:textSize="12sp"
+                    android:layout_marginTop="8dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <!-- VIDEO LIST -->
+        <TextView
+            android:id="@+id/textvideo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Listvideo"
+            android:textColor="#FFF"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/menu_buttons"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ListView
+            android:id="@+id/list_video"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            app:layout_constraintTop_toBottomOf="@id/textvideo"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- COMMENT LIST -->
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Comment"
+            android:textColor="#FFF"
+            android:layout_marginTop="16dp"
+            app:layout_constraintTop_toBottomOf="@id/list_video"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <ListView
+            android:id="@+id/list_comment"
+            android:layout_width="0dp"
+            android:layout_height="250dp"
+            app:layout_constraintTop_toBottomOf="@id/textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <!-- MORE LIKE THIS -->
+        <TextView
+            android:id="@+id/more_like_this"
+            android:layout_width="wrap_content"
+            android:layout_height="20dp"
+            android:text="More Like This"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:layout_marginTop="24dp"
+            app:layout_constraintTop_toBottomOf="@id/list_comment"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/listmovie"
+            android:layout_width="0dp"
+            android:layout_height="350dp"
+            android:layout_marginTop="8dp"
+            android:scrollbars="horizontal"
+            app:layout_constraintTop_toBottomOf="@id/more_like_this"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,0 +1,66 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="12dp"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:background="@android:color/transparent"
+    android:id="@+id/video_item">
+
+    <!-- Thumbnail + Play Icon -->
+    <FrameLayout
+        android:layout_width="100dp"
+        android:layout_height="60dp"
+        android:layout_marginEnd="12dp">
+
+        <ImageView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:background="@drawable/rounded_corners" />
+
+        <ImageView
+            android:id="@+id/play_button"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="center"
+            android:src="@drawable/play_video" /> <!-- icon nút play -->
+    </FrameLayout>
+
+    <!-- Title và thời lượng -->
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/episode_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="1. The Power"
+            android:textColor="#FFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/episode_duration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="11m"
+            android:textColor="#CCC"
+            android:textSize="14sp"
+            android:layout_marginTop="2dp"/>
+    </LinearLayout>
+
+    <!-- Download Icon -->
+    <ImageView
+        android:id="@+id/download_button"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/download"
+        android:layout_marginStart="8dp" />
+</LinearLayout>

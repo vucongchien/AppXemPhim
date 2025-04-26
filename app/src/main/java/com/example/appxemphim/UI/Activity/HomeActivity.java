@@ -2,57 +2,33 @@ package com.example.appxemphim.UI.Activity;
 
 import android.os.Bundle;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.appxemphim.UI.Fragment.DashboardFragment;
-import com.example.appxemphim.UI.Fragment.ProfileFragment;
+import com.example.appxemphim.UI.Adapter.PopularAdapter;
+import com.example.appxemphim.UI.Adapter.ViewpagerAdapter;
 import com.example.appxemphim.R;
-import com.example.appxemphim.databinding.ActivityHomeBinding;
+
+import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
-    private ActivityHomeBinding binding;
-
+    RecyclerView recyclerPopular, recyclerOnly, recyclerRetro;
+    LinearLayoutManager layoutManagerPopular, layoutManagerOnly, layoutManagerRetro;
+    List<Integer> popular, only, retro;
+    PopularAdapter popularAdapter, adapterRetro, adapterOnly;
+    ViewPager2 viewPager2;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityHomeBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        setContentView(R.layout.activity_home);
 
-        replaceFragment(new DashboardFragment());
+        viewPager2 = findViewById(R.id.view_pager);
+        ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(this);
+        viewPager2.setAdapter(viewpagerAdapter);
 
-        binding.bottomNavbar.setOnItemSelectedListener(item -> {
-            int itemId = item.getItemId();
-
-            if (itemId == R.id.nav_home) {
-                // Xử lý khi chọn Home
-                replaceFragment(new DashboardFragment());
-                return true;
-            } else if (itemId == R.id.nav_list) {
-                // Xử lý khi chọn My List
-                return true;
-            } else if (itemId == R.id.nav_profile) {
-                // Xử lý khi chọn Profile
-                replaceFragment(new ProfileFragment());
-                return true;
-            }
-            return false;
-        });
-
-
-
-
-    }
-
-
-
-    private void replaceFragment(Fragment fragment){
-        FragmentManager fragmentManager=getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-        fragmentTransaction.replace(R.id.fragment_container,fragment);
-        fragmentTransaction.commit();
     }
 }
