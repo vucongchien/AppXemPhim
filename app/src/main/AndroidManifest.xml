@@ -26,9 +26,6 @@
             android:name=".UI.Activity.SearchActivity"
             android:exported="false" />
         <activity
-            android:name=".UI.Activity.HomeActivity"
-            android:exported="false" />
-        <activity
             android:name=".LoginRegister.ForgotPassword"
             android:exported="false" />
         <activity

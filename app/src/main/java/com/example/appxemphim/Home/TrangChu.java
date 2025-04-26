@@ -1,24 +1,24 @@
-package com.example.appxemphim.UI.Activity;
+package com.example.appxemphim.Home;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
+import androidx.activity.EdgeToEdge;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.example.appxemphim.UI.Adapter.PopularAdapter;
-import com.example.appxemphim.UI.Adapter.ViewpagerAdapter;
 import com.example.appxemphim.R;
 
 import java.util.List;
 
-public class HomeActivity extends AppCompatActivity {
+public class TrangChu extends AppCompatActivity {
     RecyclerView recyclerPopular, recyclerOnly, recyclerRetro;
     LinearLayoutManager layoutManagerPopular, layoutManagerOnly, layoutManagerRetro;
     List<Integer> popular, only, retro;
-    PopularAdapter popularAdapter, adapterRetro, adapterOnly;
+    AdapterPopular adapterPopular, adapterRetro, adapterOnly;
     ViewPager2 viewPager2;
 
     @Override
