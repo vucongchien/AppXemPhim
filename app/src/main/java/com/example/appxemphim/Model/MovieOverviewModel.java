@@ -33,13 +33,13 @@ public class MovieOverviewModel implements Parcelable {
     @SerializedName("year")
     private String year;
 
-    @SerializedName("description")
-    private String description;
+    @SerializedName("createdAt")
+    private Timestamp createdAt;
 
 
 
     // Constructor
-    public MovieUIModel(int movieId, String title, String posterUrl, String rating, String numView, String year, String description) {
+    public MovieOverviewModel(String movieId, String title, String posterUrl, Double rating, String numView, String year, String description) {
         this.movieId = movieId;
         this.title = title;
         this.description = description;

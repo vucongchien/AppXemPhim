@@ -26,7 +26,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -113,6 +116,14 @@ public class RegisterActivity extends AppCompatActivity {
                                         user.updateProfile(profileUpdates).addOnCompleteListener(e -> {
                                             if (e.isSuccessful()) {
                                                 Log.d("Firebase", "User name updated.");
+                                                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                Map<String, Object> avatarData = new HashMap<>();
+                                                avatarData.put("avata", "https://drive.google.com/uc?export=download&id=1Wh7yZaCbdtLDI2Sr2noMf27mYspnSU1w");
+
+                                                db.collection("Avata").document(user.getUid())
+                                                        .set(avatarData)
+                                                        .addOnSuccessListener(aVoid -> Log.d("Firestore", "Avatar document added successfully."))
+                                                        .addOnFailureListener(ex -> Log.w("Firestore", "Error adding avatar document", ex));
                                                 Toast.makeText(getApplicationContext(), user.getDisplayName(), Toast.LENGTH_LONG).show();
                                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                                 intent.putExtra("gmail", user.getEmail());
