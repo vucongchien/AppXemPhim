@@ -41,6 +41,7 @@ public class SearchActivity extends AppCompatActivity {
 
         binding.rvMovies.setLayoutManager(new GridLayoutManager(this, 3));
         binding.rvMovies.setAdapter(searchAdapter);
+        binding.ivBack.setOnClickListener(v->finish());
     }
 
     protected void initData() {
