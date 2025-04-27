@@ -25,7 +25,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.databinding.ListChangeRegistry;
 
 import com.example.appxemphim.Model.ReviewModel;
 import com.example.appxemphim.Request.ReviewRequest;
@@ -52,7 +51,7 @@ public class ReviewDetailsActivity extends AppCompatActivity {
         progressDialog.setCancelable(true);
         setContentView(binding.getRoot());
         String movie_id = getIntent().getStringExtra("video_id");
-        getdata(movie_id);
+        getdata("rMlXfo9TGonjR8NuwNGE");
 
     }
 
