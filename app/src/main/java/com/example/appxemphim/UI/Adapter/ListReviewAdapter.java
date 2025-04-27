@@ -7,10 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import com.bumptech.glide.Glide;
-import com.example.appxemphim.Model.DTO.ReviewDTO;
-import com.example.appxemphim.Model.VideoModel;
+import com.example.appxemphim.Model.ReviewModel;
 import com.example.appxemphim.databinding.RatingItemBinding;
-import com.example.appxemphim.databinding.VideoItemBinding;
 import com.google.firebase.Timestamp;
 
 import java.text.SimpleDateFormat;
@@ -18,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 public class ListReviewAdapter extends BaseAdapter {
-    private List<ReviewDTO> reviewDTOS;
+    private List<ReviewModel> reviewDTOS;
     private Context context;
 
-    public ListReviewAdapter(Context context, List<ReviewDTO> reviewDTOS) {
+    public ListReviewAdapter(Context context, List<ReviewModel> reviewDTOS) {
         this.context = context;
         this.reviewDTOS = reviewDTOS;
     }
@@ -50,17 +48,17 @@ public class ListReviewAdapter extends BaseAdapter {
         } else {
             binding = (RatingItemBinding) view.getTag();
         }
-        ReviewDTO reviewDTO = reviewDTOS.get(i);
+        ReviewModel reviewModel = reviewDTOS.get(i);
         Glide.with(context)
-                .load(reviewDTO.getAvata())
+                .load(reviewModel.getAvatar())
                 .into(binding.avatar);
-        binding.userName.setText(reviewDTO.getName());
-        binding.userRating.setRating(reviewDTO.getRating());
-        Timestamp timestamp = reviewDTO.getCreated_at();
+        binding.userName.setText(reviewModel.getName());
+        binding.userRating.setRating(reviewModel.getRating());
+        Timestamp timestamp = reviewModel.getCreated_at();
         Date date = new Date(timestamp.getSeconds() * 1000);
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         binding.time.setText(sdf.format(date)) ;
-        binding.userReview.setText(reviewDTO.getDescription());
+        binding.userReview.setText(reviewModel.getDescription());
         return view;
     }
 }

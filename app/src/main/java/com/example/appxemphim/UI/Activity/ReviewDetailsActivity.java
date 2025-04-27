@@ -25,9 +25,11 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.databinding.ListChangeRegistry;
 
 import com.example.appxemphim.Model.ReviewModel;
 import com.example.appxemphim.Request.ReviewRequest;
+import com.example.appxemphim.UI.Adapter.ListReviewAdapter;
 import com.example.appxemphim.ViewModel.ReviewViewModel;
 import com.example.appxemphim.databinding.ActivityReviewDetailsBinding;
 import com.example.appxemphim.R;
@@ -49,7 +51,9 @@ public class ReviewDetailsActivity extends AppCompatActivity {
         progressDialog.setMessage("Đang tải dữ liệu...");
         progressDialog.setCancelable(true);
         setContentView(binding.getRoot());
-        getdata("rMlXfo9TGonjR8NuwNGE");
+        String movie_id = getIntent().getStringExtra("video_id");
+        getdata(movie_id);
+
     }
 
     private void getdata(String movie_id){
@@ -120,9 +124,9 @@ public class ReviewDetailsActivity extends AppCompatActivity {
             animation.setDuration(2000);
             animation.start();
         }
-
+        ListReviewAdapter listReviewAdapter = new ListReviewAdapter(ReviewDetailsActivity.this,reviewModelList);
+        binding.listRating.setAdapter(listReviewAdapter);
     }
-
 
     private void showRatingPopup() {
         LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);

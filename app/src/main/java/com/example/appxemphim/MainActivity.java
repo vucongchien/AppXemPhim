@@ -27,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.appxemphim.UI.Activity.HomeActivity;
 
 public class MainActivity extends AppCompatActivity {
     private  FirebaseAuth mAuth;
@@ -93,6 +94,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        startActivity(new Intent(MainActivity.this, ReviewDetailsActivity.class));
     }
 }

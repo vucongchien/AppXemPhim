@@ -215,6 +215,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     public void rate(View view) {
-        startActivity(new Intent(MovieDetailsActivity.this,ReviewDetailsActivity.class));
+        Intent intent = new Intent(MovieDetailsActivity.this,ReviewDetailsActivity.class);
+        intent.putExtra("video_id", "rMlXfo9TGonjR8NuwNGE");//truyền movie_id_current
+        startActivity(intent);
     }
 }
