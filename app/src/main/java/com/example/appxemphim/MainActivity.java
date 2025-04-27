@@ -18,6 +18,7 @@ import com.example.appxemphim.LoginRegister.ResetPassword;
 import com.example.appxemphim.LoginRegister.VerifyOTP;
 import com.example.appxemphim.Model.MovieDetailModel;
 import com.example.appxemphim.Repository.MovieRepository;
+import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.ReviewDetailsActivity;
 import com.example.appxemphim.UI.Activity.testter;
