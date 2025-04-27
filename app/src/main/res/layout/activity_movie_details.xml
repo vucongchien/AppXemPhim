@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#000">
+    <!--màng hình chờ<ProgressBar
+    android:id="@+id/loadingBar"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:visibility="gone"
+    android:layout_gravity="center"
+    android:indeterminate="true"
+    android:elevation="10dp"/>
+-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -91,7 +101,7 @@
             android:text="Download"
             android:textColor="#FFF"
             android:layout_marginTop="8dp"
-            android:background="#444"
+            android:background="@drawable/play_button_bg"
             app:layout_constraintTop_toBottomOf="@id/btnPlay"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
@@ -107,6 +117,8 @@
             android:focusable="true"
             android:maxLines="3"
             android:ellipsize="end"
+            android:textSize="15sp"
+            android:minHeight="48dp"
             android:layout_marginTop="12dp"
             android:layout_marginBottom="8dp"
             app:layout_constraintTop_toBottomOf="@id/btnDownload"
@@ -120,7 +132,7 @@
             android:layout_height="wrap_content"
             android:text="Cast: "
             android:textColor="#888"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/description"
             app:layout_constraintStart_toStartOf="parent" />
@@ -131,7 +143,7 @@
             android:layout_height="wrap_content"
             android:text="Director: "
             android:textColor="#888"
-            android:textSize="12sp"
+            android:textSize="15sp"
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@id/actor"
             app:layout_constraintStart_toStartOf="parent" />
@@ -156,12 +168,14 @@
                 android:layout_weight="1"
                 android:orientation="vertical"
                 android:gravity="center"
-                android:padding="8dp">
+                android:padding="8dp"
+                >
 
                 <ImageView
                     android:layout_width="24dp"
                     android:layout_height="24dp"
-                    android:src="@drawable/plus" />
+                    android:src="@drawable/plus"
+                    android:onClick="addMyList"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -182,9 +196,10 @@
                 android:padding="8dp">
 
                 <ImageView
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/like" />
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/start"
+                    android:onClick="rate"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -220,42 +235,93 @@
         </LinearLayout>
 
         <!-- VIDEO LIST -->
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/video_section"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_video_section"
+        app:layout_constraintTop_toBottomOf="@id/menu_buttons"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
         <TextView
             android:id="@+id/textvideo"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
             android:text="Listvideo"
             android:textColor="#FFF"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/menu_buttons"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/morevideoDetail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:minWidth="20dp"
+            android:minHeight="20dp"
+            android:text="+"
+            android:textColor="#FFF"
+            android:textSize="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toRightOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/textvideo"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ListView
-            android:id="@+id/list_video"
+            android:id="@+id/listvideoDetail"
             android:layout_width="0dp"
-            android:layout_height="250dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="250dp"
             app:layout_constraintTop_toBottomOf="@id/textvideo"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
-
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/bg_list_video"
+            android:visibility="gone"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
         <!-- COMMENT LIST -->
-        <TextView
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Comment"
-            android:textColor="#FFF"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/list_video"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <ListView
-            android:id="@+id/list_comment"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/comment"
             android:layout_width="0dp"
-            android:layout_height="250dp"
-            app:layout_constraintTop_toBottomOf="@id/textView"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/bg_video_section"
+            app:layout_constraintTop_toBottomOf="@id/video_section"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="Comment"
+                android:textColor="#FFF"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ListView
+                android:id="@+id/list_comment"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:background="@drawable/bg_list_video"
+                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:scrollbars="vertical"
+                />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- MORE LIKE THIS -->
         <TextView
@@ -267,7 +333,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             android:layout_marginTop="24dp"
-            app:layout_constraintTop_toBottomOf="@id/list_comment"
+            app:layout_constraintTop_toBottomOf="@id/comment"
             app:layout_constraintStart_toStartOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView

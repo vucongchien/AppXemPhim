@@ -1,140 +1,43 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/otpLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_color"
+    android:gravity="center"
     android:orientation="vertical"
-    tools:context=".LoginRegister.VerifyOTP">
+    android:background="#1c0b2b">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Enter Verification code"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:layout_marginBottom="20dp"/>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="horizontal">
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginBottom="20dp">
 
-        <ImageView
-            android:id="@+id/imageViewback"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Back"
-            app:srcCompat="@drawable/back" />
-
-        <TextView
-            android:id="@+id/textView4"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="20dp"
-            android:text="Verification"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="20dp" />
-
+        <EditText android:id="@+id/otp1" style="@style/OtpBox"/>
+        <EditText android:id="@+id/otp2" style="@style/OtpBox"/>
+        <EditText android:id="@+id/otp3" style="@style/OtpBox"/>
+        <EditText android:id="@+id/otp4" style="@style/OtpBox"/>
+        <EditText android:id="@+id/otp5" style="@style/OtpBox"/>
+        <EditText android:id="@+id/otp6" style="@style/OtpBox"/>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView5"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Enter Verification code"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            android:textSize="23dp" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_marginVertical="100dp"
-            android:orientation="horizontal">
-
-            <EditText
-                android:id="@+id/otp1"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/otp2"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/otp3"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/otp4"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/otp5"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-            <EditText
-                android:id="@+id/otp6"
-                android:layout_width="40dp"
-                android:layout_height="60dp"
-                android:layout_marginHorizontal="5dp"
-                android:gravity="center"
-                android:inputType="number"
-                android:maxLength="1"
-                android:background="@color/white"
-                android:textColor="@color/black"
-                android:textSize="18sp" />
-
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/buttonVerify"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:backgroundTint="@color/btn1"
-            android:text="Verify"
-            android:textSize="23dp" />
-
-
-    </LinearLayout>
-
+    <Button
+        android:id="@+id/btnVerify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Verify"
+        android:textColor="#fff"
+        android:backgroundTint="#e7682c"
+        android:paddingHorizontal="24dp"
+        android:paddingVertical="10dp"
+        android:layout_marginTop="10dp"/>
 </LinearLayout>

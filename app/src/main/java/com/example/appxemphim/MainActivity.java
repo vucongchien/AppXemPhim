@@ -12,11 +12,17 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.LoginRegister.ForgotPassword;
+import com.example.appxemphim.LoginRegister.LoginActivity;
 import com.example.appxemphim.LoginRegister.RegisterActivity;
-import com.example.appxemphim.UI.Activity.HomeActivity;
+import com.example.appxemphim.LoginRegister.ResetPassword;
+import com.example.appxemphim.LoginRegister.VerifyOTP;
+import com.example.appxemphim.Model.MovieDetailModel;
+import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
-import com.example.appxemphim.UI.Activity.SearchActivity;
+import com.example.appxemphim.UI.Activity.ReviewDetailsActivity;
+import com.example.appxemphim.UI.Activity.testter;
 import com.example.appxemphim.Utilities.FirebaseUtils;
+import com.example.appxemphim.ViewModel.MovieDetailViewModel;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -29,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     FirebaseDatabase realtime;
     TextView name;
     Button logout;
+    MovieDetailViewModel movieDetailViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,9 +86,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, ForgotPassword.class));
     }
 
-    public void changepageaddmovie(View view) {
-        //startActivity(new Intent(MainActivity.this,Test_Take_Movie.class));
-        //startActivity(new Intent(MainActivity.this,Add_data_sample.class));
+
+    public void goHomeActivity(View view) {
+       // startActivity(new Intent(MainActivity.this, HomeActivity.class));
+
     }
 
     public void GetStart(View view) {

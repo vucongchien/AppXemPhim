@@ -14,10 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.MainActivity;
+import com.example.appxemphim.Model.DTO.EmailDTO;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
 import com.example.appxemphim.Utilities.FirebaseUtils;
+import com.example.appxemphim.ViewModel.AuthViewModel;
+import com.example.appxemphim.databinding.ActivityForgotPasswordBinding;
+import com.example.appxemphim.databinding.ActivityLoginBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,73 +34,69 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
-    EditText editTextUserName, editTextPassword;
-    Button btnLogin;
+    private ActivityLoginBinding binding;
+    private android.app.ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
     private FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
-        setContentView(R.layout.activity_login);
         mAuth= FirebaseUtils.getAuth();
         user= FirebaseUtils.getUser();
-        editTextUserName = findViewById(R.id.editTextUserName);
-        editTextPassword = findViewById(R.id.editTextPassword);
-        btnLogin = findViewById(R.id.buttonLogin);
-
+        binding = ActivityLoginBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        progressDialog = new android.app.ProgressDialog(this);
+        progressDialog.setMessage("Đang tải dữ liệu...");
+        progressDialog.setCancelable(true);
         String name = getIntent().getStringExtra("gmail");
         String pass = getIntent().getStringExtra("pass");
         if(name!=null){
-            editTextUserName.setText(name);
+            binding.editTextUserName.setText(name);
         }
         if(pass!=null){
-            editTextPassword.setText(pass);
+            binding.editTextPassword.setText(pass);
         }
 
 
-        btnLogin.setOnClickListener(new View.OnClickListener() {
+        binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = editTextUserName.getText().toString();
-                String password = editTextPassword.getText().toString();
+                String username = binding.editTextUserName.getText().toString();
+                String password = binding.editTextPassword.getText().toString();
                 mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()){
                             user = mAuth.getCurrentUser();
-                            ApiLoginRegisterService api = RetrofitInstance.getApiService();
-                            Call<ResponseBody> call = api.loginWithToken(user.getUid());
-                            call.enqueue(new Callback<ResponseBody>() {
-                                @Override
-                                public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                                    if (response.isSuccessful()) {
-                                        if(response.code()==200){
-                                            try {
-                                                String token = response.body().string();
+                            AuthViewModel authViewModel = new AuthViewModel();
+                            authViewModel.login(user.getUid());
+                            authViewModel.loginResult.observe(LoginActivity.this, resource -> {
+                                if (resource != null) {
+                                    switch (resource.getStatus()) {
+                                        case LOADING:
+                                            progressDialog.show();
+                                            break;
+
+                                        case SUCCESS:
+                                            // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
+                                            progressDialog.dismiss();
+                                            String token = resource.getData();
+                                            if (token != null) {
                                                 SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
                                                 SharedPreferences.Editor editor = sharedPref.edit();
-                                                editor.putString("Email", username);
                                                 editor.putString("Token", token);
                                                 editor.apply();
-                                                Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);
-                                            }catch (Exception e){
-                                                e.printStackTrace();
-                                                Toast.makeText(LoginActivity.this, "Lỗi xử lý dữ liệu phản hồi", Toast.LENGTH_SHORT).show();
+
                                             }
-                                        }else {
-                                            Toast.makeText(LoginActivity.this, "Lỗi laays token", Toast.LENGTH_SHORT).show();
-                                        }
-                                    } else {
-                                        Log.e("API_ERROR", "Code: " + response.code());
+                                            break;
+                                        case ERROR:
+                                            progressDialog.dismiss();
+                                            Toast.makeText(LoginActivity.this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                                            break;
                                     }
-                                }
-                                @Override
-                                public void onFailure(Call<ResponseBody> call, Throwable t) {
-                                    Log.e("API_FAILURE", t.getMessage());
                                 }
                             });
                         }else{

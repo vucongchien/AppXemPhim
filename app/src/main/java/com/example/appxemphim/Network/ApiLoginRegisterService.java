@@ -12,8 +12,8 @@ import retrofit2.http.Path;
 
 public interface ApiLoginRegisterService {
 
-    @POST("auth/login/{token}")
-    Call<ResponseBody> loginWithToken(@Path("token") String token);
+    @POST("auth/login/{uid}")
+    Call<ResponseBody> loginWithToken(@Path("uid") String uid);
 
     @GET("/email/{email}")
     Call<ResponseBody> ischeckEmail(@Path("email") String email);
