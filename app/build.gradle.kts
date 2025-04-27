@@ -4,6 +4,12 @@ plugins {
 }
 
 android {
+
+    buildFeatures {
+        dataBinding = true
+        viewBinding = true
+    }
+
     namespace = "com.example.appxemphim"
     compileSdk = 35
 

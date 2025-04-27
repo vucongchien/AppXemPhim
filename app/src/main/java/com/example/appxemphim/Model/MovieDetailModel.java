@@ -16,7 +16,6 @@ public class MovieDetailModel {
     private List<VideoModel> videos;
     private List<ActorModel> actors;
     private List<DirectorModel> directors;
-    private List<ReviewModel> reviews;
     private List<GenreModel> genres;
 
     public MovieDetailModel() {
@@ -24,8 +23,7 @@ public class MovieDetailModel {
 
     public MovieDetailModel(String movie_Id, String title, String description, String poster_url,
                           String trailer_url, double rating, String nation, Timestamp created_at,
-                          List<VideoModel> videos, List<ActorModel> actors, List<DirectorModel> directors,
-                          List<ReviewModel> reviews, List<GenreModel> genres) {
+                          List<VideoModel> videos, List<ActorModel> actors, List<DirectorModel> directors, List<GenreModel> genres) {
         this.movie_Id = movie_Id;
         this.title = title;
         this.description = description;
@@ -37,7 +35,6 @@ public class MovieDetailModel {
         this.videos = videos;
         this.actors = actors;
         this.directors = directors;
-        this.reviews = reviews;
         this.genres = genres;
     }
 
@@ -129,13 +126,6 @@ public class MovieDetailModel {
         this.directors = directors;
     }
 
-    public List<ReviewModel> getReviews() {
-        return reviews;
-    }
-
-    public void setReviews(List<ReviewModel> reviews) {
-        this.reviews = reviews;
-    }
 
     public List<GenreModel> getGenres() {
         return genres;
@@ -159,7 +149,6 @@ public class MovieDetailModel {
                 ", videos=" + videos +
                 ", actors=" + actors +
                 ", directors=" + directors +
-                ", reviews=" + reviews +
                 ", genres=" + genres +
                 '}';
     }
