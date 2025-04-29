@@ -18,7 +18,6 @@
     <color name="chip_stroke">#FFFFFF</color> <!-- Stroke color for chips -->
     <color name="chip_text">#FFFFFF</color> <!-- Text color for chips -->
     <color name="spinner_text">#FFFFFF</color> <!-- Text color for spinner -->
-<<<<<<< Updated upstream
     <color name="tím">#FF2A2939</color>
     <color name="home">#CC000000</color>
     <color name="star5">#15E03A</color>
@@ -28,10 +27,8 @@
     <color name="star1">#FF0000</color>
     <color name="teal_700">#018786</color>
     <color name="yellow">#FAF634</color>
-=======
     <color name="violet">#CC37364B</color>
-    <color name="home">#4E686666</color>
+<!--    <color name="home">#4E686666</color>-->
     <color name="blue">#4ABCDE</color>
     <color name="black_blur_80">#7E000000</color>
->>>>>>> Stashed changes
 </resources>
