@@ -46,10 +46,10 @@ public class ProfileOptionAdapter extends BaseAdapter {
 
         // anhxa
         ImageView imageView =convertView.findViewById(R.id.imageViewIcon);
-        imageView.setImageResource(profileOptionList.get(position).getIcon());
+        imageView.setImageResource(profileOptionList.get(position).icon);
 
         TextView textView = convertView.findViewById(R.id.textViewOption);
-        textView.setText(profileOptionList.get(position).getTitle());
+        textView.setText(profileOptionList.get(position).title);
 
         return convertView;
     }
