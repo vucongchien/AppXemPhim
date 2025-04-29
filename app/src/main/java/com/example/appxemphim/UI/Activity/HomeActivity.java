@@ -30,13 +30,6 @@ import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
     private ActivityHomeBinding binding;
-    ViewPager2 viewPager2;
-    RecyclerView recyclerPopular, recyclerOnly, recyclerRetro;
-    LinearLayoutManager layoutManagerPopular, layoutManagerOnly, layoutManagerRetro;
-    List<Integer> popular, only, retro;
-    PopularAdapter popularAdapter, adapterRetro, adapterOnly;
-    ViewPager viewPager;
-    BottomNavigationView bottomNavigationView;
 
     private ActivityResultLauncher<String> notificationPermissionLauncher;
 
@@ -46,10 +39,13 @@ public class HomeActivity extends AppCompatActivity {
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.viewPager.setAdapter(new ViewpagerAdapter(this));
+//        setNotificationPermissionLauncher();
+        initView();
 
-        setContentView(R.layout.activity_home);
 
+    }
+
+    private void setNotificationPermissionLauncher(){
         // Đăng ký launcher
         notificationPermissionLauncher = registerForActivityResult(
                 new ActivityResultContracts.RequestPermission(),
@@ -65,12 +61,12 @@ public class HomeActivity extends AppCompatActivity {
         // Gọi xin quyền
         NotificationPermissionHelper.requestIfNeeded(this, notificationPermissionLauncher);
 
-        viewPager = findViewById(R.id.view_pager);
-        bottomNavigationView = findViewById(R.id.bottomNavigationView);
+    }
+    private void initView(){
         ViewpagerAdapter adapter = new ViewpagerAdapter(getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPager.setAdapter(adapter);
+        binding.viewPager.setAdapter(adapter);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        binding.viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -80,13 +76,13 @@ public class HomeActivity extends AppCompatActivity {
             public void onPageSelected(int position) {
                 switch (position){
                     case 0:
-                        bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
+                        binding.bottomNavigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
                         break;
                     case 1:
-                        bottomNavigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
+                        binding.bottomNavigationView.getMenu().findItem(R.id.nav_list).setChecked(true);
                         break;
                     case 2:
-                        bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
+                        binding.bottomNavigationView.getMenu().findItem(R.id.nav_profile).setChecked(true);
                         break;
                 }
             }
@@ -96,18 +92,18 @@ public class HomeActivity extends AppCompatActivity {
 
             }
         });
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        binding.bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.nav_home:
-                        viewPager.setCurrentItem(0);
+                        binding.viewPager.setCurrentItem(0);
                         break;
                     case R.id.nav_list:
-                        viewPager.setCurrentItem(1);
+                        binding.viewPager.setCurrentItem(1);
                         break;
                     case R.id.nav_profile:
-                        viewPager.setCurrentItem(2);
+                        binding.viewPager.setCurrentItem(2);
                         break;
                 }
                 return true;
