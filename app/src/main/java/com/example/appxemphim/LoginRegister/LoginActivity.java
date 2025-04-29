@@ -27,6 +27,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.SetOptions;
+import com.google.firebase.messaging.FirebaseMessaging;
+
+import java.util.Collections;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -62,51 +67,83 @@ public class LoginActivity extends AppCompatActivity {
         binding.buttonLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String username = binding.editTextUserName.getText().toString();
-                String password = binding.editTextPassword.getText().toString();
-                mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()){
-                            user = mAuth.getCurrentUser();
-                            AuthViewModel authViewModel = new AuthViewModel();
-                            authViewModel.login(user.getUid());
-                            authViewModel.loginResult.observe(LoginActivity.this, resource -> {
-                                if (resource != null) {
-                                    switch (resource.getStatus()) {
-                                        case LOADING:
-                                            progressDialog.show();
-                                            break;
-
-                                        case SUCCESS:
-                                            // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
-                                            progressDialog.dismiss();
-                                            String token = resource.getData();
-                                            if (token != null) {
-                                                SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
-                                                SharedPreferences.Editor editor = sharedPref.edit();
-                                                editor.putString("Token", token);
-                                                editor.apply();
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(intent);
-
-                                            }
-                                            break;
-                                        case ERROR:
-                                            progressDialog.dismiss();
-                                            Toast.makeText(LoginActivity.this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
-                                            break;
-                                    }
-                                }
-                            });
-                        }else{
-                            Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+                setBtnLogin();
             }
         });
     }
+
+    private void setBtnLogin(){
+        String username = binding.editTextUserName.getText().toString();
+        String password = binding.editTextPassword.getText().toString();
+        mAuth.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()){
+                    user = mAuth.getCurrentUser();
+                    sendFCMtoServer();
+                    AuthViewModel authViewModel = new AuthViewModel();
+                    authViewModel.login(user.getUid());
+                    authViewModel.loginResult.observe(LoginActivity.this, resource -> {
+                        if (resource != null) {
+                            switch (resource.getStatus()) {
+                                case LOADING:
+                                    progressDialog.show();
+                                    break;
+
+                                case SUCCESS:
+                                    // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
+                                    progressDialog.dismiss();
+                                    String token = resource.getData();
+                                    if (token != null) {
+                                        SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
+                                        SharedPreferences.Editor editor = sharedPref.edit();
+                                        editor.putString("Token", token);
+                                        editor.apply();
+                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                        startActivity(intent);
+
+                                    }
+                                    break;
+                                case ERROR:
+                                    progressDialog.dismiss();
+                                    Toast.makeText(LoginActivity.this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                                    break;
+                            }
+                        }
+                    });
+                }else{
+                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void sendFCMtoServer(){
+        FirebaseMessaging.getInstance().getToken().addOnCompleteListener(task -> {
+            if (!task.isSuccessful()) {
+                Log.e("FCM", "Lỗi khi lấy FCM token", task.getException());
+                return;
+            }
+
+            String token = task.getResult();
+            FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+
+            if (currentUser == null || token == null) {
+                Log.e("FCM", "User hoặc Token null");
+                return;
+            }
+
+            String userId = currentUser.getUid();
+
+            FirebaseFirestore.getInstance()
+                    .collection("Users")
+                    .document(userId)
+                    .set(Collections.singletonMap("fcm_token", token), SetOptions.merge())
+                    .addOnSuccessListener(aVoid -> Log.d("FCM", "Token updated"))
+                    .addOnFailureListener(e -> Log.e("FCM", "Update failed", e));
+        });
+    }
+
 
     public void GetRegister(View view) {
         startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
