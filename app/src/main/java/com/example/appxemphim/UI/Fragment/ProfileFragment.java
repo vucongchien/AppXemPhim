@@ -77,6 +77,7 @@ public class ProfileFragment extends Fragment {
         return view;
     }
     private void openEditProfile() {
+
         startActivity(new Intent(getActivity(), EditProfileActivity.class));
     }
 
