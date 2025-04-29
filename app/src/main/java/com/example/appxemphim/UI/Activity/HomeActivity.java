@@ -18,11 +18,16 @@ import com.example.appxemphim.databinding.ActivitySearchBinding;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity {
+<<<<<<< Updated upstream
     private ActivityHomeBinding binding;
+=======
+    ViewPager2 viewPager2;
+>>>>>>> Stashed changes
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+<<<<<<< Updated upstream
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
@@ -35,5 +40,11 @@ public class HomeActivity extends AppCompatActivity {
 
         });
 
+=======
+        setContentView(R.layout.activity_home);
+        viewPager2 = findViewById(R.id.view_pager);
+        ViewpagerAdapter viewpagerAdapter = new ViewpagerAdapter(this);
+        viewPager2.setAdapter(viewpagerAdapter);
+>>>>>>> Stashed changes
     }
 }
