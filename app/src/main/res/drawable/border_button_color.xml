@@ -8,5 +8,5 @@
 
     <!-- Viền -->
     <stroke
-        android:width="2dp" android:color="@color/white" />
+        android:width="2dp" android:color="@color/text" />
 </shape>
