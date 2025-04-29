@@ -1,8 +1,5 @@
 package com.example.appxemphim.Network;
 
-import java.util.concurrent.TimeUnit;
-
-import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -26,7 +23,11 @@ public class RetrofitClient {
         return instance;
     }
 
-    public MovieApiService getApiService() {
+    public MovieApiService getMovieApiService() {
         return retrofit.create(MovieApiService.class);
     }
+
+    public GenreApiService getGenreApiService(){return  retrofit.create(GenreApiService.class);}
+
+
 }

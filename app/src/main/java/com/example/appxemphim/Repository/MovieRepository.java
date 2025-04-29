@@ -8,7 +8,6 @@ import com.example.appxemphim.Model.MovieDetailModel;
 import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.Network.MovieApiService;
 import com.example.appxemphim.Network.RetrofitClient;
-import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.Response.MovieOverviewResponse;
 import com.example.appxemphim.UI.Utils.Resource;
 
@@ -23,7 +22,7 @@ public class MovieRepository {
     private final MovieApiService apiService;
 
     public MovieRepository() {
-        this.apiService = RetrofitClient.getInstance().getApiService();
+        this.apiService = RetrofitClient.getInstance().getMovieApiService();
     }
 
     public void fetchHotMovies(MutableLiveData<Resource<List<MovieOverviewModel>>> liveData) {

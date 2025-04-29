@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -16,16 +15,25 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
+import com.example.appxemphim.Model.GenreModel;
 import com.example.appxemphim.R;
+import com.example.appxemphim.Repository.GenreRepository;
+import com.example.appxemphim.UI.Utils.Resource;
+import com.example.appxemphim.ViewModel.GenreViewModel;
+import com.example.appxemphim.ViewModel.GenreViewModelFactory;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDialogFragment extends DialogFragment {
 
-    private List<String> genres;
+    private List<String> genres = new ArrayList<>();
     private OnGenreSelectedListener listener;
+    private GenreViewModel viewModel;
+    private ArrayAdapter<String> adapter;
 
     public interface OnGenreSelectedListener {
         void onGenreSelected(String genre);
@@ -33,10 +41,7 @@ public class CategoryDialogFragment extends DialogFragment {
 
     public CategoryDialogFragment(OnGenreSelectedListener listener) {
         this.listener = listener;
-        this.genres = Arrays.asList("Hành động", "Tình cảm", "Kinh dị", "Hài hước", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình", "Hoạt hình");
-        // gọi api
     }
-
 
     @NonNull
     @Override
@@ -49,16 +54,11 @@ public class CategoryDialogFragment extends DialogFragment {
         ListView listView = view.findViewById(R.id.listview_category);
         ImageButton btnClose = view.findViewById(R.id.cancel_listview_category);
 
-        // Adapter cho ListView
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                requireContext(),
-                android.R.layout.simple_list_item_1,
-                genres
-        ){
+        adapter = new ArrayAdapter<String>(requireContext(), android.R.layout.simple_list_item_1, genres) {
             @Override
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
-                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+                TextView textView = view.findViewById(android.R.id.text1);
                 textView.setTextColor(Color.WHITE);
                 return view;
             }
@@ -66,12 +66,10 @@ public class CategoryDialogFragment extends DialogFragment {
         listView.setBackgroundColor(Color.TRANSPARENT);
         listView.setAdapter(adapter);
 
-        // Xử lý click item trong ListView
         listView.setOnItemClickListener((parent, itemView, position, id) -> {
             String selectedGenre = genres.get(position);
             if (listener != null) {
                 listener.onGenreSelected(selectedGenre);
-
             }
             dismiss();
         });
@@ -79,7 +77,48 @@ public class CategoryDialogFragment extends DialogFragment {
         btnClose.setOnClickListener(v -> dismiss());
 
         builder.setView(view);
+
+        setupViewModel();
+
         return builder.create();
+    }
+
+    private void setupViewModel() {
+        GenreRepository repository = new GenreRepository();
+        GenreViewModelFactory factory = new GenreViewModelFactory(repository);
+        viewModel = new ViewModelProvider(this, factory).get(GenreViewModel.class);
+
+        viewModel.genre.observe(this, new Observer<Resource<List<GenreModel>>>() {
+            @Override
+            public void onChanged(Resource<List<GenreModel>> resource) {
+                if (resource == null) return;
+
+                switch (resource.getStatus()) {
+                    case SUCCESS:
+                        if (resource.getData() != null) {
+                            List<String> genreNames = new ArrayList<>();
+                            for (GenreModel genre : resource.getData()) {
+                                genreNames.add(genre.getName());
+                            }
+                            genres.clear();
+                            genres.addAll(genreNames);
+                            adapter.notifyDataSetChanged();
+                        }
+                        break;
+
+                    case ERROR:
+                        // TODO: Bạn có thể show Toast hoặc Log lỗi
+                        break;
+
+                    case LOADING:
+                        // TODO: Có thể hiển thị ProgressBar nếu cần
+                        break;
+                }
+            }
+        });
+
+
+        viewModel.loadGenre(); // gọi API lấy dữ liệu genre
     }
 
     @Override
@@ -94,4 +133,3 @@ public class CategoryDialogFragment extends DialogFragment {
         }
     }
 }
-
