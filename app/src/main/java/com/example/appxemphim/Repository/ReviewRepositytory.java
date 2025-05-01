@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.appxemphim.Model.ReviewModel;
-import com.example.appxemphim.Network.FavouriteMovieService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.Network.ReviewService;
 import com.example.appxemphim.Request.ReviewRequest;

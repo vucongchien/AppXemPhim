@@ -33,7 +33,7 @@ public class MovieOverviewModel implements Parcelable {
     @SerializedName("year")
     private String year;
 
-    @SerializedName("createdAt")
+    @SerializedName("created_at")
     private Timestamp createdAt;
 
 

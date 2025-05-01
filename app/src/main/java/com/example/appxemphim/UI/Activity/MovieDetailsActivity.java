@@ -187,30 +187,30 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
     public void addMyList(View view) {
-        favouriteViewModel = new FavouriteViewModel( MovieDetailsActivity.this);
-        favouriteViewModel.addfavourite("rMlXfo9TGonjR8NuwNGE");
-        favouriteViewModel.addmovieinfavourite.observe(this, resource ->{
-            if (resource != null) {
-                switch (resource.getStatus()) {
-                    case LOADING:
-                        progressDialog.show();
-                        break;
-
-                    case SUCCESS:
-                        // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
-                        progressDialog.dismiss();
-                        String movieDetails = resource.getData();
-                        if (movieDetails != null) {
-                            Toast.makeText(this, movieDetails, Toast.LENGTH_SHORT).show();
-                        }
-                        break;
-                    case ERROR:
-                        progressDialog.dismiss();
-                        Toast.makeText(this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
-                        break;
-                }
-            }
-        });
+//        favouriteViewModel = new FavouriteViewModel( MovieDetailsActivity.this);
+//        favouriteViewModel.addfavourite("rMlXfo9TGonjR8NuwNGE");
+//        favouriteViewModel.addmovieinfavourite.observe(this, resource ->{
+//            if (resource != null) {
+//                switch (resource.getStatus()) {
+//                    case LOADING:
+//                        progressDialog.show();
+//                        break;
+//
+//                    case SUCCESS:
+//                        // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
+//                        progressDialog.dismiss();
+//                        String movieDetails = resource.getData();
+//                        if (movieDetails != null) {
+//                            Toast.makeText(this, movieDetails, Toast.LENGTH_SHORT).show();
+//                        }
+//                        break;
+//                    case ERROR:
+//                        progressDialog.dismiss();
+//                        Toast.makeText(this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+//                        break;
+//                }
+//            }
+//        });
 
     }
 

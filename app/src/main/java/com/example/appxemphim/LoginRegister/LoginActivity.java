@@ -99,6 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                                         SharedPreferences.Editor editor = sharedPref.edit();
                                         editor.putString("Token", token);
                                         editor.apply();
+                                        Log.d("aduuu", "onComplete: "+token);
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                         startActivity(intent);
 
