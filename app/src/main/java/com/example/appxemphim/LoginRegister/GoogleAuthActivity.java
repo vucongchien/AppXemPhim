@@ -108,6 +108,7 @@ public class GoogleAuthActivity extends MainActivity {
                                             editor.putString("Email", user.getEmail());
                                             editor.putString("Token", token);
                                             editor.apply();
+                                            Log.d("aduuu", "onComplete: "+token);
                                             Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
                                             startActivity(intent);
                                         }catch (Exception e) {

@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.LoginRegister.ForgotPassword;
+import com.example.appxemphim.LoginRegister.GoogleAuthActivity;
 import com.example.appxemphim.LoginRegister.LoginActivity;
 import com.example.appxemphim.LoginRegister.RegisterActivity;
 import com.example.appxemphim.LoginRegister.ResetPassword;

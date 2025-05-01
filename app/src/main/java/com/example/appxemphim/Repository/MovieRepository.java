@@ -40,7 +40,7 @@ public class MovieRepository {
 
         call.enqueue(new Callback<MovieOverviewResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call, @NonNull Response<MovieOverviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     liveData.postValue(Resource.success(response.body().getContent()));
                 } else {
@@ -69,7 +69,7 @@ public class MovieRepository {
 
         call.enqueue(new Callback<MovieOverviewResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call, @NonNull Response<MovieOverviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     liveData.postValue(Resource.success(response.body().getContent()));
                 } else {
@@ -99,7 +99,7 @@ public class MovieRepository {
 
         call.enqueue(new Callback<MovieOverviewResponse>() {
             @Override
-            public void onResponse(@NonNull Call<MovieOverviewResponse> call,@NonNull Response<MovieOverviewResponse> response) {
+            public void onResponse(@NonNull Call<MovieOverviewResponse> call, @NonNull Response<MovieOverviewResponse> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     liveData.postValue(Resource.success(response.body().getContent()));
                 } else {

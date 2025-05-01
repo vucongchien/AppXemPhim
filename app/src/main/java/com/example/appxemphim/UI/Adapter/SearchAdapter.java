@@ -61,7 +61,7 @@ public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter
                 .into(holder.thumbnailImageView);
 
         if (clickListener != null) {
-            holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item));
+            holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item.getMovieId()));
         }
     }
 

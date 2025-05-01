@@ -3,7 +3,6 @@ package com.example.appxemphim.UI.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -16,18 +15,12 @@ import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
 
-/**
- * Adapter sử dụng ListAdapter với DiffUtil để xử lý danh sách hình ảnh.
- */
-public class PopularAdapter extends ListAdapter<MovieOverviewModel, PopularAdapter.PopularViewHolder> {
+public class FavoriteListAdapter extends ListAdapter<MovieOverviewModel, FavoriteListAdapter.FavoriteListViewHolder> {
 
     private OnMovieClickListener clickListener;
 
-    public PopularAdapter(){
+    public FavoriteListAdapter() {
         super(DIFF_CALLBACK);
-    }
-    public void setOnMovieClickListener(OnMovieClickListener listener) {
-        this.clickListener = listener;
     }
 
     private static final DiffUtil.ItemCallback<MovieOverviewModel> DIFF_CALLBACK = new DiffUtil.ItemCallback<MovieOverviewModel>() {
@@ -42,23 +35,26 @@ public class PopularAdapter extends ListAdapter<MovieOverviewModel, PopularAdapt
         }
     };
 
+    public void setOnMovieClickListener(OnMovieClickListener listener) {
+        this.clickListener = listener;
+    }
+
     @NonNull
     @Override
-    public PopularAdapter.PopularViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FavoriteListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.listview_popular_item, parent, false);
-        return new PopularViewHolder(view);
+                .inflate(R.layout.item_favorite_list, parent, false);
+        return new FavoriteListViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PopularAdapter.PopularViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull FavoriteListViewHolder holder, int position) {
         MovieOverviewModel item = getItem(position);
 
         Glide.with(holder.itemView.getContext())
                 .load(item.getPosterUrl())
                 .placeholder(R.drawable.placeholder_poster)
                 .error(R.drawable.placeholder_poster)
-                .override(100, 150)
                 .into(holder.thumbnailImageView);
 
         if (clickListener != null) {
@@ -66,12 +62,13 @@ public class PopularAdapter extends ListAdapter<MovieOverviewModel, PopularAdapt
         }
     }
 
-    public class PopularViewHolder extends RecyclerView.ViewHolder {
+    static class FavoriteListViewHolder extends RecyclerView.ViewHolder {
         final ImageView thumbnailImageView;
 
-        public PopularViewHolder(@NonNull View itemView) {
+        public FavoriteListViewHolder(@NonNull View itemView) {
             super(itemView);
-            thumbnailImageView = itemView.findViewById(R.id.img_popular_item);
+            thumbnailImageView = itemView.findViewById(R.id.imgPoster);
+
         }
     }
 }

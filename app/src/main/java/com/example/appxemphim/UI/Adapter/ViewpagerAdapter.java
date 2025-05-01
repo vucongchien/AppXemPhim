@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
 
+import com.example.appxemphim.UI.Fragment.FavoriteListFragment;
 import com.example.appxemphim.UI.Fragment.HomeFragment;
 import com.example.appxemphim.UI.Fragment.ProfileFragment;
 
@@ -24,7 +25,7 @@ public class ViewpagerAdapter extends FragmentStatePagerAdapter {
                 return new HomeFragment();
 
             case 1:
-                return new HomeFragment();
+                return new FavoriteListFragment();
             case 2:
                 return new ProfileFragment();
         }
