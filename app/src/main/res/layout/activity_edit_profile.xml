@@ -94,13 +94,6 @@
             android:inputType="textEmailAddress"
             android:text="Email" />
 
-        <EditText
-            android:id="@+id/editProfilePhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:inputType="number"
-            android:text="Phone" />
 
         <Button
             android:id="@+id/button2"
