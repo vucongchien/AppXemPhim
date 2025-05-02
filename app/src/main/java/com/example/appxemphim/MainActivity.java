@@ -19,9 +19,11 @@ import com.example.appxemphim.LoginRegister.ResetPassword;
 import com.example.appxemphim.LoginRegister.VerifyOTP;
 import com.example.appxemphim.Model.MovieDetailModel;
 import com.example.appxemphim.Repository.MovieRepository;
+import com.example.appxemphim.UI.Activity.EditProfileActivity;
 import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.ReviewDetailsActivity;
+import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.UI.Activity.testter;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.example.appxemphim.ViewModel.MovieDetailViewModel;
@@ -95,6 +97,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
     }
 }
