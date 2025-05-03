@@ -195,25 +195,161 @@
 
             </FrameLayout>
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/showtime"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="@id/fragment_home"
+                app:layout_constraintEnd_toEndOf="@id/fragment_home"
+                app:layout_constraintTop_toBottomOf="@id/fragment_movie">
+
+                <TextView
+                    android:id="@+id/showtime_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:text="Showtime"
+                    android:textSize="16sp"
+                    android:textColor="@color/white"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintTop_toTopOf="@id/showtime" />
+
+                <HorizontalScrollView
+                    android:id="@+id/showtime_scroll"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none"
+                    app:layout_constraintTop_toBottomOf="@id/showtime_title"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintEnd_toEndOf="@id/showtime">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/showtime_dayofweek"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingStart="8dp"
+                        android:paddingEnd="8dp"
+                        app:singleSelection="true"
+                        app:selectionRequired="true"
+                        app:chipSpacingHorizontal="6dp"
+                        android:layoutDirection="ltr"
+                        android:background="@android:color/transparent">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_monday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Mon"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_tuesday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Tue"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_wednesday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Wed"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_thursday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Thu"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_friday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Fri"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_saturday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sat"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/showtime_sunday"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Sun"
+                            android:textSize="16sp"
+                            android:textColor="@color/chip_textcolor_showtime_selector"
+                            app:chipStrokeWidth="0dp"
+                            app:chipBackgroundColor="@color/chip_background_showtime_selector"
+                            style="@style/Widget.MaterialComponents.Chip.Choice"/>
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView_showtime"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:background="@android:color/transparent"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintEnd_toEndOf="@id/showtime"
+                    app:layout_constraintTop_toBottomOf="@id/showtime_scroll" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
             <TextView
                 android:id="@+id/popular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
+                android:layout_marginTop="8dp"
                 android:text="Popular on App"
                 android:textSize="16sp"
                 android:textColor="@color/white"
                 android:layout_gravity="start"
                 android:background="@android:color/transparent"
                 app:layout_constraintStart_toStartOf="@id/fragment_home"
-                app:layout_constraintTop_toBottomOf="@id/fragment_movie"/>
+                app:layout_constraintTop_toBottomOf="@id/showtime"/>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView_popular"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="8dp"
-                android:background="@android:color/transparent"                app:layout_constraintStart_toStartOf="@id/fragment_home"
+                android:background="@android:color/transparent"
+                app:layout_constraintStart_toStartOf="@id/fragment_home"
                 app:layout_constraintEnd_toEndOf="@id/fragment_home"
                 app:layout_constraintTop_toBottomOf="@id/popular"
                 />
