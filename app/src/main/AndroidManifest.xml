@@ -24,9 +24,6 @@
             android:name=".UI.Activity.EditProfileActivity"
             android:exported="false"/>
         <activity
-            android:name=".UI.Activity.ReviewDetailsActivity"
-            android:exported="false" />
-        <activity
             android:name=".UI.Activity.testter"
             android:exported="false" />
         <activity

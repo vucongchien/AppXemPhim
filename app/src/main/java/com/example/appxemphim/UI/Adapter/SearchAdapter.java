@@ -57,7 +57,6 @@ public class SearchAdapter extends ListAdapter<MovieOverviewModel, SearchAdapter
                 .load(item.getPosterUrl())
                 .placeholder(R.drawable.placeholder_poster)
                 .error(R.drawable.placeholder_poster)
-                .override(100, 150)
                 .into(holder.thumbnailImageView);
 
         if (clickListener != null) {

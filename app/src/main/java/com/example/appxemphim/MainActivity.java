@@ -95,6 +95,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
+        startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 }
