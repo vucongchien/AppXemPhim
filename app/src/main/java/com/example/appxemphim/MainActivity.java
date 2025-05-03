@@ -21,7 +21,6 @@ import com.example.appxemphim.Model.MovieDetailModel;
 import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
-import com.example.appxemphim.UI.Activity.ReviewDetailsActivity;
 import com.example.appxemphim.UI.Activity.testter;
 import com.example.appxemphim.Utilities.FirebaseUtils;
 import com.example.appxemphim.ViewModel.MovieDetailViewModel;

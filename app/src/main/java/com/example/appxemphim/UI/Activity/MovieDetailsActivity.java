@@ -3,8 +3,10 @@ package com.example.appxemphim.UI.Activity;
 import static com.google.api.ResourceProto.resource;
 
 import android.app.Application;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.SpannableStringBuilder;
@@ -12,7 +14,16 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.DisplayMetrics;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -24,11 +35,15 @@ import androidx.media3.exoplayer.ExoPlayer;
 import com.example.appxemphim.Model.ActorModel;
 import com.example.appxemphim.Model.DirectorModel;
 import com.example.appxemphim.Model.MovieDetailModel;
+import com.example.appxemphim.Model.ReviewModel;
 import com.example.appxemphim.Model.VideoModel;
+import com.example.appxemphim.R;
 import com.example.appxemphim.Repository.MovieRepository;
+import com.example.appxemphim.Request.ReviewRequest;
 import com.example.appxemphim.UI.Adapter.ListVideoAdapter;
 import com.example.appxemphim.ViewModel.FavouriteViewModel;
 import com.example.appxemphim.ViewModel.MovieDetailViewModel;
+import com.example.appxemphim.ViewModel.ReviewViewModel;
 import com.example.appxemphim.databinding.ActivityMovieDetailsBinding;
 import com.google.firebase.Timestamp;
 
@@ -41,12 +56,12 @@ import java.util.Locale;
 
 public class MovieDetailsActivity extends AppCompatActivity {
     private ActivityMovieDetailsBinding binding;
-    private android.app.ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
     private ExoPlayer exoPlayer;
     MovieDetailViewModel movieDetailViewModel ;
     FavouriteViewModel favouriteViewModel;
     MovieDetailModel movieDetails;
-
+    PopupWindow popupWindow;
     ListVideoAdapter listVideoAdapter;
     String movie_id_current;
 
@@ -54,6 +69,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     private String shortText ;
     final boolean[] ismoredes = {false};
     boolean ismorevideo = false;
+    private  ReviewViewModel reviewViewModel;
 
 
     @Override
@@ -128,16 +144,16 @@ public class MovieDetailsActivity extends AppCompatActivity {
         Toast.makeText(this, String.valueOf(videoModels.size()), Toast.LENGTH_SHORT).show();
         listVideoAdapter = new ListVideoAdapter(this,videoModels);
         binding.listvideoDetail.setAdapter(listVideoAdapter);
-        binding.morevideoDetail.setOnClickListener(new View.OnClickListener() {
+        binding.moreLikeThis.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ismorevideo = !ismorevideo;
                 if (ismorevideo) {
 
-                    binding.morevideoDetail.setText("-"); // đổi sang dấu trừ
+                    binding.moreLikeThis.setText("-"); // đổi sang dấu trừ
                     binding.listvideoDetail.setVisibility(View.VISIBLE); // hiện list
                 } else {
-                    binding.morevideoDetail.setText("+"); // đổi lại dấu cộng
+                    binding.moreLikeThis.setText("+"); // đổi lại dấu cộng
                     binding.listvideoDetail.setVisibility(View.GONE); // ẩn list
                 }
             }
@@ -215,6 +231,82 @@ public class MovieDetailsActivity extends AppCompatActivity {
     }
 
     public void rate(View view) {
-        startActivity(new Intent(MovieDetailsActivity.this,ReviewDetailsActivity.class));
+        showRatingPopup();
     }
+
+    private void showRatingPopup() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(LAYOUT_INFLATER_SERVICE);
+        View popupView = inflater.inflate(R.layout.popup_rating, null);
+        ImageView imageView = popupView.findViewById(R.id.btnClose);
+        Button submit = popupView.findViewById(R.id.btnSubmit);
+        RatingBar ratingBar = popupView.findViewById(R.id.ratingBar);
+        ratingBar.setNumStars(5);
+        ratingBar.setStepSize(1f);
+        ratingBar.setScaleX(1.4f);
+        ratingBar.setScaleY(1.4f);
+
+        // Tạo popup chiếm 70% chiều cao
+        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
+        int screenHeight = displayMetrics.heightPixels;
+        int popupHeight = (int) (screenHeight * 0.3);
+
+        popupWindow = new PopupWindow(
+                popupView,
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                popupHeight,
+                true
+        );
+
+        // Background trong suốt
+        popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
+        popupWindow.setOutsideTouchable(true);
+        popupWindow.setFocusable(true);
+
+        // Hiệu ứng từ dưới lên (animation style custom)
+        popupWindow.setAnimationStyle(R.style.PopupAnimation);
+
+        // Hiển thị ở dưới cùng
+        popupWindow.showAtLocation(binding.getRoot(), Gravity.BOTTOM, 0, 0);
+        imageView.setOnClickListener(v1->popupWindow.dismiss());
+
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ReviewRequest reviewRequest = new ReviewRequest();
+                reviewRequest.setMovie_id("rMlXfo9TGonjR8NuwNGE");
+                reviewRequest.setUser_id("51B78veg7ZVfrdHDikXzOV31t1w1");
+                reviewRequest.setRating((int) ratingBar.getRating());
+                reviewViewModel = new ReviewViewModel(MovieDetailsActivity.this);
+                reviewViewModel.addReview(reviewRequest);
+                reviewViewModel.addDataReview.observe(MovieDetailsActivity.this,resource->{
+                    if (resource != null) {
+                        switch (resource.getStatus()) {
+                            case LOADING:
+                                progressDialog.show();
+                                break;
+
+                            case SUCCESS:// Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
+                                progressDialog.dismiss();
+                                String movieDetails = resource.getData();
+                                if (movieDetails != null) {
+                                    Toast.makeText(MovieDetailsActivity.this, movieDetails, Toast.LENGTH_SHORT).show();
+                                    popupWindow.dismiss();
+                                }
+                                break;
+                            case ERROR:
+                                progressDialog.dismiss();
+                                Toast.makeText(MovieDetailsActivity.this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                                break;
+                        }
+                    }
+                });
+
+
+            }
+        });
+
+
+    }
+
+
 }
