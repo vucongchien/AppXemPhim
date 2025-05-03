@@ -3,6 +3,8 @@ package com.example.appxemphim.UI.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.SearchActivity;
+import com.example.appxemphim.UI.Adapter.CarouselAdapter;
 import com.example.appxemphim.UI.Adapter.PopularAdapter;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModel;
@@ -29,6 +32,9 @@ import java.util.List;
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
     private PopularAdapter popularAdapter, retroAdapter, onlyAdapter;
+    private CarouselAdapter carouselAdapter;
+    private Handler handler = new Handler(Looper.getMainLooper());
+    private Runnable autoScrollRunnable;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -42,6 +48,23 @@ public class HomeFragment extends Fragment {
 
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        //Carousel
+        carouselAdapter=new CarouselAdapter();
+        binding.carousel.setAdapter(carouselAdapter);
+        autoScrollRunnable = new Runnable() {
+            @Override
+            public void run() {
+                int nextItem = (binding.carousel.getCurrentItem() + 1) % carouselAdapter.getItemCount();
+                binding.carousel.setCurrentItem(nextItem, true);
+                handler.postDelayed(this, 10000);
+            }
+        };
+        handler.postDelayed(autoScrollRunnable, 10000);
+        binding.carousel.setPageTransformer((page, position) -> {
+            float scale = 0.85f + (1 - Math.abs(position)) * 0.15f;
+            page.setScaleY(scale);
+            page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
+        });
 
         // RecyclerView Popular
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -69,14 +92,6 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-        binding.btnPlay.setOnClickListener(v -> {
-            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
-            startActivity(intent);
-        });
-
-        binding.btnAddMylist.setOnClickListener(v -> {
-
-        });
 
         // Button Cancelled category
         binding.btnCancelled.setOnClickListener(v -> {
@@ -122,7 +137,10 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
 
         // Sử dụng viewModel...
-        viewModel.popular.observe(requireActivity(), movies -> popularAdapter.submitList(movies.getData()));
+        viewModel.popular.observe(requireActivity(), movies -> {
+            popularAdapter.submitList(movies.getData());
+            carouselAdapter.submitList(movies.getData());
+        });
         viewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
         viewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
         // Optionally trigger initial fetch:
@@ -135,6 +153,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        handler.removeCallbacks(autoScrollRunnable);
         binding = null;
     }
 }

@@ -8,12 +8,54 @@
     android:fitsSystemWindows="true">
 
     <!-- Video Preview -->
-    <androidx.media3.ui.PlayerView
-        android:id="@+id/thumbnail"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="200dp">
+
+        <!-- Player -->
+        <androidx.media3.ui.PlayerView
+            android:id="@+id/thumbnail"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <!-- 2 Icon Buttons trên góc phải -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|end"
+            android:orientation="horizontal"
+            android:padding="12dp"
+            android:gravity="center">
+
+            <!-- Cast Button -->
+            <ImageButton
+                android:id="@+id/btnCast"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/border_circle_black"
+                android:src="@drawable/broadcast"
+                android:scaleType="centerInside"
+                android:contentDescription="Cast"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Close Button -->
+            <ImageButton
+                android:id="@+id/btnClose"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="@drawable/border_circle_black"
+                android:src="@drawable/cross"
+                android:scaleType="centerInside"
+                android:contentDescription="Close" />
+        </LinearLayout>
+    </FrameLayout>
+
+
 
     <!-- Scrollable Content -->
+
+
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -69,28 +111,42 @@
             </LinearLayout>
 
             <!-- Play Button -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnPlay"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Play"
-                android:textColor="#000"
-                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:textSize="16sp"
-                android:drawableStart="@drawable/play_video"
-                android:background="@drawable/play_button_bg"
-                android:drawablePadding="8dp"
-                android:layout_marginBottom="8dp" />
+                app:backgroundTint="@color/white"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/play_video"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/black"
+                android:layout_marginVertical="4dp"
+                />
+
 
             <!-- Download Button -->
-            <Button
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnDownload"
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
                 android:text="Download"
-                android:textColor="#FFF"
-                android:background="@drawable/play_button_bg"
-                android:layout_marginBottom="12dp" />
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:backgroundTint="@color/chip_background_active"
+                app:cornerRadius="8dp"
+                app:icon="@drawable/download"
+                app:iconGravity="textStart"
+                app:iconPadding="8dp"
+                app:iconTint="@color/white"
+                app:iconSize="24dp"
+                android:layout_marginVertical="4dp"/>
+
 
             <!-- Description -->
             <TextView
