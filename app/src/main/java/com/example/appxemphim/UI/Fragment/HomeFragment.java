@@ -26,12 +26,15 @@ import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModel;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModelFactory;
 import com.example.appxemphim.databinding.FragmentHomeBinding;
+import com.google.android.material.chip.Chip;
+
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private PopularAdapter popularAdapter, retroAdapter, onlyAdapter;
+    private PopularAdapter popularAdapter, retroAdapter, onlyAdapter,showtimeAdapter;
     private CarouselAdapter carouselAdapter;
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
@@ -43,8 +46,48 @@ public class HomeFragment extends Fragment {
         View view = binding.getRoot();
         initViews();
         initData();
+        highlightTodayChip();
         return view;
     }
+
+    private void highlightTodayChip() {
+        // Lấy ngày hôm nay
+        Calendar calendar = Calendar.getInstance();
+        int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
+
+        // Ánh xạ Calendar.DAY_OF_WEEK với Chip tương ứng
+        Chip chipToHighlight = null;
+
+        switch (dayOfWeek) {
+            case Calendar.MONDAY:
+                chipToHighlight = binding.showtimeMonday;
+                break;
+            case Calendar.TUESDAY:
+                chipToHighlight = binding.showtimeTuesday;
+                break;
+            case Calendar.WEDNESDAY:
+                chipToHighlight = binding.showtimeWednesday;
+                break;
+            case Calendar.THURSDAY:
+                chipToHighlight = binding.showtimeThursday;
+                break;
+            case Calendar.FRIDAY:
+                chipToHighlight = binding.showtimeFriday;
+                break;
+            case Calendar.SATURDAY:
+                chipToHighlight = binding.showtimeSaturday;
+                break;
+            case Calendar.SUNDAY:
+                chipToHighlight = binding.showtimeSunday;
+                break;
+        }
+
+        // Đổi màu text nếu chip hợp lệ
+        if (chipToHighlight != null) {
+            chipToHighlight.setTextColor(ContextCompat.getColor(getContext(), android.R.color.holo_blue_light));
+        }
+    }
+
 
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
@@ -65,6 +108,13 @@ public class HomeFragment extends Fragment {
             page.setScaleY(scale);
             page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
         });
+
+        // RecyclerView Showtime (Lịch chiếu)
+        binding.recyclerViewShowtime.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerViewShowtime.setNestedScrollingEnabled(false);
+        showtimeAdapter = new PopularAdapter();
+        binding.recyclerViewShowtime.setAdapter(showtimeAdapter);
+        binding.recyclerViewShowtime.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
         // RecyclerView Popular
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
