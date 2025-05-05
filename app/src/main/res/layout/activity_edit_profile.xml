@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".UI.Activity.EditProfileActivity">
+    tools:context=".UI.Activity.EditProfileActivity"
+    android:background="@color/colorBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:text="Edit Profile"
-                android:textColor="@color/white"
+                android:textColor="@color/onBackground"
                 android:textSize="20dp" />
 
         </LinearLayout>
@@ -38,7 +39,8 @@
         android:layout_height="0dp"
         android:layout_weight="6"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="30dp"
+        android:background="@color/colorSurface">
 
 
         <androidx.cardview.widget.CardView
@@ -65,7 +67,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:text="Hello Tung"
-            android:textColor="@color/white" />
+            android:textColor="@color/onSurface" />
 
 
     </LinearLayout>
@@ -75,7 +77,8 @@
         android:layout_height="0dp"
         android:layout_weight="10"
         android:orientation="vertical"
-        android:padding="30dp">
+        android:padding="30dp"
+        android:background="@color/colorSurface">
 
 
         <EditText
@@ -84,7 +87,8 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:text="Name" />
+            android:text="Name"
+            android:textColor="@color/onSurface"/>
 
         <EditText
             android:id="@+id/editProfileEmail"
@@ -92,14 +96,15 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="textEmailAddress"
-            android:text="Email" />
+            android:text="Email"
+            android:textColor="@color/onSurface"/>
 
 
         <Button
             android:id="@+id/button2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/btn1"
+            android:backgroundTint="@color/colorButtonPrimary"
             android:layout_gravity="center"
             android:layout_marginTop="50dp"
             android:text="Xác nhận" />

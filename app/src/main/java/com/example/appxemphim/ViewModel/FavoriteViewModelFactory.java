@@ -9,7 +9,7 @@ import com.example.appxemphim.Repository.FavouriteRepository;
 
 public class FavoriteViewModelFactory implements ViewModelProvider.Factory {
     private final FavouriteRepository favoriteRepository;
-    private FavouriteViewModel genreViewModel;
+    private FavouriteViewModel favoriteViewModel;
 
     public FavoriteViewModelFactory(FavouriteRepository favoriteRepository) {
         this.favoriteRepository = favoriteRepository;

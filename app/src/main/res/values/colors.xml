@@ -1,34 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="gray">#dddddddd</color>
-    <color name="btn1">#E3632C</color>
-    <color name="main_color">#1F102B</color>
-    <color name="text">#FFFFFFFF</color>
-    <color name="text_2">#BACECECE</color>
-    <color name="background">#1b191a</color>
-    <color name="button_hover">#dd2e45</color>
-    <color name="button">#723a46</color>
-    <color name="green">#71E775</color>
-    <color name="background_2">#383537</color>
-    <color name="background_3">#625C62</color>
-    <color name="chip_background">#1b191a</color> <!-- Background for chips -->
-    <color name="chip_background_active">#383537</color>
-    <color name="chip_stroke">#FFFFFF</color> <!-- Stroke color for chips -->
-    <color name="chip_text">#FFFFFF</color> <!-- Text color for chips -->
-    <color name="spinner_text">#FFFFFF</color> <!-- Text color for spinner -->
-    <color name="tím">#FF2A2939</color>
-    <color name="home">#CC000000</color>
-    <color name="star5">#15E03A</color>
-    <color name="star4">#5BD02C</color>
-    <color name="star3">#B5D904</color>
-    <color name="star2">#ED540F</color>
-    <color name="star1">#FF0000</color>
-    <color name="teal_700">#018786</color>
-    <color name="yellow">#FAF634</color>
-    <color name="violet">#CC37364B</color>
-<!--    <color name="home">#4E686666</color>-->
-    <color name="blue">#4ABCDE</color>
-    <color name="black_blur_80">#7E000000</color>
+    <!-- Core Material Colors (Light Theme) -->
+    <color name="colorPrimary">#1E88E5</color>            <!-- deep blue -->
+    <color name="colorPrimaryVariant">#1565C0</color>     <!-- darker blue -->
+    <color name="colorSecondary">#FFC107</color>          <!-- amber -->
+    <color name="colorSecondaryVariant">#FFB300</color>   <!-- darker amber -->
+    <color name="colorBackground">#FFFFFF</color>
+    <color name="colorSurface">#F5F5F5</color>
+    <color name="colorError">#B00020</color>
+
+    <!-- On-color roles -->
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSecondary">#000000</color>
+    <color name="onBackground">#1C1B1F</color>
+    <color name="onSurface">#1C1B1F</color>
+    <color name="onError">#FFFFFF</color>
+
+    <!-- Chip View Colors - Light Theme -->
+    <color name="colorChipBackground">#FFF8E1</color>     <!-- pale amber -->
+    <color name="colorChipSelected">#FFB300</color>       <!-- dark amber -->
+    <color name="onChipBackground">#212121</color>        <!-- dark gray text/icons -->
+    <color name="onChipSelected">#000000</color>          <!-- black on selected chip -->
+    <color name="colorChipBorder">#FFE082</color>         <!-- soft amber border -->
+
+    <!-- Button Colors - Light Theme -->
+    <color name="colorButtonPrimary">#1E88E5</color>      <!-- deep blue -->
+    <color name="onButtonPrimary">#FFFFFF</color>         <!-- white text -->
+
+    <color name="colorButtonSecondary">#FFC107</color>    <!-- amber -->
+    <color name="onButtonSecondary">#000000</color>       <!-- black text -->
+
+    <color name="colorButtonDisabled">#E0E0E0</color>     <!-- light gray -->
+    <color name="onButtonDisabled">#9E9E9E</color>        <!-- medium gray text -->
+
+    <!-- Custom App Colors for Movie Streaming UX -->
+    <!-- Overlay gradient for movie posters (50% white) -->
+    <color name="colorPosterOverlay">#80FFFFFF</color>
+    <!-- Subtitles: dark semi-transparent for readability -->
+    <color name="colorSubtitleText">#99000000</color>
+    <!-- Top app bar -->
+    <color name="colorAppBar">#FFFFFF</color>
+    <!-- Bottom navigation bar -->
+    <color name="colorBottomNav">#FFFFFF</color>
+    <!-- Movie item card background -->
+    <color name="colorCardBackground">#FFFFFF</color>
+    <!-- Progress/loading indicator accent -->
+    <color name="colorProgressBar">#1E88E5</color>        <!-- same as primary -->
+    <!-- Hover/focus/highlight accents -->
+    <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
 </resources>

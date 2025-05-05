@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_marginTop="10dp"
-    android:background="@color/black_blur_80">
+    android:background="@color/colorSurface">
 
     <ListView
         android:id="@+id/listview_category"
