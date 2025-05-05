@@ -47,6 +47,11 @@ public class HomeFragment extends Fragment {
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewPopular.setNestedScrollingEnabled(false);
         popularAdapter = new PopularAdapter();
+        popularAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id",movieId);
+            startActivity(intent);
+        });
         binding.recyclerViewPopular.setAdapter(popularAdapter);
         binding.recyclerViewPopular.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 

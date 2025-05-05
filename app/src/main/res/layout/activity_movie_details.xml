@@ -308,18 +308,52 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent" />
+            <LinearLayout
+                android:id="@+id/sendMess"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="8dp"
+                android:background="@drawable/bg_input_container"
+                android:gravity="center_vertical"
+                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent">
 
-            <ListView
+                <EditText
+                    android:id="@+id/editMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textSize="14sp"
+                    android:padding="10dp"
+                    android:maxLines="5"
+                    android:minHeight="40dp"
+                    android:inputType="textMultiLine" />
+
+                <ImageButton
+                    android:id="@+id/btnSend"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:background="@android:color/transparent"
+                    android:src="@android:drawable/ic_menu_send"
+                    android:contentDescription="Gửi"
+                    android:padding="5dp"
+                    app:tint="@android:color/holo_blue_dark" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/list_comment"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
+                tools:layout_editor_absoluteX="54dp"
+                tools:layout_editor_absoluteY="457dp"
                 android:background="@drawable/bg_list_video"
-                app:layout_constraintTop_toBottomOf="@id/textView"
+                app:layout_constraintTop_toBottomOf="@id/sendMess"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:scrollbars="vertical"
-                />
+                android:scrollbars="vertical"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -345,6 +379,8 @@
             app:layout_constraintTop_toBottomOf="@id/more_like_this"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
