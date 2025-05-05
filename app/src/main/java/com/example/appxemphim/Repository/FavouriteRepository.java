@@ -32,30 +32,20 @@ public class FavouriteRepository {
         this.favoriteListApiService = RetrofitInstance.createService(FavoriteListApiService.class,ma);
     }
 
-    public  void addMovieInFavourite(String movie_id, MutableLiveData<Resource<String>> liveData){
-        liveData.setValue(Resource.loading());
+    public  void addMovieInFavourite(String movie_id, Runnable onSuccess, Runnable onFailure){
         favoriteListApiService.addMovieInFavourite(movie_id).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
-                    if(response.isSuccessful() && response.body() != null){
-                        liveData.setValue(Resource.success(response.body().string()));
-                    }else{
-                        String errorMessage = "Thêm thất bại";
-                        if (response.errorBody() != null) {
-                            String errorBody = response.errorBody().string();
-                            errorMessage = errorBody; // Hoặc bạn có thể parse JSON nếu response là JSON
-                        }
-                        liveData.setValue(Resource.error(errorMessage));
-                    }
-                } catch (Exception e) {
-                    liveData.setValue(Resource.error("Lỗi đọc dữ liệu"));
+                if(response.isSuccessful() ){
+                    if (onSuccess != null) onSuccess.run();
+                }else{
+                    if (onFailure != null) onFailure.run();
                 }
             }
 
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+                if (onFailure != null) onFailure.run();
             }
         });
     }

@@ -64,10 +64,8 @@ public class ProfileRepository {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if (response.isSuccessful()) {
-                    Toast.makeText(context, "Cập nhật thành công", Toast.LENGTH_SHORT).show();
                     if (onSuccess != null) onSuccess.run();
                 } else {
-                    Toast.makeText(context, "Lỗi cập nhật: " + response.code(), Toast.LENGTH_SHORT).show();
                     if (onFailure != null) onFailure.run();
                 }
             }

@@ -97,6 +97,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        startActivity(new Intent(MainActivity.this, EditProfileActivity.class));
+        Intent intent = new Intent(MainActivity.this, MovieDetailsActivity.class);
+        intent.putExtra("movie_id","rMlXfo9TGonjR8NuwNGE");
+        startActivity(intent);
     }
 }

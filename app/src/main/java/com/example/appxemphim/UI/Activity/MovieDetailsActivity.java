@@ -1,8 +1,9 @@
 package com.example.appxemphim.UI.Activity;
 
-import static com.google.api.ResourceProto.resource;
 
-import android.app.Application;
+import static androidx.core.content.ContentProviderCompat.requireContext;
+import static java.security.AccessController.getContext;
+
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
@@ -12,21 +13,29 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.lifecycle.Observer;
 import androidx.media3.common.MediaItem;
 import androidx.media3.exoplayer.ExoPlayer;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.appxemphim.Model.ActorModel;
+import com.example.appxemphim.Model.Comment;
 import com.example.appxemphim.Model.DirectorModel;
 import com.example.appxemphim.Model.MovieDetailModel;
 import com.example.appxemphim.Model.VideoModel;
+import com.example.appxemphim.R;
+import com.example.appxemphim.Repository.FavouriteRepository;
 import com.example.appxemphim.Repository.MovieRepository;
-import com.example.appxemphim.UI.Adapter.ListVideoAdapter;
+import com.example.appxemphim.Request.CommentRequest;
+import com.example.appxemphim.UI.Adapter.CommentAdapter;
+import com.example.appxemphim.UI.Adapter.VideoAdapter;
+import com.example.appxemphim.ViewModel.CommentViewModel;
 import com.example.appxemphim.ViewModel.FavouriteViewModel;
 import com.example.appxemphim.ViewModel.MovieDetailViewModel;
 import com.example.appxemphim.databinding.ActivityMovieDetailsBinding;
@@ -34,21 +43,26 @@ import com.google.firebase.Timestamp;
 
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class MovieDetailsActivity extends AppCompatActivity {
     private ActivityMovieDetailsBinding binding;
-    private android.app.ProgressDialog progressDialog;
     private ExoPlayer exoPlayer;
     MovieDetailViewModel movieDetailViewModel ;
-    FavouriteViewModel favouriteViewModel;
     MovieDetailModel movieDetails;
-
-    ListVideoAdapter listVideoAdapter;
+    private FavouriteViewModel favouriteViewModel;
+    private final Map<String,Boolean> userLikedComments = new HashMap();
+    private List<Comment> fullCommentList = new ArrayList<>();
+    VideoAdapter videoAdapter;
     String movie_id_current;
+    private CommentViewModel commentViewModel;
+    private CommentAdapter commentAdapter;
 
     private  String longText ;
     private String shortText ;
@@ -60,21 +74,24 @@ public class MovieDetailsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMovieDetailsBinding.inflate(getLayoutInflater());
-        progressDialog = new android.app.ProgressDialog(this);
-        progressDialog.setMessage("Đang tải dữ liệu...");
-        progressDialog.setCancelable(true);
         setContentView(binding.getRoot());
+        movie_id_current= getIntent().getStringExtra("movie_id");
+
+        commentViewModel = new CommentViewModel();
+        commentViewModel.init(this, movie_id_current);
+
         movieDetailViewModel =  new MovieDetailViewModel(new MovieRepository());
-        movieDetailViewModel.loadMovieDetail("rMlXfo9TGonjR8NuwNGE");
+        movieDetailViewModel.loadMovieDetail(movie_id_current);
+
+        favouriteViewModel = new FavouriteViewModel(new FavouriteRepository(MovieDetailsActivity.this));
+        getcomment();
         movieDetailViewModel.movieDetail.observe(this, resource -> {
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case LOADING:
-                        progressDialog.show();
                         break;
 
                     case SUCCESS:
-                        progressDialog.dismiss();
                         movieDetails = resource.getData();
                         if (movieDetails != null) {
                             setUI(movieDetails);
@@ -83,7 +100,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         break;
 
                     case ERROR:
-                        progressDialog.dismiss();
                         Toast.makeText(this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
@@ -126,8 +142,8 @@ public class MovieDetailsActivity extends AppCompatActivity {
         //listvideo
         List<VideoModel> videoModels = movieDetails.getVideos();
         Toast.makeText(this, String.valueOf(videoModels.size()), Toast.LENGTH_SHORT).show();
-        listVideoAdapter = new ListVideoAdapter(this,videoModels);
-        binding.listvideoDetail.setAdapter(listVideoAdapter);
+        videoAdapter = new VideoAdapter(this,videoModels);
+        binding.listvideoDetail.setAdapter(videoAdapter);
         binding.morevideoDetail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,34 +203,107 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
 
     public void addMyList(View view) {
-//        favouriteViewModel = new FavouriteViewModel( MovieDetailsActivity.this);
-//        favouriteViewModel.addfavourite("rMlXfo9TGonjR8NuwNGE");
-//        favouriteViewModel.addmovieinfavourite.observe(this, resource ->{
-//            if (resource != null) {
-//                switch (resource.getStatus()) {
-//                    case LOADING:
-//                        progressDialog.show();
-//                        break;
-//
-//                    case SUCCESS:
-//                        // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
-//                        progressDialog.dismiss();
-//                        String movieDetails = resource.getData();
-//                        if (movieDetails != null) {
-//                            Toast.makeText(this, movieDetails, Toast.LENGTH_SHORT).show();
-//                        }
-//                        break;
-//                    case ERROR:
-//                        progressDialog.dismiss();
-//                        Toast.makeText(this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
-//                        break;
-//                }
-//            }
-//        });
+        favouriteViewModel.addfavorite(movie_id_current,
+                ()->{
+                    Toast.makeText(this, "Cập nhập thành công", Toast.LENGTH_SHORT).show();
+                },
+                ()->{
+                    Toast.makeText(this, "Lỗi rùi bạn ơi", Toast.LENGTH_SHORT).show();
+                });
 
     }
 
     public void rate(View view) {
         startActivity(new Intent(MovieDetailsActivity.this,ReviewDetailsActivity.class));
     }
+
+    public void getcomment() {
+
+        binding.listComment.setLayoutManager(new LinearLayoutManager(this));
+        commentAdapter = new CommentAdapter(new CommentAdapter.OnCommentClickListener() {
+            @Override
+            public void onLikeClick(Comment comment, int position) {
+                boolean currentState = userLikedComments.getOrDefault(comment.getCommentId(), false);
+                boolean newState = !currentState;
+                userLikedComments.put(comment.getCommentId(), newState);
+                if (newState) {
+                    comment.setLike(comment.getLike() + 1);
+                } else {
+                    comment.setLike(comment.getLike() - 1);
+                }
+                commentViewModel.like(movie_id_current, comment.getCommentId(), newState);
+                commentAdapter.notifyItemChanged(position);
+            }
+            @Override
+            public void onReplyClick(Comment comment,int position) {
+                comment.setReply(!comment.getReply());
+                commentAdapter.notifyItemChanged(position);
+            }
+            @Override
+            public void onShowMoreClick(Comment comment, int position) {
+                List<Comment> replies = commentViewModel.getDescendants(comment.getCommentId(), fullCommentList);
+                comment.setExpanded(!comment.isExpanded());
+                if(comment.isExpanded()) {
+                    comment.setComments(replies);
+                } else {
+                    comment.setComments(new ArrayList<>());
+                }
+
+                commentAdapter.notifyItemChanged(position);
+            }
+
+            @Override
+            public void onSendClick(Comment comment, int positon,String message) {
+                CommentRequest commentRequest = new CommentRequest();
+                commentRequest.setMovie_id(movie_id_current);
+                commentRequest.setParent_comment_id(comment.getCommentId());
+                commentRequest.setContent(message);
+                commentViewModel.sendComment(commentRequest,
+                        () -> { // onSuccess
+                            Toast.makeText(MovieDetailsActivity.this, "ngon", Toast.LENGTH_SHORT).show();
+                        },
+                        () -> { // onFailure
+                            Toast.makeText(MovieDetailsActivity.this, "dell giòn", Toast.LENGTH_SHORT).show();
+                        });
+            }
+
+        });
+
+        binding.listComment.setAdapter(commentAdapter);
+        commentViewModel.getAllComments().observe(this, comments -> {
+            if (comments != null) {
+                fullCommentList = comments;
+                for (Comment comment : comments) {
+                    if (!userLikedComments.containsKey(comment.getCommentId())) {
+                        userLikedComments.put(comment.getCommentId(), false);
+                    }
+                }
+                List<Comment> parentComments = new ArrayList<>(commentViewModel.getParentComments(comments));
+                for(Comment comment: parentComments){
+                    List<Comment> replies = commentViewModel.getDescendants(comment.getCommentId(), fullCommentList);
+                    comment.setComments(replies);
+                }
+                commentAdapter.submitList(parentComments);
+            }
+        });
+
+        binding.btnSend.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                CommentRequest commentRequest = new CommentRequest();
+                commentRequest.setMovie_id(movie_id_current);
+                commentRequest.setParent_comment_id("");
+                commentRequest.setContent(binding.editMessage.getText().toString().trim());
+                commentViewModel.sendComment(commentRequest,
+                        () -> { // onSuccess
+                            Toast.makeText(MovieDetailsActivity.this, "ngon", Toast.LENGTH_SHORT).show();
+                        },
+                        () -> { // onFailure
+                            Toast.makeText(MovieDetailsActivity.this, "dell giòn", Toast.LENGTH_SHORT).show();
+                        });
+            }
+        });
+    }
+
+
 }
