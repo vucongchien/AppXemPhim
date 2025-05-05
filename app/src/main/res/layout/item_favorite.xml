@@ -1,24 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     android:elevation="4dp"
-    android:foreground="?attr/selectableItemBackground">
+    android:foreground="?attr/selectableItemBackground"
+    app:cardCornerRadius="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="12dp">
+        <androidx.cardview.widget.CardView
+            android:layout_marginLeft="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="8dp">
+            <ImageView
+                android:id="@+id/imgPoster"
+                android:layout_width="80dp"
+                android:layout_height="120dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/placeholder_poster" />
+        </androidx.cardview.widget.CardView>
 
-        <ImageView
-            android:id="@+id/imgPoster"
-            android:layout_width="80dp"
-            android:layout_height="120dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_poster" />
+
 
         <LinearLayout
             android:layout_width="0dp"
@@ -33,30 +42,15 @@
                 android:layout_height="wrap_content"
                 android:text="Movie Title"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                android:layout_marginTop="16dp"/>
             <TextView
-                android:id="@+id/tvDate"
+                android:id="@+id/tvYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Added: 2025-04-30"
-                android:textAppearance="?attr/textAppearanceBody2" />
+                android:text="2008"
+                android:layout_marginTop="4dp"/>
 
-            <TextView
-                android:id="@+id/tvStatus"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Watched"
-                android:textAppearance="?attr/textAppearanceCaption"
-                android:textColor="@color/gray" />
-
-            <Button
-                android:id="@+id/btnRemove"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:text="Remove"
-                android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
 </androidx.cardview.widget.CardView>
