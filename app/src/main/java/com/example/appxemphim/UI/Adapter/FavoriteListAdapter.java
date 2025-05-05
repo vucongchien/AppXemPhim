@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Interface.OnMovieClickListener;
+import com.example.appxemphim.Utilities.Utils;
 
 public class FavoriteListAdapter extends ListAdapter<MovieOverviewModel, FavoriteListAdapter.FavoriteListViewHolder> {
 
@@ -43,7 +45,7 @@ public class FavoriteListAdapter extends ListAdapter<MovieOverviewModel, Favorit
     @Override
     public FavoriteListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_favorite_list, parent, false);
+                .inflate(R.layout.item_favorite, parent, false);
         return new FavoriteListViewHolder(view);
     }
 
@@ -57,6 +59,9 @@ public class FavoriteListAdapter extends ListAdapter<MovieOverviewModel, Favorit
                 .error(R.drawable.placeholder_poster)
                 .into(holder.thumbnailImageView);
 
+        holder.title.setText(item.getTitle());
+
+        holder.year.setText(String.valueOf(Utils.getYearFromTimestamp(item.getCreatedAt())) );
         if (clickListener != null) {
             holder.itemView.setOnClickListener(v -> clickListener.OnMovieClick(item.getMovieId()));
         }
@@ -64,10 +69,14 @@ public class FavoriteListAdapter extends ListAdapter<MovieOverviewModel, Favorit
 
     static class FavoriteListViewHolder extends RecyclerView.ViewHolder {
         final ImageView thumbnailImageView;
+        final TextView title;
+        final TextView year;
 
         public FavoriteListViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnailImageView = itemView.findViewById(R.id.imgPoster);
+            title=itemView.findViewById(R.id.tvTitle);
+            year =itemView.findViewById(R.id.tvYear);
 
         }
     }

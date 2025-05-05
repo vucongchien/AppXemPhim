@@ -93,11 +93,24 @@ public class HomeFragment extends Fragment {
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         //Carousel
         carouselAdapter=new CarouselAdapter();
+        carouselAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id",movieId);
+            startActivity(intent);
+        });
+
         binding.carousel.setAdapter(carouselAdapter);
         autoScrollRunnable = new Runnable() {
             @Override
             public void run() {
-                int nextItem = (binding.carousel.getCurrentItem() + 1) % carouselAdapter.getItemCount();
+
+                int itemCount = carouselAdapter.getItemCount();
+                int nextItem=0;
+                if (itemCount > 0) {
+                    nextItem = (binding.carousel.getCurrentItem() + 1) % itemCount;
+                    binding.carousel.setCurrentItem(nextItem, true);
+                    handler.postDelayed(this, 10000);
+                }
                 binding.carousel.setCurrentItem(nextItem, true);
                 handler.postDelayed(this, 10000);
             }
@@ -120,6 +133,11 @@ public class HomeFragment extends Fragment {
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewPopular.setNestedScrollingEnabled(false);
         popularAdapter = new PopularAdapter();
+        popularAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id",movieId);
+            startActivity(intent);
+        });
         binding.recyclerViewPopular.setAdapter(popularAdapter);
         binding.recyclerViewPopular.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
@@ -127,6 +145,11 @@ public class HomeFragment extends Fragment {
         binding.recyclerViewRetrotv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewRetrotv.setNestedScrollingEnabled(false);
         retroAdapter = new PopularAdapter();
+        retroAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id",movieId);
+            startActivity(intent);
+        });
         binding.recyclerViewRetrotv.setAdapter(retroAdapter);
         binding.recyclerViewRetrotv.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
@@ -134,6 +157,11 @@ public class HomeFragment extends Fragment {
         binding.recyclerViewOnlyApp.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewOnlyApp.setNestedScrollingEnabled(false);
         onlyAdapter = new PopularAdapter();
+        onlyAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id",movieId);
+            startActivity(intent);
+        });
         binding.recyclerViewOnlyApp.setAdapter(onlyAdapter);
         binding.recyclerViewOnlyApp.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
