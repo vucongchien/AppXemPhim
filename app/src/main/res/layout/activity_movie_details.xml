@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#000"
+    android:background="@color/colorBackground"
     android:fitsSystemWindows="true">
 
     <!-- Video Preview -->
@@ -117,14 +117,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Play"
-                android:textColor="@color/black"
+                android:textColor="@color/onSurface"
                 android:textSize="16sp"
-                app:backgroundTint="@color/white"
+                app:backgroundTint="@color/colorSurface"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/play_video"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@color/black"
+                app:iconTint="@color/onSurface"
                 android:layout_marginVertical="4dp"
                 />
 
@@ -136,14 +136,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Download"
-                android:textColor="@color/white"
+                android:textColor="@color/onSecondary"
                 android:textSize="16sp"
-                app:backgroundTint="@color/chip_background_active"
+                app:backgroundTint="@color/colorSecondary"
                 app:cornerRadius="8dp"
                 app:icon="@drawable/download"
                 app:iconGravity="textStart"
                 app:iconPadding="8dp"
-                app:iconTint="@color/white"
+                app:iconTint="@color/onSecondary"
                 app:iconSize="24dp"
                 android:layout_marginVertical="4dp"/>
 
@@ -154,7 +154,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="The contents of a hidden grave draw the interest of an industrial titan..."
-                android:textColor="#CCC"
+                android:textColor="@color/onBackground"
                 android:maxLines="3"
                 android:ellipsize="end"
                 android:textSize="15sp"
@@ -167,7 +167,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Cast: "
-                android:textColor="#888"
+                android:textColor="@color/onBackground"
                 android:textSize="15sp" />
 
             <TextView
@@ -175,7 +175,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Director: "
-                android:textColor="#888"
+                android:textColor="@color/onBackground"
                 android:textSize="15sp"
                 android:layout_marginTop="4dp" />
 
@@ -187,7 +187,8 @@
                 android:orientation="horizontal"
                 android:gravity="center"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp">
+                android:layout_marginBottom="16dp"
+                >
 
                 <!-- My List -->
                 <LinearLayout
@@ -201,13 +202,14 @@
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:src="@drawable/plus"
-                        android:onClick="addMyList" />
+                        android:onClick="addMyList"
+                        app:tint="@color/onBackground"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="My List"
-                        android:textColor="#FFF"
+                        android:textColor="@color/onBackground"
                         android:textSize="12sp"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
@@ -224,13 +226,14 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:src="@drawable/start"
-                        android:onClick="rate" />
+                        android:onClick="rate"
+                        app:tint="@color/onBackground"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Rate"
-                        android:textColor="#FFF"
+                        android:textColor="@color/onBackground"
                         android:textSize="12sp"
                         android:layout_marginTop="8dp" />
                 </LinearLayout>
@@ -246,15 +249,17 @@
                     <ImageView
                         android:layout_width="24dp"
                         android:layout_height="24dp"
-                        android:src="@drawable/share" />
+                        android:src="@drawable/share"
+                        app:tint="@color/onBackground"/>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Share"
-                        android:textColor="#FFF"
+                        android:textColor="@color/onBackground"
                         android:textSize="12sp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"
+                        />
                 </LinearLayout>
             </LinearLayout>
 
@@ -263,7 +268,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="List Video"
-                android:textColor="#FFF"
+                android:textColor="@color/onBackground"
                 android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
@@ -280,7 +285,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Comment"
-                android:textColor="#FFF"
+                android:textColor="@color/onBackground"
                 android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_marginTop="16dp"
@@ -299,7 +304,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="More Like This"
-                android:textColor="#FFF"
+                android:textColor="@color/onBackground"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:layout_marginTop="24dp"

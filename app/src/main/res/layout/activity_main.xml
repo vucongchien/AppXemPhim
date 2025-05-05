@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/main_color"
+    android:background="@color/colorBackground"
 
     tools:context=".MainActivity">
 
@@ -37,21 +37,21 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/onBackground"
                     android:text="Discover Your" />
                 <TextView
                     android:id="@+id/textView2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="23dp"
-                    android:textColor="@android:color/holo_red_light"
+                    android:textColor="@color/onBackground"
                     android:text="Favorite Show" />
                 <TextView
                     android:id="@+id/textView3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="30dp"
-                    android:textColor="@android:color/white"
+                    android:textColor="@color/onBackground"
                     android:text="Watch Now Or Watch Later" />
                 <Button
                     android:id="@+id/buttonGetStart"
@@ -61,7 +61,7 @@
                     android:textSize="18dp"
                     android:padding="5dp"
                     android:onClick="GetStart"
-                    android:backgroundTint="@color/btn1"
+                    android:backgroundTint="@color/colorButtonPrimary"
                     android:text="Get Started" />
 
             </LinearLayout>

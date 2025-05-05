@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.DialogFragment;
 
 import com.example.appxemphim.R;
@@ -61,7 +62,8 @@ public class YearDialogFragment extends DialogFragment {
             public View getView(int position, View convertView, ViewGroup parent) {
                 View view = super.getView(position, convertView, parent);
                 TextView textView = (TextView) view.findViewById(android.R.id.text1);
-                textView.setTextColor(Color.WHITE);
+                textView.setTextColor(ContextCompat.getColor(requireContext(), R.color.onSurface));
+
                 return view;
             }
         };

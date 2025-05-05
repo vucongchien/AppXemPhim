@@ -37,10 +37,10 @@
             android:text="Play"
             android:textSize="16sp"
             android:drawableLeft="@drawable/play_video"
-            android:textColor="@color/black"
+            android:textColor="@color/onBackground"
             android:layout_weight="1"
             app:cornerRadius="8dp"
-            app:backgroundTint="@color/white" />
+            app:backgroundTint="@color/colorSurface" />
 
 
         <View
@@ -53,10 +53,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="20dp"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/colorPrimary"
             android:text="My List"
             android:textSize="16sp"
-            android:textColor="@color/white"
+            android:textColor="@color/onPrimary"
             android:drawableLeft="@drawable/plus"
             app:cornerRadius="8dp"
             android:layout_weight="1"/>

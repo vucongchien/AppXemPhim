@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Core Material Colors (Dark Theme) -->
+    <color name="colorPrimary">#1E88E5</color>            <!-- deep blue -->
+    <color name="colorPrimaryVariant">#1565C0</color>     <!-- darker blue -->
+    <color name="colorSecondary">#FFC107</color>          <!-- amber -->
+    <color name="colorSecondaryVariant">#FFB300</color>   <!-- darker amber -->
+    <color name="colorBackground">#121212</color>
+    <color name="colorSurface">#1E1E1E</color>
+    <color name="colorError">#CF6679</color>
+
+    <!-- On-color roles -->
+    <color name="onPrimary">#FFFFFF</color>
+    <color name="onSecondary">#000000</color>
+    <color name="onBackground">#E0E0E0</color>
+    <color name="onSurface">#E0E0E0</color>
+    <color name="onError">#000000</color>
+
+    <!-- Chip View Colors - Dark Theme -->
+    <color name="colorChipBackground">#263238</color>     <!-- dark blue-gray -->
+    <color name="colorChipSelected">#FFB300</color>       <!-- dark amber -->
+    <color name="onChipBackground">#FFFFFF</color>        <!-- white text on chip -->
+    <color name="onChipSelected">#000000</color>          <!-- black text on selected -->
+    <color name="colorChipBorder">#37474F</color>         <!-- muted blue-gray border -->
+
+    <!-- Button Colors - Dark Theme -->
+    <color name="colorButtonPrimary">#1E88E5</color>      <!-- deep blue -->
+    <color name="onButtonPrimary">#FFFFFF</color>         <!-- white text -->
+
+    <color name="colorButtonSecondary">#FFC107</color>    <!-- amber -->
+    <color name="onButtonSecondary">#000000</color>       <!-- black text -->
+
+    <color name="colorButtonDisabled">#3A3A3A</color>     <!-- dark gray -->
+    <color name="onButtonDisabled">#777777</color>        <!-- medium gray text -->
+
+    <!-- Custom App Colors for Movie Streaming UX -->
+    <color name="colorPosterOverlay">#80000000</color>    <!-- 50% black overlay -->
+    <color name="colorSubtitleText">#B3FFFFFF</color>     <!-- soft white subtitles -->
+    <color name="colorAppBar">#1E1E1E</color>             <!-- dark app bar -->
+    <color name="colorBottomNav">#1C1C1C</color>          <!-- dark nav bar -->
+    <color name="colorCardBackground">#242424</color>     <!-- dark card bg -->
+    <color name="colorProgressBar">#1E88E5</color>        <!-- primary blue accent -->
+    <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
+</resources>
