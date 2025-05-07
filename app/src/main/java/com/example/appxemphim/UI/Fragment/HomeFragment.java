@@ -2,14 +2,17 @@ package com.example.appxemphim.UI.Fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -22,6 +25,7 @@ import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.UI.Adapter.CarouselAdapter;
 import com.example.appxemphim.UI.Adapter.PopularAdapter;
+import com.example.appxemphim.UI.Utils.Resource;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModel;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModelFactory;
@@ -48,6 +52,13 @@ public class HomeFragment extends Fragment {
         initData();
         highlightTodayChip();
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        setChipWidthByPercentage();
+        setTextViewSizeByPercent();
     }
 
     private void highlightTodayChip() {
@@ -87,6 +98,54 @@ public class HomeFragment extends Fragment {
             chipToHighlight.setTextColor(ContextCompat.getColor(getContext(), android.R.color.holo_blue_light));
         }
     }
+    private void setChipWidthByPercentage() {
+        // Lấy chiều rộng màn hình
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+
+        // Tính chiều rộng mỗi chip = 14.2% (100 / 7)
+        int chipWidth = (int) (screenWidth * 0.142); // hoặc 0.14 tùy bạn
+
+        // Danh sách các chip
+        Chip[] allChips = {
+                binding.showtimeMonday,
+                binding.showtimeTuesday,
+                binding.showtimeWednesday,
+                binding.showtimeThursday,
+                binding.showtimeFriday,
+                binding.showtimeSaturday,
+                binding.showtimeSunday
+        };
+
+        // Áp dụng chiều rộng cho từng chip
+        for (Chip chip : allChips) {
+            ViewGroup.LayoutParams params = chip.getLayoutParams();
+            params.width = chipWidth;
+            chip.setLayoutParams(params);
+        }
+    }
+    private void setTextViewSizeByPercent() {
+        // Lấy chiều rộng và cao màn hình
+        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
+
+        // Tính % chiều rộng và chiều cao mong muốn
+        int targetHeight = (int) (screenHeight * 0.05);
+
+        // List các TextView cần set
+        TextView[] textViews = {
+                binding.popular,
+                binding.retroTv,
+                binding.onlyApp,
+                binding.showtimeTitle
+        };
+
+        for (TextView textView : textViews) {
+            ViewGroup.LayoutParams params = textView.getLayoutParams();
+            params.height = targetHeight;
+            textView.setLayoutParams(params);
+        }
+    }
+
 
 
     private void initViews(){

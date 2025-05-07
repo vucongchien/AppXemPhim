@@ -1,5 +1,8 @@
 package com.example.appxemphim.UI.Adapter;
 
+import android.graphics.RenderEffect;
+import android.graphics.Shader;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +28,7 @@ public class PopularAdapter extends ListAdapter<MovieOverviewModel, PopularAdapt
 
     public PopularAdapter(){
         super(DIFF_CALLBACK);
+
     }
     public void setOnMovieClickListener(OnMovieClickListener listener) {
         this.clickListener = listener;
@@ -71,6 +75,12 @@ public class PopularAdapter extends ListAdapter<MovieOverviewModel, PopularAdapt
         public PopularViewHolder(@NonNull View itemView) {
             super(itemView);
             thumbnailImageView = itemView.findViewById(R.id.img_popular_item);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                View blurView = itemView.findViewById(R.id.blur_background);
+                blurView.setRenderEffect(
+                        RenderEffect.createBlurEffect(20f, 20f, Shader.TileMode.CLAMP)
+                );
+            }
         }
     }
 }
