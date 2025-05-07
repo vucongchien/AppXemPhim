@@ -1,17 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="160dp"
     android:layout_height="240dp"
+    android:layout_margin="8dp"
     app:cardCornerRadius="8dp"
-    app:cardElevation="6dp"
-    android:layout_margin="8dp">
+    app:cardElevation="6dp">
 
-    <ImageView
-        android:id="@+id/img_popular_item"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:contentDescription="Thumbnail"
-        android:src="@drawable/placeholder_poster" />
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/img_popular_item"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:contentDescription="Thumbnail"
+            android:src="@drawable/placeholder_poster" />
+
+        <!-- Nền đen mờ để dễ đọc chữ -->
+        <LinearLayout
+            android:id="@+id/blur_background"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_gravity="bottom"
+            android:padding="4dp"
+            android:orientation="vertical"
+            android:background="@android:color/transparent">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Movie Title"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+            <TextView
+                android:id="@+id/tvViews"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="2.5M views"
+                android:textColor="@android:color/white"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:ellipsize="end" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
 </androidx.cardview.widget.CardView>

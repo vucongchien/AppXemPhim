@@ -15,11 +15,10 @@ android {
 
     defaultConfig {
         applicationId = "com.example.appxemphim"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 35
         versionCode = 1
         versionName = "1.0"
-
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -87,4 +86,5 @@ dependencies {
 
     implementation ("androidx.media3:media3-ui:1.3.1")
     implementation ("androidx.media3:media3-exoplayer:1.3.1")
+
 }

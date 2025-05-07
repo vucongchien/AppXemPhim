@@ -2,7 +2,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -24,41 +25,51 @@
     <LinearLayout
         android:id="@+id/fragment_movie_btn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:layout_gravity="bottom|center"
         android:layout_marginBottom="16dp">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_play"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-
+            android:layout_height="match_parent"
             android:layout_marginStart="20dp"
             android:text="Play"
-            android:textSize="16sp"
+            app:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="24sp"
+            android:autoSizeStepGranularity="2sp"
             android:drawableLeft="@drawable/play_video"
-            android:textColor="@color/onBackground"
+            android:textColor="@color/onSurface"
             android:layout_weight="1"
             app:cornerRadius="8dp"
-            app:backgroundTint="@color/colorSurface" />
+            app:backgroundTint="@color/colorSurface"
+            app:iconTint="@color/onSurface"
+            android:drawableTint="@color/onSurface"/>
 
 
         <View
             android:layout_width="10dp"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
         </View>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_add_mylist"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginEnd="20dp"
             android:backgroundTint="@color/colorPrimary"
             android:text="My List"
-            android:textSize="16sp"
+            app:autoSizeTextType="uniform"
+            android:maxLines="1"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeMaxTextSize="24sp"
+            android:autoSizeStepGranularity="2sp"
             android:textColor="@color/onPrimary"
             android:drawableLeft="@drawable/plus"
             app:cornerRadius="8dp"
+            app:iconTint="@color/onPrimary"
             android:layout_weight="1"/>
 
     </LinearLayout>
