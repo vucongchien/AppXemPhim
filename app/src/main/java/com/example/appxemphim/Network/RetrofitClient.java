@@ -29,5 +29,7 @@ public class RetrofitClient {
 
     public GenreApiService getGenreApiService(){return  retrofit.create(GenreApiService.class);}
 
+    public ShowTimeApiService getShowTimeApiService(){return retrofit.create(ShowTimeApiService.class);}
+
 
 }

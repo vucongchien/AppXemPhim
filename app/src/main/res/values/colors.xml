@@ -22,6 +22,7 @@
     <color name="onChipBackground">#212121</color>        <!-- dark gray text/icons -->
     <color name="onChipSelected">#000000</color>          <!-- black on selected chip -->
     <color name="colorChipBorder">#FFE082</color>         <!-- soft amber border -->
+    <color name="colorBlurBackground">#80FFFFFF</color>
 
     <!-- Button Colors - Light Theme -->
     <color name="colorButtonPrimary">#1E88E5</color>      <!-- deep blue -->
