@@ -7,7 +7,8 @@
     android:layout_margin="8dp"
     android:elevation="4dp"
     android:foreground="?attr/selectableItemBackground"
-    app:cardCornerRadius="8dp">
+    app:cardCornerRadius="8dp"
+    android:background="@color/colorBlurBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -43,13 +44,31 @@
                 android:text="Movie Title"
                 android:textAppearance="?attr/textAppearanceSubtitle1"
                 android:textStyle="bold"
-                android:layout_marginTop="16dp"/>
+                android:layout_marginTop="16dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                android:textColor="@color/onSurface"/>
             <TextView
                 android:id="@+id/tvYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2008"
-                android:layout_marginTop="4dp"/>
+                android:layout_marginTop="4dp"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:textColor="@color/onSurface"/>
+
+            <TextView
+                android:id="@+id/tvViews"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.5 M"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:textColor="@color/colorSecondary"/>
+
 
         </LinearLayout>
     </LinearLayout>
