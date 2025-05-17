@@ -56,6 +56,9 @@ public class HomeFragment extends Fragment {
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
     private List<EpisodeInfoDTO> allShowtimes = null;
+    private MovieForHomeViewModel movieViewModel;
+    private ShowtimeViewModel showtimeViewModel;
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -244,70 +247,70 @@ public class HomeFragment extends Fragment {
             dialog.show(getParentFragmentManager(), "YearDialog");
         });
 
-        binding.showtimeMonday.setOnClickListener(v -> filterShowtimesByDay("Monday"));
-        binding.showtimeTuesday.setOnClickListener(v -> filterShowtimesByDay("Tuesday"));
-        binding.showtimeWednesday.setOnClickListener(v -> filterShowtimesByDay("Wednesday"));
-        binding.showtimeThursday.setOnClickListener(v -> filterShowtimesByDay("Thursday"));
-        binding.showtimeFriday.setOnClickListener(v -> filterShowtimesByDay("Friday"));
-        binding.showtimeSaturday.setOnClickListener(v -> filterShowtimesByDay("Saturday"));
-        binding.showtimeSunday.setOnClickListener(v -> filterShowtimesByDay("Sunday"));
+
     }
 
     protected void initData() {
         MovieRepository repository = new MovieRepository();
         MovieForHomeViewModelFactory factory = new MovieForHomeViewModelFactory(repository);
-        MovieForHomeViewModel viewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
+        movieViewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
 
-        viewModel.popular.observe(requireActivity(), movies -> {
+        movieViewModel.popular.observe(requireActivity(), movies -> {
             popularAdapter.submitList(movies.getData());
             carouselAdapter.submitList(movies.getData());
         });
-        viewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
-        viewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
+        movieViewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
+        movieViewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
 
-        viewModel.loadDataPopular();
-        viewModel.loadDataRetro();
-        viewModel.loadDataOnly();
+        movieViewModel.loadDataPopular();
+        movieViewModel.loadDataRetro();
+        movieViewModel.loadDataOnly();
 
         ShowTimeRepository showtimeRepository = new ShowTimeRepository();
         ShowtimeViewModelFactory showtimeFactory = new ShowtimeViewModelFactory(showtimeRepository);
-        ShowtimeViewModel showtimeViewModel = new ViewModelProvider(this, showtimeFactory).get(ShowtimeViewModel.class);
+        showtimeViewModel = new ViewModelProvider(this, showtimeFactory).get(ShowtimeViewModel.class);
 
-        showtimeViewModel.fetchAllShowTimes();
+        // Load lịch chiếu hôm nay
+        Calendar calendar = Calendar.getInstance();
+        int todayIndex = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7; // convert SUNDAY = 1 to 6, MONDAY = 2 to 0,...
+
+        observeShowtimeForDay(todayIndex);  // tự động hiển thị hôm nay
+        setChipClickListener(binding.showtimeMonday, 0);
+        setChipClickListener(binding.showtimeTuesday, 1);
+        setChipClickListener(binding.showtimeWednesday, 2);
+        setChipClickListener(binding.showtimeThursday, 3);
+        setChipClickListener(binding.showtimeFriday, 4);
+        setChipClickListener(binding.showtimeSaturday, 5);
+        setChipClickListener(binding.showtimeSunday, 6);
 
         showtimeViewModel.showTimesLiveData.observe(getViewLifecycleOwner(), showTimeResource -> {
+
+        });
+    }
+    private void setChipClickListener(Chip chip, int dayIndex) {
+        chip.setOnClickListener(v -> observeShowtimeForDay(dayIndex));
+    }
+
+
+    private void observeShowtimeForDay(int dayIndex) {
+        showtimeViewModel.getShowTimesByWeekday(dayIndex).observe(getViewLifecycleOwner(), showTimeResource -> {
             if (showTimeResource != null) {
                 switch (showTimeResource.getStatus()) {
-                    case LOADING:
-                        break;
                     case SUCCESS:
-                        allShowtimes = showTimeResource.getData();
-                        if (allShowtimes != null) {
-                            String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
-                            int todayIndex = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
-                            String today = days[todayIndex];
-                            filterShowtimesByDay(today);
-                        }
+                        showtimeAdapter.submitList(showTimeResource.getData());
+                        break;
+                    case LOADING:
+                        // show loading UI if needed
                         break;
                     case ERROR:
-                        Toast.makeText(getContext(), "Lỗi: " + showTimeResource.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(), "Error loading showtimes", Toast.LENGTH_SHORT).show();
                         break;
                 }
             }
         });
     }
 
-    private void filterShowtimesByDay(String dayOfWeek) {
-        if (allShowtimes == null || allShowtimes.isEmpty()) return;
 
-        List<EpisodeInfoDTO> filtered = new ArrayList<>();
-        for (EpisodeInfoDTO showtime : allShowtimes) {
-            if (dayOfWeek.equalsIgnoreCase(showtime.getReleaseTime())) {
-                filtered.add(showtime);
-            }
-        }
-        showtimeAdapter.submitList(filtered);
-    }
 
     @Override
     public void onDestroyView() {
