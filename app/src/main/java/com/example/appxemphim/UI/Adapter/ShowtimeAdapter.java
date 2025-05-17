@@ -16,7 +16,7 @@ import com.example.appxemphim.Model.DTO.EpisodeInfoDTO;
 import com.example.appxemphim.R;
 
 public class ShowtimeAdapter extends ListAdapter<EpisodeInfoDTO, ShowtimeAdapter.ShowtimeViewHolder> {
-
+    private OnShowtimeClickListener listener;
     public ShowtimeAdapter() {
         super(new DiffUtil.ItemCallback<EpisodeInfoDTO>() {
             @Override
@@ -31,6 +31,14 @@ public class ShowtimeAdapter extends ListAdapter<EpisodeInfoDTO, ShowtimeAdapter
         });
     }
 
+    public interface OnShowtimeClickListener {
+        void onShowtimeClick(String movieId);
+    }
+
+    public void setOnShowtimeClickListener(OnShowtimeClickListener listener) {
+        this.listener = listener;
+    }
+
     @NonNull
     @Override
     public ShowtimeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,7 +48,17 @@ public class ShowtimeAdapter extends ListAdapter<EpisodeInfoDTO, ShowtimeAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ShowtimeViewHolder holder, int position) {
-        holder.bind(getItem(position));
+        EpisodeInfoDTO currentItem = getItem(position);
+
+        // Hiển thị dữ liệu
+        holder.bind(currentItem);
+
+        // Bắt sự kiện click
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onShowtimeClick(currentItem.getMovieId());
+            }
+        });
     }
 
     static class ShowtimeViewHolder extends RecyclerView.ViewHolder {
@@ -55,7 +73,6 @@ public class ShowtimeAdapter extends ListAdapter<EpisodeInfoDTO, ShowtimeAdapter
 
         void bind(EpisodeInfoDTO episode) {
             textTitle.setText(episode.getEpisodeTitle());
-
             // Nếu bạn có URL hoặc path poster
             Glide.with(itemView.getContext())
                     .load(episode.getPosterURL()) // giả sử có hàm getPosterUrl()
