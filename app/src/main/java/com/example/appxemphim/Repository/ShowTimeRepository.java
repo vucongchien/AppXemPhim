@@ -1,5 +1,7 @@
 package com.example.appxemphim.Repository;
 
+import android.util.Log;
+
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.appxemphim.Model.DTO.EpisodeInfoDTO;
@@ -41,6 +43,7 @@ public class ShowTimeRepository {
             @Override
             public void onFailure(Call<ShowTimeResponse> call, Throwable t) {
                 liveData.postValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+                Log.d("chien", "onFailure: "+t.getMessage());
             }
         });
     }
