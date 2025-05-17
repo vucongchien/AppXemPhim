@@ -1,9 +1,15 @@
 package com.example.appxemphim.Model.DTO;
 
+import androidx.annotation.Nullable;
+
+import com.example.appxemphim.Model.MovieOverviewModel;
+
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 public class EpisodeInfoDTO {
     private String movieId;
+    private String posterURL;
     private int seasonNumber;
     private int episodeNumber;
     private String episodeTitle;
@@ -13,13 +19,27 @@ public class EpisodeInfoDTO {
     public EpisodeInfoDTO() {
     }
 
-    public EpisodeInfoDTO(String movieId,int seasonNumber, int episodeNumber, String episodeTitle, LocalDateTime releaseTime, int durationInMinutes) {
+    public EpisodeInfoDTO(String movieId, String posterURL, int seasonNumber, int episodeNumber, String episodeTitle, LocalDateTime releaseTime, int durationInMinutes) {
         this.movieId=movieId;
+        this.posterURL = posterURL;
         this.seasonNumber = seasonNumber;
         this.episodeNumber = episodeNumber;
         this.episodeTitle = episodeTitle;
         this.releaseTime = releaseTime;
         this.durationInMinutes = durationInMinutes;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        EpisodeInfoDTO that = (EpisodeInfoDTO) obj;
+        return movieId == that.movieId;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(movieId);
     }
 
     public int getSeasonNumber() {
@@ -56,6 +76,22 @@ public class EpisodeInfoDTO {
 
     public int getDurationInMinutes() {
         return durationInMinutes;
+    }
+
+    public String getPosterURL() {
+        return posterURL;
+    }
+
+    public void setPosterURL(String posterURL) {
+        this.posterURL = posterURL;
+    }
+
+    public String getMovieId() {
+        return movieId;
+    }
+
+    public void setMovieId(String movieId) {
+        this.movieId = movieId;
     }
 
     public void setDurationInMinutes(int durationInMinutes) {
