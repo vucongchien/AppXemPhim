@@ -247,7 +247,12 @@ public class HomeFragment extends Fragment {
             dialog.show(getParentFragmentManager(), "YearDialog");
         });
 
-
+        showtimeAdapter.setOnShowtimeClickListener(movieId -> {
+            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
+            intent.putExtra("autoplay", true);
+            startActivity(intent);
+        });
     }
 
     protected void initData() {
@@ -284,13 +289,12 @@ public class HomeFragment extends Fragment {
         setChipClickListener(binding.showtimeSunday, 6);
 
         showtimeViewModel.showTimesLiveData.observe(getViewLifecycleOwner(), showTimeResource -> {
-
         });
     }
     private void setChipClickListener(Chip chip, int dayIndex) {
         chip.setOnClickListener(v -> observeShowtimeForDay(dayIndex));
-    }
 
+    }
 
     private void observeShowtimeForDay(int dayIndex) {
         showtimeViewModel.getShowTimesByWeekday(dayIndex).observe(getViewLifecycleOwner(), showTimeResource -> {
@@ -309,8 +313,6 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-
 
     @Override
     public void onDestroyView() {
