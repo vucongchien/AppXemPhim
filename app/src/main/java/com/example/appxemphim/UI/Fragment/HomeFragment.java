@@ -1,5 +1,9 @@
 package com.example.appxemphim.UI.Fragment;
 
+import static com.example.appxemphim.UI.Utils.Resource.Status.ERROR;
+import static com.example.appxemphim.UI.Utils.Resource.Status.LOADING;
+import static com.example.appxemphim.UI.Utils.Resource.Status.SUCCESS;
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
@@ -10,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -18,17 +23,22 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.appxemphim.Model.DTO.EpisodeInfoDTO;
 import com.example.appxemphim.R;
 import com.example.appxemphim.Repository.MovieRepository;
+import com.example.appxemphim.Repository.ShowTimeRepository;
 import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.UI.Adapter.CarouselAdapter;
 import com.example.appxemphim.UI.Adapter.PopularAdapter;
+import com.example.appxemphim.UI.Adapter.ShowtimeAdapter;
 import com.example.appxemphim.UI.Utils.Resource;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModel;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModelFactory;
+import com.example.appxemphim.ViewModel.ShowtimeViewModel;
+import com.example.appxemphim.ViewModel.ShowtimeViewModelFactory;
 import com.example.appxemphim.databinding.FragmentHomeBinding;
 import com.google.android.material.chip.Chip;
 
@@ -38,7 +48,8 @@ import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private PopularAdapter popularAdapter, retroAdapter, onlyAdapter,showtimeAdapter;
+    private PopularAdapter popularAdapter, retroAdapter, onlyAdapter;
+    private ShowtimeAdapter showtimeAdapter;
     private CarouselAdapter carouselAdapter;
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
@@ -146,8 +157,6 @@ public class HomeFragment extends Fragment {
         }
     }
 
-
-
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         //Carousel
@@ -182,11 +191,9 @@ public class HomeFragment extends Fragment {
         });
 
         // RecyclerView Showtime (Lịch chiếu)
-        binding.recyclerViewShowtime.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        binding.recyclerViewShowtime.setNestedScrollingEnabled(false);
-        showtimeAdapter = new PopularAdapter();
+        showtimeAdapter = new ShowtimeAdapter();
         binding.recyclerViewShowtime.setAdapter(showtimeAdapter);
-        binding.recyclerViewShowtime.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
+        binding.recyclerViewShowtime.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
         // RecyclerView Popular
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -262,7 +269,6 @@ public class HomeFragment extends Fragment {
     }
 
     protected void initData() {
-        MovieForHomeViewModel viewModel;
 
         // Khởi tạo repository của bạn, nếu dùng singleton thì gọi qua getter
         MovieRepository repository = new MovieRepository();
@@ -271,7 +277,7 @@ public class HomeFragment extends Fragment {
         MovieForHomeViewModelFactory factory = new MovieForHomeViewModelFactory(repository);
 
         // Lấy ViewModel với factory
-        viewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
+        MovieForHomeViewModel viewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
 
         // Sử dụng viewModel...
         viewModel.popular.observe(requireActivity(), movies -> {
@@ -280,10 +286,37 @@ public class HomeFragment extends Fragment {
         });
         viewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
         viewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
+
         // Optionally trigger initial fetch:
         viewModel.loadDataPopular();
         viewModel.loadDataRetro();
         viewModel.loadDataOnly();
+
+        // Khởi tạo ViewModel
+        ShowTimeRepository showtimeRepository = new ShowTimeRepository();
+        ShowtimeViewModelFactory showtimeFactory = new ShowtimeViewModelFactory(showtimeRepository);
+        ShowtimeViewModel showtimeViewModel = new ViewModelProvider(this, showtimeFactory).get(ShowtimeViewModel.class);
+
+        // Gọi để load dữ liệu lịch chiếu
+        showtimeViewModel.fetchAllShowTimes();
+
+        // Quan sát dữ liệu trả về từ ViewModel
+        showtimeViewModel.getShowTimesLiveData().observe(getViewLifecycleOwner(), showTimeResource -> {
+            if (showTimeResource != null) {
+                switch (showTimeResource.getStatus()) {
+                    case LOADING:
+                        // TODO: hiển thị progress bar
+                        break;
+                    case SUCCESS:
+                        List<EpisodeInfoDTO> showtimes = showTimeResource.getData();
+                        if (showtimes != null) showtimeAdapter.submitList(showtimes);
+                        break;
+                    case ERROR:
+                        Toast.makeText(getContext(), "Lỗi: " + showTimeResource.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
     }
 
 

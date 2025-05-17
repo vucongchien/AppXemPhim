@@ -200,7 +200,6 @@
                             android:id="@+id/showtime_monday"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-
                             android:text="Mon"
                             android:autoSizeTextType="uniform"
                             android:maxLines="1"
@@ -308,7 +307,6 @@
                     app:layout_constraintStart_toStartOf="@id/showtime"
                     app:layout_constraintEnd_toEndOf="@id/showtime"
                     app:layout_constraintTop_toBottomOf="@id/showtime_scroll" />
-
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView

@@ -6,5 +6,5 @@ import java.util.List;
 
 public class ShowTimeRequest {
     private String movieId;
-    private List<EpisodeInfoDTO> showTimes; // Danh sách tạp sắp chiếu
+    private List<EpisodeInfoDTO> showTimes; // Danh sách tập sắp chiếu
 }
