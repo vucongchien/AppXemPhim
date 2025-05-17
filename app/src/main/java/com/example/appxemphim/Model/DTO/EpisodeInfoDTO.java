@@ -13,13 +13,13 @@ public class EpisodeInfoDTO {
     private int seasonNumber;
     private int episodeNumber;
     private String episodeTitle;
-    private LocalDateTime releaseTime;
+    private String releaseTime;
     private int durationInMinutes;
 
     public EpisodeInfoDTO() {
     }
 
-    public EpisodeInfoDTO(String movieId, String posterURL, int seasonNumber, int episodeNumber, String episodeTitle, LocalDateTime releaseTime, int durationInMinutes) {
+    public EpisodeInfoDTO(String movieId, String posterURL, int seasonNumber, int episodeNumber, String episodeTitle, String releaseTime, int durationInMinutes) {
         this.movieId=movieId;
         this.posterURL = posterURL;
         this.seasonNumber = seasonNumber;
@@ -66,14 +66,9 @@ public class EpisodeInfoDTO {
         this.episodeTitle = episodeTitle;
     }
 
-    public LocalDateTime getReleaseTime() {
+    public String getReleaseTime() {
         return releaseTime;
     }
-
-    public void setReleaseTime(LocalDateTime releaseTime) {
-        this.releaseTime = releaseTime;
-    }
-
     public int getDurationInMinutes() {
         return durationInMinutes;
     }

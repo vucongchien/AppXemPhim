@@ -10,6 +10,7 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -300,8 +301,9 @@ public class HomeFragment extends Fragment {
         // Gọi để load dữ liệu lịch chiếu
         showtimeViewModel.fetchAllShowTimes();
 
+
         // Quan sát dữ liệu trả về từ ViewModel
-        showtimeViewModel.getShowTimesLiveData().observe(getViewLifecycleOwner(), showTimeResource -> {
+        showtimeViewModel.showTimesLiveData.observe(getViewLifecycleOwner(), showTimeResource -> {
             if (showTimeResource != null) {
                 switch (showTimeResource.getStatus()) {
                     case LOADING:
@@ -309,6 +311,7 @@ public class HomeFragment extends Fragment {
                         break;
                     case SUCCESS:
                         List<EpisodeInfoDTO> showtimes = showTimeResource.getData();
+                        Log.d("AAA", "initData: "+showtimes.size());
                         if (showtimes != null) showtimeAdapter.submitList(showtimes);
                         break;
                     case ERROR:
