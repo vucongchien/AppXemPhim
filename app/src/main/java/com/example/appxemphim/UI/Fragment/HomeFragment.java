@@ -43,6 +43,7 @@ import com.example.appxemphim.ViewModel.ShowtimeViewModelFactory;
 import com.example.appxemphim.databinding.FragmentHomeBinding;
 import com.google.android.material.chip.Chip;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -54,10 +55,10 @@ public class HomeFragment extends Fragment {
     private CarouselAdapter carouselAdapter;
     private Handler handler = new Handler(Looper.getMainLooper());
     private Runnable autoScrollRunnable;
+    private List<EpisodeInfoDTO> allShowtimes = null;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Khởi tạo binding
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
         initViews();
@@ -74,13 +75,10 @@ public class HomeFragment extends Fragment {
     }
 
     private void highlightTodayChip() {
-        // Lấy ngày hôm nay
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);
 
-        // Ánh xạ Calendar.DAY_OF_WEEK với Chip tương ứng
         Chip chipToHighlight = null;
-
         switch (dayOfWeek) {
             case Calendar.MONDAY:
                 chipToHighlight = binding.showtimeMonday;
@@ -105,19 +103,15 @@ public class HomeFragment extends Fragment {
                 break;
         }
 
-        // Đổi màu text nếu chip hợp lệ
         if (chipToHighlight != null) {
             chipToHighlight.setTextColor(ContextCompat.getColor(getContext(), android.R.color.holo_blue_light));
         }
     }
+
     private void setChipWidthByPercentage() {
-        // Lấy chiều rộng màn hình
         int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
+        int chipWidth = (int) (screenWidth * 0.142);
 
-        // Tính chiều rộng mỗi chip = 14.2% (100 / 7)
-        int chipWidth = (int) (screenWidth * 0.142); // hoặc 0.14 tùy bạn
-
-        // Danh sách các chip
         Chip[] allChips = {
                 binding.showtimeMonday,
                 binding.showtimeTuesday,
@@ -128,22 +122,17 @@ public class HomeFragment extends Fragment {
                 binding.showtimeSunday
         };
 
-        // Áp dụng chiều rộng cho từng chip
         for (Chip chip : allChips) {
             ViewGroup.LayoutParams params = chip.getLayoutParams();
             params.width = chipWidth;
             chip.setLayoutParams(params);
         }
     }
-    private void setTextViewSizeByPercent() {
-        // Lấy chiều rộng và cao màn hình
-        int screenWidth = Resources.getSystem().getDisplayMetrics().widthPixels;
-        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
 
-        // Tính % chiều rộng và chiều cao mong muốn
+    private void setTextViewSizeByPercent() {
+        int screenHeight = Resources.getSystem().getDisplayMetrics().heightPixels;
         int targetHeight = (int) (screenHeight * 0.05);
 
-        // List các TextView cần set
         TextView[] textViews = {
                 binding.popular,
                 binding.retroTv,
@@ -160,28 +149,24 @@ public class HomeFragment extends Fragment {
 
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
-        //Carousel
-        carouselAdapter=new CarouselAdapter();
+
+        carouselAdapter = new CarouselAdapter();
         carouselAdapter.setOnMovieClickListener(movieId -> {
-            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
-            intent.putExtra("movie_id",movieId);
+            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
             startActivity(intent);
         });
-
         binding.carousel.setAdapter(carouselAdapter);
         autoScrollRunnable = new Runnable() {
             @Override
             public void run() {
-
                 int itemCount = carouselAdapter.getItemCount();
-                int nextItem=0;
+                int nextItem = 0;
                 if (itemCount > 0) {
                     nextItem = (binding.carousel.getCurrentItem() + 1) % itemCount;
                     binding.carousel.setCurrentItem(nextItem, true);
                     handler.postDelayed(this, 10000);
                 }
-                binding.carousel.setCurrentItem(nextItem, true);
-                handler.postDelayed(this, 10000);
             }
         };
         handler.postDelayed(autoScrollRunnable, 10000);
@@ -191,42 +176,38 @@ public class HomeFragment extends Fragment {
             page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
         });
 
-        // RecyclerView Showtime (Lịch chiếu)
         showtimeAdapter = new ShowtimeAdapter();
         binding.recyclerViewShowtime.setAdapter(showtimeAdapter);
         binding.recyclerViewShowtime.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
 
-        // RecyclerView Popular
         binding.recyclerViewPopular.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewPopular.setNestedScrollingEnabled(false);
         popularAdapter = new PopularAdapter();
         popularAdapter.setOnMovieClickListener(movieId -> {
-            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
-            intent.putExtra("movie_id",movieId);
+            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
             startActivity(intent);
         });
         binding.recyclerViewPopular.setAdapter(popularAdapter);
         binding.recyclerViewPopular.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
-        // RecyclerView Retro
         binding.recyclerViewRetrotv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewRetrotv.setNestedScrollingEnabled(false);
         retroAdapter = new PopularAdapter();
         retroAdapter.setOnMovieClickListener(movieId -> {
-            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
-            intent.putExtra("movie_id",movieId);
+            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
             startActivity(intent);
         });
         binding.recyclerViewRetrotv.setAdapter(retroAdapter);
         binding.recyclerViewRetrotv.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
-        // RecyclerView Only App
         binding.recyclerViewOnlyApp.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewOnlyApp.setNestedScrollingEnabled(false);
         onlyAdapter = new PopularAdapter();
         onlyAdapter.setOnMovieClickListener(movieId -> {
-            Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
-            intent.putExtra("movie_id",movieId);
+            Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
             startActivity(intent);
         });
         binding.recyclerViewOnlyApp.setAdapter(onlyAdapter);
@@ -237,20 +218,16 @@ public class HomeFragment extends Fragment {
             startActivity(intent);
         });
 
-
-        // Button Cancelled category
         binding.btnCancelled.setOnClickListener(v -> {
             binding.btnCategories.setText("Categories");
             binding.btnYear.setText("Year");
             binding.btnCancelled.setVisibility(View.GONE);
         });
 
-        // Button Categories
         binding.btnCategories.setOnClickListener(v -> {
             CategoryDialogFragment dialog = new CategoryDialogFragment(selectedGenre -> {
                 binding.btnCategories.setText(selectedGenre);
-                if(binding.btnCancelled.getVisibility() == View.GONE)
-                {
+                if(binding.btnCancelled.getVisibility() == View.GONE) {
                     binding.btnCancelled.setVisibility(View.VISIBLE);
                 }
             });
@@ -260,27 +237,27 @@ public class HomeFragment extends Fragment {
         binding.btnYear.setOnClickListener(v -> {
             YearDialogFragment dialog = new YearDialogFragment(selectedGenre -> {
                 binding.btnYear.setText(selectedGenre);
-                if(binding.btnCancelled.getVisibility() == View.GONE)
-                {
+                if(binding.btnCancelled.getVisibility() == View.GONE) {
                     binding.btnCancelled.setVisibility(View.VISIBLE);
                 }
             });
             dialog.show(getParentFragmentManager(), "YearDialog");
         });
+
+        binding.showtimeMonday.setOnClickListener(v -> filterShowtimesByDay("Monday"));
+        binding.showtimeTuesday.setOnClickListener(v -> filterShowtimesByDay("Tuesday"));
+        binding.showtimeWednesday.setOnClickListener(v -> filterShowtimesByDay("Wednesday"));
+        binding.showtimeThursday.setOnClickListener(v -> filterShowtimesByDay("Thursday"));
+        binding.showtimeFriday.setOnClickListener(v -> filterShowtimesByDay("Friday"));
+        binding.showtimeSaturday.setOnClickListener(v -> filterShowtimesByDay("Saturday"));
+        binding.showtimeSunday.setOnClickListener(v -> filterShowtimesByDay("Sunday"));
     }
 
     protected void initData() {
-
-        // Khởi tạo repository của bạn, nếu dùng singleton thì gọi qua getter
         MovieRepository repository = new MovieRepository();
-
-        // Tạo factory
         MovieForHomeViewModelFactory factory = new MovieForHomeViewModelFactory(repository);
-
-        // Lấy ViewModel với factory
         MovieForHomeViewModel viewModel = new ViewModelProvider(this, factory).get(MovieForHomeViewModel.class);
 
-        // Sử dụng viewModel...
         viewModel.popular.observe(requireActivity(), movies -> {
             popularAdapter.submitList(movies.getData());
             carouselAdapter.submitList(movies.getData());
@@ -288,31 +265,29 @@ public class HomeFragment extends Fragment {
         viewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
         viewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
 
-        // Optionally trigger initial fetch:
         viewModel.loadDataPopular();
         viewModel.loadDataRetro();
         viewModel.loadDataOnly();
 
-        // Khởi tạo ViewModel
         ShowTimeRepository showtimeRepository = new ShowTimeRepository();
         ShowtimeViewModelFactory showtimeFactory = new ShowtimeViewModelFactory(showtimeRepository);
         ShowtimeViewModel showtimeViewModel = new ViewModelProvider(this, showtimeFactory).get(ShowtimeViewModel.class);
 
-        // Gọi để load dữ liệu lịch chiếu
         showtimeViewModel.fetchAllShowTimes();
 
-
-        // Quan sát dữ liệu trả về từ ViewModel
         showtimeViewModel.showTimesLiveData.observe(getViewLifecycleOwner(), showTimeResource -> {
             if (showTimeResource != null) {
                 switch (showTimeResource.getStatus()) {
                     case LOADING:
-                        // TODO: hiển thị progress bar
                         break;
                     case SUCCESS:
-                        List<EpisodeInfoDTO> showtimes = showTimeResource.getData();
-                        Log.d("AAA", "initData: "+showtimes.size());
-                        if (showtimes != null) showtimeAdapter.submitList(showtimes);
+                        allShowtimes = showTimeResource.getData();
+                        if (allShowtimes != null) {
+                            String[] days = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+                            int todayIndex = Calendar.getInstance().get(Calendar.DAY_OF_WEEK) - 1;
+                            String today = days[todayIndex];
+                            filterShowtimesByDay(today);
+                        }
                         break;
                     case ERROR:
                         Toast.makeText(getContext(), "Lỗi: " + showTimeResource.getMessage(), Toast.LENGTH_SHORT).show();
@@ -322,6 +297,17 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void filterShowtimesByDay(String dayOfWeek) {
+        if (allShowtimes == null || allShowtimes.isEmpty()) return;
+
+        List<EpisodeInfoDTO> filtered = new ArrayList<>();
+        for (EpisodeInfoDTO showtime : allShowtimes) {
+            if (dayOfWeek.equalsIgnoreCase(showtime.getReleaseTime())) {
+                filtered.add(showtime);
+            }
+        }
+        showtimeAdapter.submitList(filtered);
+    }
 
     @Override
     public void onDestroyView() {
