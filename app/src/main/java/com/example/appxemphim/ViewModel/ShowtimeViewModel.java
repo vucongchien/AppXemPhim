@@ -16,6 +16,8 @@ public class ShowtimeViewModel extends ViewModel {
     private MutableLiveData<Resource<List<EpisodeInfoDTO>>> _showTimesLiveData = new MutableLiveData<>();
     public LiveData<Resource<List<EpisodeInfoDTO>>> showTimesLiveData = _showTimesLiveData;
 
+
+
     public ShowtimeViewModel(ShowTimeRepository showTimeRepository){
         this.repository = showTimeRepository;
     }
