@@ -45,7 +45,7 @@
             android:minHeight="48dp"
             android:layout_weight="1"
             android:layout_marginStart="8dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/bg_search_bar"
             android:orientation="horizontal"
             android:gravity="center_vertical"
@@ -79,6 +79,15 @@
                 android:textSize="16sp" />
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ivFilter"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.12"
+            android:minHeight="48dp"
+            app:tint="#B0B0B0"
+            app:srcCompat="@drawable/baseline_filter_alt_24" />
 
     </LinearLayout>
 
