@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bottom_sheet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="@android:color/white">
+
+
+    <TextView
+        android:id="@+id/tvFilter"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingBottom="12dp"
+        android:text="Filter"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="center"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <com.example.appxemphim.UI.View.FilterChipGroupView
+                android:id="@+id/filterGenreView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.example.appxemphim.UI.View.FilterChipGroupView
+                android:id="@+id/filterNationView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.example.appxemphim.UI.View.FilterChipGroupView
+                android:id="@+id/filterYearView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <com.example.appxemphim.UI.View.FilterChipGroupView
+                android:id="@+id/filterTypeView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+            </com.example.appxemphim.UI.View.FilterChipGroupView>
+
+            <SeekBar
+                android:id="@+id/seekBar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/apply"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="apply" />
+
+        <Button
+            android:id="@+id/reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="reset" />
+    </LinearLayout>
+
+
+</LinearLayout>
