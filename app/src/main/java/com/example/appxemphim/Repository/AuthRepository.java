@@ -4,6 +4,7 @@ package com.example.appxemphim.Repository;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.appxemphim.Model.DTO.EmailDTO;
+import com.example.appxemphim.Model.TokenModel;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitClient;
 import com.example.appxemphim.Network.RetrofitInstance;
@@ -22,34 +23,26 @@ public class AuthRepository {
 
     private final ApiLoginRegisterService apiService;
 
-    public AuthRepository(String token) {
-        // Nếu cần token (cho API như reset mật khẩu)
-        this.apiService = RetrofitInstance.createService(ApiLoginRegisterService.class, token);
-    }
 
     public AuthRepository() {
         // Nếu không cần token (ví dụ: kiểm tra email)
         this.apiService = RetrofitInstance.getApiService();
     }
 
-    public void loginWithToken(String token, MutableLiveData<Resource<String>> liveData) {
+    public void loginWithToken(String token, MutableLiveData<Resource<TokenModel>> liveData) {
         liveData.setValue(Resource.loading());
-        apiService.loginWithToken(token).enqueue(new Callback<>() {
+        apiService.loginWithToken(token).enqueue(new Callback<TokenModel>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                try {
+            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
                     if (response.isSuccessful() && response.body() != null) {
-                        liveData.setValue(Resource.success(response.body().string()));
+                        liveData.setValue(Resource.success(response.body()));
                     } else {
                         liveData.setValue(Resource.error("Đăng nhập thất bại"));
                     }
-                } catch (IOException e) {
-                    liveData.setValue(Resource.error("Lỗi đọc dữ liệu"));
-                }
             }
 
             @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
+            public void onFailure(Call<TokenModel> call, Throwable t) {
                 liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
             }
         });

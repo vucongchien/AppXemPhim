@@ -42,9 +42,7 @@ public class ProfileRepository {
 
     public ProfileRepository(Context context) {
         this.context = context;
-        SharedPreferences sharedPref = context.getSharedPreferences("LocalStore", MODE_PRIVATE);
-        String token = sharedPref.getString("Token", "");
-        this.profileService = RetrofitInstance.createService(ProfileService.class, token);
+        this.profileService = RetrofitInstance.createService(ProfileService.class);
     }
 
     public void updateProfile(String nameStr, String gmailStr, @Nullable Uri fileUri, Runnable onSuccess, Runnable onFailure) {
@@ -114,6 +112,25 @@ public class ProfileRepository {
     public void getProfile(String uid,MutableLiveData<Resource<Profile>> liveData){
         liveData.setValue(Resource.loading());
         profileService.getProfile(uid).enqueue(new Callback<Profile>() {
+            @Override
+            public void onResponse(Call<Profile> call, Response<Profile> response) {
+                if (response.isSuccessful()&& response.body() != null) {
+                    Profile profile = response.body();
+                    liveData.setValue(Resource.success(profile));
+                } else {
+                    liveData.setValue(Resource.error("Lỗi cập nhật: " + response.code()));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Profile> call, Throwable t) {
+                liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+    public void getInfomation(MutableLiveData<Resource<Profile>> liveData){
+        liveData.setValue(Resource.loading());
+        profileService.getInfomation().enqueue(new Callback<Profile>() {
             @Override
             public void onResponse(Call<Profile> call, Response<Profile> response) {
                 if (response.isSuccessful()&& response.body() != null) {

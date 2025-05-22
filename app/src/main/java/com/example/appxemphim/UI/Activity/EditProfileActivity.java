@@ -102,7 +102,7 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private  void setData(){
-        profileViewModel.getprofile("1");//quy ước của tay trên server: 1 là uid lấy từ token người dùng
+        profileViewModel.getprofile();
         profileViewModel.getDataReslt.observe(EditProfileActivity.this, resource->{
             if (resource != null) {
                 switch (resource.getStatus()) {

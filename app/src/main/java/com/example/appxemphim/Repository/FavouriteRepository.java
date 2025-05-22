@@ -13,7 +13,6 @@ import com.example.appxemphim.Model.MovieOverviewModel;
 import com.example.appxemphim.Network.FavoriteListApiService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.UI.Utils.Resource;
-import com.example.appxemphim.Utilities.SessionManager;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,9 +26,7 @@ public class FavouriteRepository {
     private  final FavoriteListApiService favoriteListApiService;
     public FavouriteRepository(Context context){
 
-        String ma = SessionManager.getToken(context);
-        Log.d("favorite", "token:  "+ma);
-        this.favoriteListApiService = RetrofitInstance.createService(FavoriteListApiService.class,ma);
+        this.favoriteListApiService = RetrofitInstance.createService(FavoriteListApiService.class);
     }
 
     public  void addMovieInFavourite(String movie_id, Runnable onSuccess, Runnable onFailure){
