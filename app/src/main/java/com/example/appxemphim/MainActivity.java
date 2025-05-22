@@ -22,6 +22,7 @@ import com.example.appxemphim.LoginRegister.RegisterActivity;
 import com.example.appxemphim.LoginRegister.ResetPassword;
 import com.example.appxemphim.LoginRegister.VerifyOTP;
 import com.example.appxemphim.Model.MovieDetailModel;
+import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.UI.Activity.EditProfileActivity;
 import com.example.appxemphim.UI.Activity.HomeActivity;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         user= FirebaseUtils.getUser();
         realtime = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
+        RetrofitInstance.init(this);
 
         SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
         boolean isFirstRun = true;
@@ -127,6 +129,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
+        Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
+        //intent.putExtra("movie_id","rMlXfo9TGonjR8NuwNGE");
+        startActivity(intent);
         startActivity(new Intent(MainActivity.this, HomeActivity.class));
     }
 }

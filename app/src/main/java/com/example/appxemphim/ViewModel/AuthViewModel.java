@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel;
 
 
 import com.example.appxemphim.Model.DTO.EmailDTO;
+import com.example.appxemphim.Model.TokenModel;
 import com.example.appxemphim.Repository.AuthRepository;
 import com.example.appxemphim.Request.RepassRequest;
 import com.example.appxemphim.UI.Utils.Resource;
@@ -14,8 +15,8 @@ import com.example.appxemphim.UI.Utils.Resource;
 public class AuthViewModel extends ViewModel {
     private final AuthRepository repository = new AuthRepository();
 
-    private final MutableLiveData<Resource<String>> _loginResult = new MutableLiveData<>();
-    public LiveData<Resource<String>> loginResult = _loginResult;
+    private final MutableLiveData<Resource<TokenModel>> _loginResult = new MutableLiveData<>();
+    public LiveData<Resource<TokenModel>> loginResult = _loginResult;
 
     private final MutableLiveData<Resource<String>> _emailCheckResult = new MutableLiveData<>();
     public LiveData<Resource<String>> emailCheckResult = _emailCheckResult;

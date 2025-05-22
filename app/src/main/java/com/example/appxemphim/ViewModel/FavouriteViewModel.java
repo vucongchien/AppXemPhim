@@ -25,22 +25,15 @@ public class FavouriteViewModel extends ViewModel {
         this.repository = repository;
     }
 
-
-    private final MutableLiveData<Resource<String>> _addmovieinfavourite = new MutableLiveData<>();
-
-    public LiveData<Resource<String>> addmovieinfavourite = _addmovieinfavourite;
-
-    public  void addfavourite(String movie_id){
-        repository.addMovieInFavourite(movie_id,_addmovieinfavourite);
-    }
-
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _favoriteList = new MutableLiveData<>();
     public LiveData<Resource<List<MovieOverviewModel>>> favoriteList=_favoriteList;
     public void loadData(){
         _favoriteList.setValue(Resource.loading());
         repository.fetchFavoriteList(_favoriteList);
     }
-
+    public void addfavorite(String movie_id, Runnable onSuccess, Runnable onFailure){
+        repository.addMovieInFavourite(movie_id,onSuccess,onFailure);
+    }
 
 
 

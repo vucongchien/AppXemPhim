@@ -7,9 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".UI.Activity.testter">
 
-    <ListView
-        android:id="@+id/listitem"
-        android:layout_width="409dp"
-        android:layout_height="wrap_content"
-        android:maxHeight="250dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/list_comment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="8dp"
+        tools:layout_editor_absoluteX="54dp"
+        tools:layout_editor_absoluteY="457dp"
+        android:background="@drawable/bg_list_video"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:scrollbars="vertical"/>
 </LinearLayout>

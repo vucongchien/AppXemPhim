@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.MainActivity;
 import com.example.appxemphim.Model.DTO.EmailDTO;
+import com.example.appxemphim.Model.TokenModel;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
@@ -30,6 +31,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
 import com.google.firebase.messaging.FirebaseMessaging;
+
 
 import java.util.Collections;
 
@@ -93,11 +95,12 @@ public class LoginActivity extends AppCompatActivity {
                                 case SUCCESS:
                                     // Khi dữ liệu thành công, lấy dữ liệu và hiển thị lên UI
                                     progressDialog.dismiss();
-                                    String token = resource.getData();
+                                    TokenModel token = resource.getData();
                                     if (token != null) {
                                         SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
                                         SharedPreferences.Editor editor = sharedPref.edit();
-                                        editor.putString("Token", token);
+                                        editor.putString("Token", token.getAccessToken());
+                                        editor.putString("RefreshToken", token.getRefreshToken());
                                         editor.apply();
                                         Log.d("aduuu", "onComplete: "+token);
                                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
