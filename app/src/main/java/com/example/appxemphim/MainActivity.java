@@ -1,10 +1,14 @@
 package com.example.appxemphim;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -48,6 +52,17 @@ public class MainActivity extends AppCompatActivity {
         user= FirebaseUtils.getUser();
         realtime = FirebaseDatabase.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        SharedPreferences prefs = getSharedPreferences("AppPrefs", MODE_PRIVATE);
+        boolean isFirstRun = true;
+
+        if (isFirstRun) {
+            runIntroAnimations();  // gọi animation
+            Log.d("AnimationTest", "Chạy animation intro...");
+            SharedPreferences.Editor editor = prefs.edit();
+            editor.putBoolean("isFirstRun", false);
+            editor.apply();
+        }
        //checkout();
 
     }
@@ -60,6 +75,23 @@ public class MainActivity extends AppCompatActivity {
 //            logout.setVisibility(View.VISIBLE);
 //        }
 //    }
+    private void runIntroAnimations() {
+        Log.d("MainActivityTest", "Đang chạy animation");
+        ImageView imageView = findViewById(R.id.imageViewHome);
+        TextView text1 = findViewById(R.id.text1);
+        TextView text2 = findViewById(R.id.text2);
+        TextView text3 = findViewById(R.id.text3);
+        Button btn = findViewById(R.id.buttonGetStart);
+
+        Animation fadeIn = AnimationUtils.loadAnimation(this, R.anim.fade_in);
+        Animation slideUp = AnimationUtils.loadAnimation(this, R.anim.slide_up);
+
+        imageView.startAnimation(fadeIn);
+        text1.startAnimation(slideUp);
+        text2.startAnimation(slideUp);
+        text3.startAnimation(slideUp);
+        btn.startAnimation(fadeIn);
+    }
 
 
     public void registed(View view) {
