@@ -1,21 +1,14 @@
 package com.example.appxemphim.UI.Fragment;
 
-import static com.example.appxemphim.UI.Utils.Resource.Status.ERROR;
-import static com.example.appxemphim.UI.Utils.Resource.Status.LOADING;
-import static com.example.appxemphim.UI.Utils.Resource.Status.SUCCESS;
-
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,14 +21,13 @@ import com.example.appxemphim.Model.DTO.EpisodeInfoDTO;
 import com.example.appxemphim.R;
 import com.example.appxemphim.Repository.MovieRepository;
 import com.example.appxemphim.Repository.ShowTimeRepository;
-import com.example.appxemphim.UI.Activity.HomeActivity;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Activity.SearchActivity;
 import com.example.appxemphim.UI.Adapter.CarouselAdapter;
 import com.example.appxemphim.UI.Adapter.PopularAdapter;
 import com.example.appxemphim.UI.Adapter.ShowtimeAdapter;
-import com.example.appxemphim.UI.Utils.Resource;
 import com.example.appxemphim.UI.Utils.SpaceItemDecoration;
+import com.example.appxemphim.UI.Utils.UIStateHandler;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModel;
 import com.example.appxemphim.ViewModel.MovieForHomeViewModelFactory;
 import com.example.appxemphim.ViewModel.ShowtimeViewModel;
@@ -43,14 +35,12 @@ import com.example.appxemphim.ViewModel.ShowtimeViewModelFactory;
 import com.example.appxemphim.databinding.FragmentHomeBinding;
 import com.google.android.material.chip.Chip;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     private FragmentHomeBinding binding;
-    private PopularAdapter popularAdapter, retroAdapter, onlyAdapter;
+    private PopularAdapter popularAdapter, forYouAdapter, onlyAdapter;
     private ShowtimeAdapter showtimeAdapter;
     private CarouselAdapter carouselAdapter;
     private Handler handler = new Handler(Looper.getMainLooper());
@@ -58,6 +48,7 @@ public class HomeFragment extends Fragment {
     private List<EpisodeInfoDTO> allShowtimes = null;
     private MovieForHomeViewModel movieViewModel;
     private ShowtimeViewModel showtimeViewModel;
+    private UIStateHandler showtimeUIStateHandler;
 
 
     @Override
@@ -138,7 +129,7 @@ public class HomeFragment extends Fragment {
 
         TextView[] textViews = {
                 binding.popular,
-                binding.retroTv,
+                binding.forYou,
                 binding.onlyApp,
                 binding.showtimeTitle
         };
@@ -152,6 +143,7 @@ public class HomeFragment extends Fragment {
 
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
+        showtimeUIStateHandler =new UIStateHandler(binding.showtimeProcessBar,binding.showtimeImageErr,binding.showtimeImageNotFound,binding.recyclerViewShowtime);
 
         carouselAdapter = new CarouselAdapter();
         carouselAdapter.setOnMovieClickListener(movieId -> {
@@ -196,13 +188,13 @@ public class HomeFragment extends Fragment {
 
         binding.recyclerViewRetrotv.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
         binding.recyclerViewRetrotv.setNestedScrollingEnabled(false);
-        retroAdapter = new PopularAdapter();
-        retroAdapter.setOnMovieClickListener(movieId -> {
+        forYouAdapter = new PopularAdapter();
+        forYouAdapter.setOnMovieClickListener(movieId -> {
             Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
             intent.putExtra("movie_id", movieId);
             startActivity(intent);
         });
-        binding.recyclerViewRetrotv.setAdapter(retroAdapter);
+        binding.recyclerViewRetrotv.setAdapter(forYouAdapter);
         binding.recyclerViewRetrotv.addItemDecoration(new SpaceItemDecoration(spacingInPixels));
 
         binding.recyclerViewOnlyApp.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
@@ -264,7 +256,7 @@ public class HomeFragment extends Fragment {
             popularAdapter.submitList(movies.getData());
             carouselAdapter.submitList(movies.getData());
         });
-        movieViewModel.retro.observe(requireActivity(), movies -> retroAdapter.submitList(movies.getData()));
+        movieViewModel.forYou.observe(requireActivity(), movies -> forYouAdapter.submitList(movies.getData()));
         movieViewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
 
         movieViewModel.loadDataPopular();
@@ -300,14 +292,21 @@ public class HomeFragment extends Fragment {
         showtimeViewModel.getShowTimesByWeekday(dayIndex).observe(getViewLifecycleOwner(), showTimeResource -> {
             if (showTimeResource != null) {
                 switch (showTimeResource.getStatus()) {
-                    case SUCCESS:
-                        showtimeAdapter.submitList(showTimeResource.getData());
-                        break;
                     case LOADING:
-                        // show loading UI if needed
+                        showtimeUIStateHandler.showLoading();
                         break;
+                    case SUCCESS:
+                        if (showTimeResource.getData() != null && !showTimeResource.getData().isEmpty()) {
+                            showtimeAdapter.submitList(showTimeResource.getData());
+                            showtimeUIStateHandler.showData();
+                        } else {
+                            showtimeUIStateHandler.showNotFound();
+                        }
+                        break;
+
                     case ERROR:
-                        Toast.makeText(getContext(), "Error loading showtimes", Toast.LENGTH_SHORT).show();
+                    default:
+                        showtimeUIStateHandler.showError();
                         break;
                 }
             }

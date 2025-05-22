@@ -149,7 +149,6 @@
                 app:layout_constraintRight_toRightOf="parent"/>
 
 
-
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/showtime"
                 android:layout_width="match_parent"
@@ -297,6 +296,37 @@
 
                     </com.google.android.material.chip.ChipGroup>
                 </HorizontalScrollView>
+                <ImageView
+                    android:id="@+id/showtimeImageErr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintEnd_toEndOf="@id/showtime"
+                    app:layout_constraintTop_toBottomOf="@id/showtime_scroll"
+                    android:src="@drawable/err"
+                    android:visibility="gone"/>
+
+                <ImageView
+                    android:id="@+id/showtimeImageNotFound"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    tools:srcCompat="@tools:sample/avatars"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintEnd_toEndOf="@id/showtime"
+                    app:layout_constraintTop_toBottomOf="@id/showtime_scroll"
+                    android:src="@drawable/not_found"
+                    android:visibility="gone"/>
+
+                <ProgressBar
+                    android:id="@+id/showtimeProcessBar"
+                    style="?android:attr/progressBarStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintStart_toStartOf="@id/showtime"
+                    app:layout_constraintEnd_toEndOf="@id/showtime"
+                    app:layout_constraintTop_toBottomOf="@id/showtime_scroll"
+                    android:visibility="gone"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerView_showtime"
@@ -340,13 +370,13 @@
                 />
 
             <TextView
-                android:id="@+id/retro_tv"
+                android:id="@+id/forYou"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="16dp"
                 android:paddingTop="16dp"
                 android:layout_marginTop="16dp"
-                android:text="Retro TV"
+                android:text="For you"
                 android:autoSizeTextType="uniform"
                 android:maxLines="1"
                 android:autoSizeMinTextSize="18sp"
@@ -367,7 +397,7 @@
                 android:background="@color/colorSurface"
                 app:layout_constraintStart_toStartOf="@id/fragment_home"
                 app:layout_constraintEnd_toEndOf="@id/fragment_home"
-                app:layout_constraintTop_toBottomOf="@id/retro_tv"/>
+                app:layout_constraintTop_toBottomOf="@id/forYou"/>
 
             <TextView
                 android:id="@+id/only_app"

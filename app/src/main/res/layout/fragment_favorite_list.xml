@@ -28,19 +28,44 @@
         app:layout_constraintTop_toBottomOf="@id/tvTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" >
 
-    <!-- Empty state -->
+    </androidx.recyclerview.widget.RecyclerView>
+
     <ImageView
-        android:id="@+id/tvEmpty"
-        android:layout_width="match_parent"
+        android:id="@+id/imageErr"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="You haven’t added any movies yet."
-        android:visibility="gone"
-        android:src="@drawable/placeholder_poster"
+        tools:srcCompat="@tools:sample/avatars"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvTitle"/>
+        android:src="@drawable/err"
+        android:visibility="gone"/>
+
+    <ImageView
+        android:id="@+id/imageNotFound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        tools:srcCompat="@tools:sample/avatars"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:src="@drawable/not_found"
+        android:visibility="gone"/>
+
+    <ProgressBar
+        android:id="@+id/progressBar6"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/tvTitle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="gone"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

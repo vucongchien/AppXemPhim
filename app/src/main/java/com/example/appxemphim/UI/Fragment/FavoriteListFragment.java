@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.appxemphim.Repository.FavouriteRepository;
 import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Adapter.FavoriteListAdapter;
+import com.example.appxemphim.UI.Utils.UIStateHandler;
 import com.example.appxemphim.ViewModel.FavoriteViewModelFactory;
 import com.example.appxemphim.ViewModel.FavouriteViewModel;
 import com.example.appxemphim.databinding.FragmentFavoriteListBinding;
@@ -26,6 +28,7 @@ public class FavoriteListFragment extends Fragment {
     private FragmentFavoriteListBinding binding;
     private FavoriteListAdapter adapter;
     private FavouriteViewModel viewModel;
+    private UIStateHandler uiStateHandler;
 
 
     @Nullable
@@ -42,6 +45,7 @@ public class FavoriteListFragment extends Fragment {
     }
 
     private void initViews() {
+        uiStateHandler=new UIStateHandler(binding.progressBar6,binding.imageErr,binding.imageNotFound,binding.listFavoriteRecycler);
         adapter=new FavoriteListAdapter();
         adapter.setOnMovieClickListener(movieId -> {
             Intent intent=new Intent(requireContext(), MovieDetailsActivity.class);
@@ -66,15 +70,25 @@ public class FavoriteListFragment extends Fragment {
         viewModel=new ViewModelProvider(this,factory).get(FavouriteViewModel.class);
 
         // sử dụng viewmodel
-        // sử dụng viewmodel
-        viewModel.favoriteList.observe(requireActivity(), movies -> {
-            if (movies.getData() != null && !movies.getData().isEmpty()) {
-                // Nếu có dữ liệu, ẩn trạng thái "empty"
-                binding.tvEmpty.setVisibility(View.GONE);
-                adapter.submitList(movies.getData());
-            } else {
-                // Nếu không có dữ liệu, hiển thị trạng thái "empty"
-                binding.tvEmpty.setVisibility(View.VISIBLE);
+        viewModel.favoriteList.observe(requireActivity(), data -> {
+            switch (data.getStatus()) {
+                case LOADING:
+                    uiStateHandler.showLoading();
+                    break;
+
+                case SUCCESS:
+                    if (data.getData() != null && !data.getData().isEmpty()) {
+                        adapter.submitList(data.getData());
+                        uiStateHandler.showData();
+                    } else {
+                        uiStateHandler.showNotFound();
+                    }
+                    break;
+
+                case ERROR:
+                default:
+                    uiStateHandler.showError();
+                    break;
             }
         });
 

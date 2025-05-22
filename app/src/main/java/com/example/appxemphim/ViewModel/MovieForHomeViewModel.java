@@ -13,10 +13,10 @@ import java.util.List;
 public class MovieForHomeViewModel extends ViewModel {
     private final MovieRepository repository;
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _popular = new MutableLiveData<>();
-    private final MutableLiveData<Resource<List<MovieOverviewModel>>> _retro = new MutableLiveData<>();
+    private final MutableLiveData<Resource<List<MovieOverviewModel>>> _forYou = new MutableLiveData<>();
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _only = new MutableLiveData<>();
     public LiveData<Resource<List<MovieOverviewModel>>> popular = _popular;
-    public LiveData<Resource<List<MovieOverviewModel>>> retro = _retro;
+    public LiveData<Resource<List<MovieOverviewModel>>> forYou = _forYou;
     public LiveData<Resource<List<MovieOverviewModel>>> only = _only;
 
     public MovieForHomeViewModel(MovieRepository repository) {
@@ -49,7 +49,7 @@ public class MovieForHomeViewModel extends ViewModel {
                 null,
                 0,
                 10,
-                _retro
+                _forYou
         );
     }
     public void loadDataOnly() {
