@@ -27,9 +27,7 @@ public class ReviewRepositytory {
     private ReviewService reviewService;
 
     public ReviewRepositytory(Context context){
-        SharedPreferences sharedPref = context.getSharedPreferences("LocalStore", MODE_PRIVATE);
-        String ma = sharedPref.getString("Token","");
-        this.reviewService = RetrofitInstance.createService(ReviewService.class,ma);
+        this.reviewService = RetrofitInstance.createService(ReviewService.class);
     }
 
     public  void addReview(ReviewRequest reviewRequest, MutableLiveData<Resource<String>> liveData){

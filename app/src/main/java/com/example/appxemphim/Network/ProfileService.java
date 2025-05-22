@@ -23,4 +23,7 @@ public interface ProfileService {
     );
     @GET("auth/information/{uid}")
     Call<Profile> getProfile(@Path("uid") String uid);
+
+    @GET("profile/information")
+    Call<Profile> getInfomation();
 }

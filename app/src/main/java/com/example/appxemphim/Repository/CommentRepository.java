@@ -16,7 +16,6 @@
     import com.example.appxemphim.Request.CommentRequest;
     import com.example.appxemphim.UI.Utils.Resource;
     import com.example.appxemphim.Utilities.FirebaseUtils;
-    import com.example.appxemphim.Utilities.SessionManager;
     import com.google.firebase.database.ChildEventListener;
     import com.google.firebase.database.DataSnapshot;
     import com.google.firebase.database.DatabaseError;
@@ -42,9 +41,7 @@
         private final ProfileRepository profileRepository;
 
         public CommentRepository(Context context,String movieId) {
-            String ma = SessionManager.getToken(context);
-            Log.d("favorite", "token:  "+ma);
-            this.commentService = RetrofitInstance.createService(CommentService.class,ma);
+            this.commentService = RetrofitInstance.createService(CommentService.class);
             commentsRef = FirebaseUtils.getDb()
                     .child("Comment")
                     .child(movieId);

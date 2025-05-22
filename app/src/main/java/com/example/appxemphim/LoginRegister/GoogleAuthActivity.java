@@ -7,8 +7,10 @@ import android.util.Log;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.appxemphim.MainActivity;
+import com.example.appxemphim.Model.TokenModel;
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
 import com.example.appxemphim.R;
@@ -29,7 +31,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class GoogleAuthActivity extends MainActivity {
+public class GoogleAuthActivity extends AppCompatActivity {
     private SignInClient oneTapClient;
     private BeginSignInRequest signInRequest;
     private static final int REQ_ONE_TAP = 123;
@@ -95,18 +97,19 @@ public class GoogleAuthActivity extends MainActivity {
                     if (task.isSuccessful()) {
                         user = mAuth.getCurrentUser();
                         ApiLoginRegisterService api = RetrofitInstance.getApiService();
-                        Call<ResponseBody> call = api.loginWithToken(user.getUid());
-                        call.enqueue(new Callback<ResponseBody>() {
+                        Call<TokenModel> call = api.loginWithToken(user.getUid());
+                        call.enqueue(new Callback<TokenModel>() {
                             @Override
-                            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                            public void onResponse(Call<TokenModel> call, Response<TokenModel> response) {
                                 if (response.isSuccessful()) {
                                     if(response.code()==200){
                                         try {
-                                            String token = response.body().string();
+                                            TokenModel token = response.body();
                                             SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
                                             SharedPreferences.Editor editor = sharedPref.edit();
                                             editor.putString("Email", user.getEmail());
-                                            editor.putString("Token", token);
+                                            editor.putString("Token", token.getAccessToken());
+                                            editor.putString("RefreshToken", token.getRefreshToken());
                                             editor.apply();
                                             Log.d("aduuu", "onComplete: "+token);
                                             Intent intent = new Intent(GoogleAuthActivity.this, MainActivity.class);
@@ -124,7 +127,7 @@ public class GoogleAuthActivity extends MainActivity {
                                 }
                             }
                             @Override
-                            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                            public void onFailure(Call<TokenModel> call, Throwable t) {
                                 Log.e("API_FAILURE", t.getMessage());
                             }
                         });

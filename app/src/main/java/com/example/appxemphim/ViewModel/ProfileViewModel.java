@@ -24,7 +24,7 @@ public class ProfileViewModel {
     private  final MutableLiveData<Resource<Profile>> _getResult = new MutableLiveData<>();
 
     public LiveData<Resource<Profile>> getDataReslt = _getResult;
-    public  void getprofile(String uid){
-        profileRepository.getProfile(uid,_getResult);
+    public  void getprofile(){
+        profileRepository.getInfomation(_getResult);
     }
 }
