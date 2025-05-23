@@ -3,9 +3,10 @@ package com.example.appxemphim.UI.Adapter;
 import android.content.Context;
 import android.net.Uri;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.appxemphim.Model.VideoModel;
@@ -13,51 +14,44 @@ import com.example.appxemphim.databinding.VideoItemBinding;
 
 import java.util.List;
 
-public class VideoAdapter extends BaseAdapter {
-    private List<VideoModel> videoModels;
-    private Context context;
+public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoViewHolder> {
 
-    public VideoAdapter(Context context, List<VideoModel> videoModels) {
+    private final List<VideoModel> videoList;
+    private final Context context;
+    private OnItemClickListener onItemClickListener;
+
+    public interface OnItemClickListener {
+        void onItemClick(VideoModel video);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public VideoAdapter(Context context, List<VideoModel> videoList) {
         this.context = context;
-        this.videoModels = videoModels;
+        this.videoList = videoList;
+    }
+
+    @NonNull
+    @Override
+    public VideoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        VideoItemBinding binding = VideoItemBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new VideoViewHolder(binding);
     }
 
     @Override
-    public int getCount() {
-        return videoModels.size();
-    }
-
-    @Override
-    public Object getItem(int i) {
-        return videoModels.get(i);
-    }
-
-    @Override
-    public long getItemId(int i) {
-        return  i;
-    }
-
-    @Override
-    public View getView(int i, View view, ViewGroup viewGroup) {
-        VideoItemBinding binding;
-        if (view == null) {
-            binding = VideoItemBinding.inflate(LayoutInflater.from(context), viewGroup, false);
-            view = binding.getRoot();
-            view.setTag(binding); // lưu binding lại
-        } else {
-            binding = (VideoItemBinding) view.getTag();
-        }
-
-        VideoModel videoModel = videoModels.get(i);
+    public void onBindViewHolder(@NonNull VideoViewHolder holder, int position) {
+        VideoModel video = videoList.get(position);
 
         Glide.with(context)
-                .load(Uri.parse(videoModel.getVideo_url()))
+                .load(Uri.parse(video.getVideo_url()))
                 .thumbnail(0.1f)
-                .into(binding.thumbnail);
+                .into(holder.binding.thumbnail);
 
-        binding.episodeTitle.setText(videoModel.getVideo_id());
+        holder.binding.episodeTitle.setText(video.getName());
 
-        long totalSeconds = videoModel.getDuration() / 1000;
+        long totalSeconds = video.getDuration() / 1000;
         long minutes = (totalSeconds / 60) % 60;
         long hours = totalSeconds / 3600;
         long totalMinutes = totalSeconds / 60;
@@ -66,8 +60,26 @@ public class VideoAdapter extends BaseAdapter {
                 ? String.format("%dh %02dm", hours, minutes)
                 : String.format("%dm", totalMinutes);
 
-        binding.episodeDuration.setText(timeFormatted);
+        holder.binding.episodeDuration.setText(timeFormatted);
 
-        return view;
+        holder.binding.getRoot().setOnClickListener(v -> {
+            if (onItemClickListener != null) {
+                onItemClickListener.onItemClick(video);
+            }
+        });
+    }
+
+    @Override
+    public int getItemCount() {
+        return videoList.size();
+    }
+
+    static class VideoViewHolder extends RecyclerView.ViewHolder {
+        final VideoItemBinding binding;
+
+        public VideoViewHolder(VideoItemBinding binding) {
+            super(binding.getRoot());
+            this.binding = binding;
+        }
     }
 }

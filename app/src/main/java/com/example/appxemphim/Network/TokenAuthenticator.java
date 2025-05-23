@@ -58,7 +58,7 @@ public class TokenAuthenticator implements Authenticator {
 
     private Response refreshToken(String refreshToken) throws IOException {
         OkHttpClient client = new OkHttpClient();
-        String url = "http://192.168.100.8:8081/auth/resettoken/" + refreshToken;
+        String url = "http://10.0.2.2:8081/auth/resettoken/" + refreshToken;
         Request request = new Request.Builder()
                 .url(url)
                 .get()
