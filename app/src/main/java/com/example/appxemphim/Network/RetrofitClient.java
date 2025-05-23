@@ -4,7 +4,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitClient {
-    private static final String BASE_URL = "http://192.168.100.8:8081/";
+    private static final String BASE_URL = "http://192.168.1.155:8081/";
     private static RetrofitClient instance;
     private final Retrofit retrofit;
 
@@ -30,6 +30,15 @@ public class RetrofitClient {
     public GenreApiService getGenreApiService(){return  retrofit.create(GenreApiService.class);}
 
     public ShowTimeApiService getShowTimeApiService(){return retrofit.create(ShowTimeApiService.class);}
+
+    // Thêm 2 service mới:
+    public HistoryService getHistoryService() {
+        return retrofit.create(HistoryService.class);
+    }
+
+    public ReviewService getReviewService() {
+        return retrofit.create(ReviewService.class);
+    }
 
 
 }
