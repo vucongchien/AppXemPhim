@@ -83,6 +83,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
     final boolean[] ismoredes = {false};
     boolean ismorevideo = false;
     private  ReviewViewModel reviewViewModel;
+    private List<VideoModel> videoModels;
 
 
     @Override
@@ -97,7 +98,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
         commentViewModel = new CommentViewModel();
         commentViewModel.init(this, movie_id_current);
-
         movieDetailViewModel =  new MovieDetailViewModel(new MovieRepository());
         movieDetailViewModel.loadMovieDetail(movie_id_current);
 
@@ -121,6 +121,28 @@ public class MovieDetailsActivity extends AppCompatActivity {
                         Toast.makeText(this, "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
                         break;
                 }
+            }
+        });
+        binding.btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (exoPlayer != null) {
+                    exoPlayer.release();  // Giải phóng tài nguyên
+                    exoPlayer = null;
+                }
+                finish();
+            }
+        });
+        binding.btnPlay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (exoPlayer != null) {
+                    exoPlayer.release();  // Giải phóng tài nguyên
+                    exoPlayer = null;
+                }
+                Intent intent = new Intent(MovieDetailsActivity.this, WatchVideoActivity.class);
+                intent.putExtra("video_data", videoModels.get(0));
+                startActivity(intent);
             }
         });
     }
@@ -158,31 +180,38 @@ public class MovieDetailsActivity extends AppCompatActivity {
             binding.directors.setText(binding.directors.getText()+ directorModel.getName()+", ");
         }
         //listvideo
-        List<VideoModel> videoModels = movieDetails.getVideos();
-        Toast.makeText(this, String.valueOf(videoModels.size()), Toast.LENGTH_SHORT).show();
+        videoModels = movieDetails.getVideos();
+        for (int i = 0; i < videoModels.size(); i++) {
+            videoModels.get(i).setName("Tập " + (i + 1));
+        }
         videoAdapter = new VideoAdapter(this,videoModels);
+        binding.listvideoDetail.setLayoutManager(new LinearLayoutManager(this));
         binding.listvideoDetail.setAdapter(videoAdapter);
-        binding.moreLikeThis.setOnClickListener(new View.OnClickListener() {
+        binding.moreVideos.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ismorevideo = !ismorevideo;
                 if (ismorevideo) {
-
-                    binding.moreLikeThis.setText("-"); // đổi sang dấu trừ
+                    binding.moreVideos.setText("Ẩn bớt"); // đổi sang dấu trừ
                     binding.listvideoDetail.setVisibility(View.VISIBLE); // hiện list
                 } else {
-                    binding.moreLikeThis.setText("+"); // đổi lại dấu cộng
+                    binding.moreVideos.setText("Xem thêm"); // đổi lại dấu cộng
                     binding.listvideoDetail.setVisibility(View.GONE); // ẩn list
                 }
             }
         });
-
-
+        videoAdapter.setOnItemClickListener(video ->{
+            if (exoPlayer != null) {
+                exoPlayer.release();  // Giải phóng tài nguyên
+                exoPlayer = null;
+            }
+            Intent intent = new Intent(this, WatchVideoActivity.class);
+            intent.putExtra("video_data", video);
+            startActivity(intent);
+        });
     }
-
     public String convertTimestampToDate(Timestamp timestamp) {
         if (timestamp == null) return "";
-
         Date date = timestamp.toDate(); // chuyển Timestamp thành Date
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
         return sdf.format(date);
@@ -274,8 +303,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 ReviewRequest reviewRequest = new ReviewRequest();
-                reviewRequest.setMovie_id("rMlXfo9TGonjR8NuwNGE");
-                reviewRequest.setUser_id("51B78veg7ZVfrdHDikXzOV31t1w1");
+                reviewRequest.setMovie_id(movie_id_current);
                 reviewRequest.setRating((int) ratingBar.getRating());
                 reviewViewModel = new ReviewViewModel(MovieDetailsActivity.this);
                 reviewViewModel.addReview(reviewRequest);
@@ -305,8 +333,6 @@ public class MovieDetailsActivity extends AppCompatActivity {
 
             }
         });
-
-
     }
 
     public void getcomment() {
@@ -397,5 +423,13 @@ public class MovieDetailsActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (exoPlayer != null) {
+            exoPlayer.release();
+            exoPlayer = null;
+        }
+    }
 
 }
