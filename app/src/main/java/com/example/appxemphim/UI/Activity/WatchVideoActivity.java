@@ -24,6 +24,7 @@ import androidx.media3.exoplayer.source.ProgressiveMediaSource;
 
 import com.example.appxemphim.Network.ApiLoginRegisterService;
 import com.example.appxemphim.Network.RetrofitInstance;
+import com.example.appxemphim.UI.Utils.CustomMedia3Controller;
 import com.example.appxemphim.databinding.ActivityWatchVideoBinding;
 
 import com.example.appxemphim.Model.VideoModel;
@@ -45,7 +46,6 @@ public class WatchVideoActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         VideoModel video = (VideoModel) getIntent().getSerializableExtra("video_data");
         if (video != null) {
-            binding.namevideo.setText(video.getName());
             ApiLoginRegisterService apiService = RetrofitInstance.getApiService();
             Call<ResponseBody> call = apiService.getGoogleDriveDownloadUrl(video.getVideo_url());
             call.enqueue(new retrofit2.Callback<ResponseBody>() {
@@ -69,6 +69,8 @@ public class WatchVideoActivity extends AppCompatActivity {
                             exoPlayer.prepare();
                             exoPlayer.play();
 
+                            // 4. Áp dụng custom controller sau khi player đã gán
+                            new CustomMedia3Controller(WatchVideoActivity.this, binding.thumbnail,video.getName(), () -> finish());
 
                         } catch (IOException e) {
                             e.printStackTrace();
@@ -83,29 +85,9 @@ public class WatchVideoActivity extends AppCompatActivity {
                     Log.e("API_FAILURE", t.getMessage());
                 }
             });
-            binding.thumbnail.setControllerVisibilityListener(
-                    (androidx.media3.ui.PlayerView.ControllerVisibilityListener) visibility -> {
-                        if (visibility == View.VISIBLE) {
-                            binding.namevideo.setVisibility(View.VISIBLE);
-                            binding.btnClose.setVisibility(View.VISIBLE);
-                        } else {
-                            binding.namevideo.setVisibility(View.GONE);
-                            binding.btnClose.setVisibility(View.GONE);
-                        }
-                    }
-            );
+
 
         }
-        binding.btnClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (exoPlayer != null) {
-                    exoPlayer.release();
-                    exoPlayer = null;
-                }
-                finish();
-            }
-        });
     }
     @Override
     protected void onDestroy() {
