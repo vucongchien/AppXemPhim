@@ -22,7 +22,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="460dp"
                 android:scaleType="centerCrop"
-                android:src="@drawable/intro_pic"
+                android:src="@drawable/welcome"
                 android:elevation="4dp"
                 android:layout_marginBottom="20dp" />
 
