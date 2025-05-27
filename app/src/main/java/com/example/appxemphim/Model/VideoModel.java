@@ -1,6 +1,9 @@
 package com.example.appxemphim.Model;
 
-public class VideoModel {
+import java.io.Serializable;
+
+public class VideoModel  implements Serializable {
+    private String name;
     private String video_id;
     private String video_url;
     private long duration;
@@ -9,7 +12,8 @@ public class VideoModel {
     public VideoModel() {
     }
 
-    public VideoModel(String video_id, String video_url, long duration, int view) {
+    public VideoModel(String name, String video_id, String video_url, long duration, int view) {
+        this.name = name;
         this.video_id = video_id;
         this.video_url = video_url;
         this.duration = duration;
@@ -56,5 +60,13 @@ public class VideoModel {
                 ", duration=" + duration +
                 ", view=" + view +
                 '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }
