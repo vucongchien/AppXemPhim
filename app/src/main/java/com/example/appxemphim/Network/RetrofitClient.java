@@ -31,5 +31,14 @@ public class RetrofitClient {
 
     public ShowTimeApiService getShowTimeApiService(){return retrofit.create(ShowTimeApiService.class);}
 
+    // Thêm 2 service mới:
+    public HistoryService getHistoryService() {
+        return retrofit.create(HistoryService.class);
+    }
+
+    public ReviewService getReviewService() {
+        return retrofit.create(ReviewService.class);
+    }
+
 
 }
