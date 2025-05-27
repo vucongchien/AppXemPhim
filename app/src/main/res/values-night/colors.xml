@@ -42,4 +42,7 @@
     <color name="colorCardBackground">#242424</color>     <!-- dark card bg -->
     <color name="colorProgressBar">#1E88E5</color>        <!-- primary blue accent -->
     <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
+
+    <!--    color for media3-->
+    <color name="icon_color">#FFFFFF</color>
 </resources>

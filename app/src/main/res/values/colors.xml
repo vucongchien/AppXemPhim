@@ -49,4 +49,8 @@
     <color name="colorProgressBar">#1E88E5</color>        <!-- same as primary -->
     <!-- Hover/focus/highlight accents -->
     <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
+
+<!--    color for media3-->
+    <color name="icon_color">#000000</color>
+
 </resources>
