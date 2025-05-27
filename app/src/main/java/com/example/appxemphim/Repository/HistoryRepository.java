@@ -39,8 +39,8 @@ public class HistoryRepository {
     public HistoryRepository(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("LocalStore", MODE_PRIVATE);
         String token = sharedPref.getString("Token", "");
-        this.historyService = RetrofitInstance.createService(HistoryService.class, "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5R0dZUnZpVTR1VmJqT0kzM1dxaGhZSWVSNUcyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTk4NDIyLCJleHAiOjE3NDkzODMyNTF9._PQWo_BjQTrRaR7k0YSG_xi7lHf-4BXLvkdGyFQfzrw");
-        this.movieService = RetrofitInstance.createService(MovieApiService.class, "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ5R0dZUnZpVTR1VmJqT0kzM1dxaGhZSWVSNUcyIiwicm9sZSI6IkFETUlOIiwiaWF0IjoxNzQ3OTk4NDIyLCJleHAiOjE3NDkzODMyNTF9._PQWo_BjQTrRaR7k0YSG_xi7lHf-4BXLvkdGyFQfzrw");
+        this.historyService = RetrofitInstance.createService(HistoryService.class);
+        this.movieService = RetrofitInstance.createService(MovieApiService.class);
     }
     public void addHistory(HistoryRequest historyRequest, MutableLiveData<Resource<String>> liveData) {
         liveData.setValue(Resource.loading());
