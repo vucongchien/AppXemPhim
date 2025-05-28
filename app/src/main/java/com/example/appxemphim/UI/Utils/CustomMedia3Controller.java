@@ -3,6 +3,7 @@ package com.example.appxemphim.UI.Utils;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,9 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.media3.common.Player;
 import androidx.media3.ui.DefaultTimeBar;
 import androidx.media3.ui.PlayerView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appxemphim.MainActivity;
 import com.example.appxemphim.R;
+import com.example.appxemphim.UI.Adapter.EpisodeAdapter;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Locale;
 
 public class CustomMedia3Controller {
@@ -30,6 +38,8 @@ public class CustomMedia3Controller {
     private final TextView positionText;
     private final TextView durationText;
     private final DefaultTimeBar timeBar;
+    private final ImageView btnList;
+
 
     private boolean isPlaying = true;
     private Handler handler;
@@ -45,6 +55,7 @@ public class CustomMedia3Controller {
         positionText = playerView.findViewById(R.id.exo_position);
         durationText = playerView.findViewById(R.id.exo_duration);
         timeBar = playerView.findViewById(R.id.exo_progress_placeholder);
+        btnList =playerView.findViewById(R.id.exo_settings_listview);
 
         titleText.setText(videoTitle);
         titleText.setVisibility(View.VISIBLE);
@@ -93,7 +104,25 @@ public class CustomMedia3Controller {
                 updateTime(player);
             }
         });
+        btnList.setOnClickListener(v -> {
+            BottomSheetDialog dialog = new BottomSheetDialog(context);
+            View view = LayoutInflater.from(context).inflate(R.layout.episode_list, null);
 
+            RecyclerView recyclerView = view.findViewById(R.id.episode_recycler);
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+            List<String> episodes = Arrays.asList("Tập 1", "Tập 2", "Tập 3", "Tập 4"); // Tùy danh sách bạn có
+
+            EpisodeAdapter adapter = new EpisodeAdapter(context, episodes, episode -> {
+                Toast.makeText(context, "Đã chọn: " + episode, Toast.LENGTH_SHORT).show();
+                // Gọi hàm playEpisode(episode) nếu bạn có
+                dialog.dismiss();
+            });
+
+            recyclerView.setAdapter(adapter);
+            dialog.setContentView(view);
+            dialog.show();
+        });
         handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(updateRunnable(player), 0);
     }
