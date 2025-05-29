@@ -53,4 +53,9 @@
 <!--    color for media3-->
     <color name="icon_color">#000000</color>
 
+    <color name="colorTextActivityMain">#2C3E50</color>
+    <color name="colorBtnBgActivityMain">#009688</color>
+    <color name="colorBtnTintYear">#E3F2FD</color>
+    <color name="colorBtnTextYear">#333333</color>
+    <color name="colorBtnStrokeYear">#90CAF9</color>
 </resources>
