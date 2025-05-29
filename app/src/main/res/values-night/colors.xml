@@ -43,6 +43,12 @@
     <color name="colorProgressBar">#1E88E5</color>        <!-- primary blue accent -->
     <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
 
+    <color name="colorTextActivityMain">#FFFFFF</color>
+    <color name="colorBtnBgActivityMain">#009688</color>
+    <color name="colorBtnTintYear">#5C5470</color>
+    <color name="colorBtnTextYear">#FFFFFF</color>
+    <color name="colorBtnStrokeYear">#7E6C9C</color>
+
     <!--    color for media3-->
     <color name="icon_color">#FFFFFF</color>
 </resources>
