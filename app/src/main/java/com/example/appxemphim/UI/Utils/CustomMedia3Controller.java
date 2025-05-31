@@ -17,10 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appxemphim.MainActivity;
+import com.example.appxemphim.Model.VideoModel;
 import com.example.appxemphim.R;
 import com.example.appxemphim.UI.Adapter.EpisodeAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -29,7 +31,6 @@ public class CustomMedia3Controller {
 
     private final Context context;
     private final PlayerView playerView;
-
     private final ImageView playPause;
     private final ImageView forward;
     private final ImageView backward;
@@ -39,14 +40,16 @@ public class CustomMedia3Controller {
     private final TextView durationText;
     private final DefaultTimeBar timeBar;
     private final ImageView btnList;
-
-
     private boolean isPlaying = true;
     private Handler handler;
+    private List<VideoModel> episodes;
+    private EpisodeAdapter.OnItemClickListener episodeSelectedListener;
 
-    public CustomMedia3Controller(Context context, PlayerView playerView, String videoTitle, Runnable onBackPressed) {
+    public CustomMedia3Controller(Context context, PlayerView playerView, String videoTitle, ArrayList<VideoModel> episodes, Runnable onBackPressed,EpisodeAdapter.OnItemClickListener episodeSelectedListener) {
         this.context = context;
         this.playerView = playerView;
+        this.episodes=episodes;
+        this.episodeSelectedListener=episodeSelectedListener;
         playPause = playerView.findViewById(R.id.exo_play_pause);
         forward = playerView.findViewById(R.id.exo_forward);
         backward = playerView.findViewById(R.id.exo_backward);
@@ -111,11 +114,13 @@ public class CustomMedia3Controller {
             RecyclerView recyclerView = view.findViewById(R.id.episode_recycler);
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-            List<String> episodes = Arrays.asList("Tập 1", "Tập 2", "Tập 3", "Tập 4"); // Tùy danh sách bạn có
+
+
 
             EpisodeAdapter adapter = new EpisodeAdapter(context, episodes, episode -> {
-                Toast.makeText(context, "Đã chọn: " + episode, Toast.LENGTH_SHORT).show();
-                // Gọi hàm playEpisode(episode) nếu bạn có
+                if (episodeSelectedListener != null) {
+                    episodeSelectedListener.onItemClick(episode); // gọi về WatchVideoActivity
+                }
                 dialog.dismiss();
             });
 

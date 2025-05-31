@@ -142,6 +142,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
                 }
                 Intent intent = new Intent(MovieDetailsActivity.this, WatchVideoActivity.class);
                 intent.putExtra("video_data", videoModels.get(0));
+                intent.putExtra("list_ep", new ArrayList<>(videoModels));
                 startActivity(intent);
             }
         });
@@ -207,6 +208,7 @@ public class MovieDetailsActivity extends AppCompatActivity {
             }
             Intent intent = new Intent(this, WatchVideoActivity.class);
             intent.putExtra("video_data", video);
+            intent.putExtra("list_ep", new ArrayList<>(videoModels));
             startActivity(intent);
         });
     }

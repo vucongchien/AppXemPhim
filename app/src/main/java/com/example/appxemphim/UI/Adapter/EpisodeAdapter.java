@@ -9,19 +9,21 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.appxemphim.Model.VideoModel;
+
 import java.util.List;
 
 public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHolder> {
 
-    private List<String> episodeList;
+    private List<VideoModel> episodeList;
     private Context context;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
-        void onItemClick(String episode);
+        void onItemClick(VideoModel episode);
     }
 
-    public EpisodeAdapter(Context context, List<String> episodeList, OnItemClickListener listener) {
+    public EpisodeAdapter(Context context, List<VideoModel> episodeList, OnItemClickListener listener) {
         this.context = context;
         this.episodeList = episodeList;
         this.listener = listener;
@@ -35,8 +37,8 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
             textView = view.findViewById(android.R.id.text1);
         }
 
-        public void bind(String episode, OnItemClickListener listener) {
-            textView.setText(episode);
+        public void bind(VideoModel episode, OnItemClickListener listener) {
+            textView.setText(episode.getName());
             itemView.setOnClickListener(v -> listener.onItemClick(episode));
         }
     }
@@ -56,6 +58,6 @@ public class EpisodeAdapter extends RecyclerView.Adapter<EpisodeAdapter.ViewHold
 
     @Override
     public int getItemCount() {
-        return episodeList.size();
+        return episodeList == null ? 0 : episodeList.size();
     }
 }
