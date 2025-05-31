@@ -15,9 +15,11 @@ public class MovieForHomeViewModel extends ViewModel {
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _popular = new MutableLiveData<>();
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _forYou = new MutableLiveData<>();
     private final MutableLiveData<Resource<List<MovieOverviewModel>>> _only = new MutableLiveData<>();
+    private final MutableLiveData<Resource<List<MovieOverviewModel>>> _carousels = new MutableLiveData<>();
     public LiveData<Resource<List<MovieOverviewModel>>> popular = _popular;
     public LiveData<Resource<List<MovieOverviewModel>>> forYou = _forYou;
     public LiveData<Resource<List<MovieOverviewModel>>> only = _only;
+    public LiveData<Resource<List<MovieOverviewModel>>> carousels = _carousels;
 
     public MovieForHomeViewModel(MovieRepository repository) {
         this.repository = repository;
@@ -39,8 +41,8 @@ public class MovieForHomeViewModel extends ViewModel {
                 _popular
         );
     }
-    public void loadDataRetro() {
-        _popular.setValue(Resource.loading());
+    public void loadDataForYou() {
+        _forYou.setValue(Resource.loading());
         repository.searchMovies(
                 null,
                 null,
@@ -53,7 +55,7 @@ public class MovieForHomeViewModel extends ViewModel {
         );
     }
     public void loadDataOnly() {
-        _popular.setValue(Resource.loading());
+        _only.setValue(Resource.loading());
         repository.searchMovies(
                 null,
                 null,
@@ -63,6 +65,19 @@ public class MovieForHomeViewModel extends ViewModel {
                 0,
                 10,
                 _only
+        );
+    }
+    public void loadDataCarousels(List<String>genres,List<Integer>years){
+        _carousels.setValue(Resource.loading());
+        repository.searchMovies(
+                null,
+                genres,
+                years,
+                null,
+                null,
+                0,
+                10,
+                _carousels
         );
     }
 }

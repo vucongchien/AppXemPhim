@@ -35,6 +35,7 @@ import com.example.appxemphim.ViewModel.ShowtimeViewModelFactory;
 import com.example.appxemphim.databinding.FragmentHomeBinding;
 import com.google.android.material.chip.Chip;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -48,7 +49,9 @@ public class HomeFragment extends Fragment {
     private List<EpisodeInfoDTO> allShowtimes = null;
     private MovieForHomeViewModel movieViewModel;
     private ShowtimeViewModel showtimeViewModel;
-    private UIStateHandler showtimeUIStateHandler;
+    private UIStateHandler showtimeUIStateHandler,carouselUIStateHandler;
+    private String selectedGenre = null;
+    private Integer selectedYear = null;
 
 
     @Override
@@ -144,7 +147,7 @@ public class HomeFragment extends Fragment {
     private void initViews(){
         int spacingInPixels = getResources().getDimensionPixelSize(R.dimen.item_spacing);
         showtimeUIStateHandler =new UIStateHandler(binding.showtimeProcessBar,binding.showtimeImageErr,binding.showtimeImageNotFound,binding.recyclerViewShowtime);
-
+        carouselUIStateHandler = new UIStateHandler(binding.carouselLoading,binding.carouselError,binding.carouselNotFound,binding.carousel);
         carouselAdapter = new CarouselAdapter();
         carouselAdapter.setOnMovieClickListener(movieId -> {
             Intent intent = new Intent(requireContext(), MovieDetailsActivity.class);
@@ -219,29 +222,40 @@ public class HomeFragment extends Fragment {
         });
 
         binding.btnCancelled.setOnClickListener(v -> {
+            selectedGenre = null;
+            selectedYear = null;
             binding.btnCategories.setText("Categories");
             binding.btnYear.setText("Year");
             binding.btnCancelled.setVisibility(View.GONE);
+            updateCarouselFromFilter(); // reset lại carousel
         });
 
         binding.btnCategories.setOnClickListener(v -> {
-            CategoryDialogFragment dialog = new CategoryDialogFragment(selectedGenre -> {
-                binding.btnCategories.setText(selectedGenre);
+            CategoryDialogFragment dialog = new CategoryDialogFragment(genre -> {
+                selectedGenre = genre;
+                binding.btnCategories.setText(genre);
                 if(binding.btnCancelled.getVisibility() == View.GONE) {
                     binding.btnCancelled.setVisibility(View.VISIBLE);
                 }
+
+                updateCarouselFromFilter();
             });
             dialog.show(getParentFragmentManager(), "CategoryDialog");
+
         });
 
         binding.btnYear.setOnClickListener(v -> {
-            YearDialogFragment dialog = new YearDialogFragment(selectedGenre -> {
-                binding.btnYear.setText(selectedGenre);
+            YearDialogFragment dialog = new YearDialogFragment(year -> {
+                selectedYear = Integer.valueOf(year); // giả sử year là String số
+                binding.btnYear.setText(year);
                 if(binding.btnCancelled.getVisibility() == View.GONE) {
                     binding.btnCancelled.setVisibility(View.VISIBLE);
                 }
+
+                updateCarouselFromFilter();
             });
             dialog.show(getParentFragmentManager(), "YearDialog");
+
         });
 
         showtimeAdapter.setOnShowtimeClickListener(movieId -> {
@@ -250,6 +264,8 @@ public class HomeFragment extends Fragment {
             intent.putExtra("autoplay", true);
             startActivity(intent);
         });
+
+
     }
 
     protected void initData() {
@@ -259,14 +275,17 @@ public class HomeFragment extends Fragment {
 
         movieViewModel.popular.observe(requireActivity(), movies -> {
             popularAdapter.submitList(movies.getData());
-            carouselAdapter.submitList(movies.getData());
         });
+
+        observeCarousel();
+
         movieViewModel.forYou.observe(requireActivity(), movies -> forYouAdapter.submitList(movies.getData()));
         movieViewModel.only.observe(requireActivity(), movies -> onlyAdapter.submitList(movies.getData()));
 
         movieViewModel.loadDataPopular();
-        movieViewModel.loadDataRetro();
+        movieViewModel.loadDataForYou();
         movieViewModel.loadDataOnly();
+        movieViewModel.loadDataCarousels(new ArrayList<>(),new ArrayList<>());
 
         ShowTimeRepository showtimeRepository = new ShowTimeRepository();
         ShowtimeViewModelFactory showtimeFactory = new ShowtimeViewModelFactory(showtimeRepository);
@@ -291,6 +310,45 @@ public class HomeFragment extends Fragment {
     private void setChipClickListener(Chip chip, int dayIndex) {
         chip.setOnClickListener(v -> observeShowtimeForDay(dayIndex));
 
+    }
+
+    private void updateCarouselFromFilter() {
+        List<String> genres = new ArrayList<>();
+        if (selectedGenre != null && !selectedGenre.equals("Categories")) {
+            genres.add(selectedGenre);
+        }
+
+        List<Integer> years = new ArrayList<>();
+        if (selectedYear != null) {
+            years.add(selectedYear);
+        }
+
+        movieViewModel.loadDataCarousels(genres, years);
+    }
+
+    private void observeCarousel(){
+        movieViewModel.carousels.observe(getViewLifecycleOwner(),data->{
+            if(data!=null){
+                switch (data.getStatus()) {
+                    case LOADING:
+                        carouselUIStateHandler.showLoading();
+                        break;
+                    case SUCCESS:
+                        if (data.getData() != null && !data.getData().isEmpty()) {
+                            carouselAdapter.submitList(data.getData());
+                            carouselUIStateHandler.showData();
+                        } else {
+                            carouselUIStateHandler.showNotFound();
+                        }
+                        break;
+
+                    case ERROR:
+                    default:
+                        carouselUIStateHandler.showError();
+                        break;
+                }
+            }
+        });
     }
 
     private void observeShowtimeForDay(int dayIndex) {
