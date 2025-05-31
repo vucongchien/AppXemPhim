@@ -43,7 +43,6 @@ public class WatchVideoActivity extends AppCompatActivity {
     private ExoPlayer exoPlayer;
     private VideoModel video;
     private ArrayList<VideoModel> videoList;
-    private CustomMedia3Controller controller;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,10 +65,6 @@ public class WatchVideoActivity extends AppCompatActivity {
             exoPlayer.stop(); // Dừng video hiện tại
             exoPlayer.clearMediaItems();
         }
-        // 2. Hủy controller cũ nếu có
-        if (controller != null) {
-            controller.release();
-        }
 
         ApiLoginRegisterService apiService = RetrofitInstance.getApiService();
         Call<ResponseBody> call = apiService.getGoogleDriveDownloadUrl(episode.getVideo_url());
@@ -89,7 +84,7 @@ public class WatchVideoActivity extends AppCompatActivity {
                         exoPlayer.prepare();
                         exoPlayer.play();
 
-                        controller=new CustomMedia3Controller(WatchVideoActivity.this, binding.thumbnail, episode.getName(), videoList, () -> finish(), new EpisodeAdapter.OnItemClickListener() {
+                        new CustomMedia3Controller(WatchVideoActivity.this, binding.thumbnail, episode.getName(), videoList, () -> finish(), new EpisodeAdapter.OnItemClickListener() {
                             @Override
                             public void onItemClick(VideoModel selectedEpisode) {
                                 playEpisode(selectedEpisode);
@@ -115,10 +110,6 @@ public class WatchVideoActivity extends AppCompatActivity {
         if (exoPlayer != null) {
             exoPlayer.release();
             exoPlayer = null;
-        }
-        if (controller != null) {
-            controller.release();
-            controller = null;
         }
     }
 }
