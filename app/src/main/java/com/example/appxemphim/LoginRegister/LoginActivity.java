@@ -27,6 +27,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.SetOptions;
@@ -116,7 +118,14 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
                 }else{
-                    Toast.makeText(LoginActivity.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                    Exception exception = task.getException();
+                    if (exception instanceof FirebaseAuthInvalidCredentialsException) {
+                        Toast.makeText(LoginActivity.this, "Mật khẩu hoặc tài khoản không đúng.", Toast.LENGTH_SHORT).show();
+                    } else if (exception instanceof FirebaseAuthInvalidUserException) {
+                        Toast.makeText(LoginActivity.this, "Tài khoản không tồn tại hoặc đã bị vô hiệu hóa.", Toast.LENGTH_SHORT).show();
+                    } else  {
+                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại: " + exception.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
