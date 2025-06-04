@@ -78,7 +78,7 @@ public class ResetPassword extends AppCompatActivity {
                                         progressDialog.dismiss();
                                         Toast.makeText(ResetPassword.this, "Đổi mật khẩu thành công", Toast.LENGTH_SHORT).show();
                                         Intent intent = new Intent(ResetPassword.this, LoginActivity.class);
-                                        intent.putExtra("gmail", user.getEmail());
+                                        intent.putExtra("gmail", sharedPref.getString("Email",""));
                                         intent.putExtra("pass", newPassword);
                                         startActivity(intent);
                                         break;

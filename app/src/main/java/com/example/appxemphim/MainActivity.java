@@ -129,9 +129,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void GetStart(View view) {
-        Intent intent = new Intent(MainActivity.this, EditProfileActivity.class);
-        //intent.putExtra("movie_id","rMlXfo9TGonjR8NuwNGE");
-        startActivity(intent);
-        startActivity(new Intent(MainActivity.this, HomeActivity.class));
+        SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
+        if (!sharedPref.getAll().isEmpty()) {
+           startActivity(new Intent(MainActivity.this,HomeActivity.class));
+        } else {
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 }

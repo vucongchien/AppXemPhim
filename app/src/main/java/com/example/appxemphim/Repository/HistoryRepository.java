@@ -69,81 +69,81 @@ public class HistoryRepository {
         });
 
     }
-        public void getHistoryWithMovies(MutableLiveData<Resource<List<HistoryWithMovie>>> liveData) {
-        liveData.setValue(Resource.loading());
+    public void getHistoryWithMovies(MutableLiveData<Resource<List<HistoryWithMovie>>> liveData) {
+    liveData.setValue(Resource.loading());
 
-        // Bước 1: Lấy danh sách lịch sử
-        historyService.getAllHistory().enqueue(new Callback<ResponseBody>() {
-            @Override
-            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("historyList" ,"historyList failed: " +response);
-                try {
+    // Bước 1: Lấy danh sách lịch sử
+    historyService.getAllHistory().enqueue(new Callback<ResponseBody>() {
+        @Override
+        public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+            Log.e("historyList" ,"historyList failed: " +response);
+            try {
 
-                    if (response.isSuccessful() && response.body() != null) {
-                        String jsonString = response.body().string();
-                        Gson gson = new Gson();
-                        Type listType = new TypeToken<List<HistoryModel>>() {}.getType();
-                        List<HistoryModel> historyList = gson.fromJson(jsonString, listType);
-                        Log.e("historyList" ,"historyList failed: " +historyList);
+                if (response.isSuccessful() && response.body() != null) {
+                    String jsonString = response.body().string();
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<HistoryModel>>() {}.getType();
+                    List<HistoryModel> historyList = gson.fromJson(jsonString, listType);
+                    Log.e("historyList" ,"historyList failed: " +historyList);
 
-                        if (historyList.isEmpty()) {
-                            liveData.setValue(Resource.success(new ArrayList<>()));
-                            return;
-                        }
-
-                        // Bước 2: Lấy chi tiết phim cho từng video_id
-                        List<HistoryWithMovie> resultList = new ArrayList<>();
-                        final int total = historyList.size();
-                        final int[] count = {0};
-                        final boolean[] errorOccurred = {false};
-
-                        for (HistoryModel history : historyList) {
-                            movieService.getMovieById(history.getVideo_id().trim()).enqueue(new Callback<MovieDetailModel>() {
-                                @Override
-                                public void onResponse(Call<MovieDetailModel> call, Response<MovieDetailModel> response) {
-                                    Log.e("movieService" ,"movieService failed: " +response);
-                                    count[0]++;
-                                    if (response.isSuccessful() && response.body() != null) {
-                                        HistoryWithMovie hwm = new HistoryWithMovie(history, response.body());
-                                        resultList.add(hwm);
-                                        Log.e("resultList" ,"resultList failed: " +resultList);
-                                    } else {
-                                        errorOccurred[0] = true;
-                                    }
-                                    if (count[0] == total) {
-                                        if (!errorOccurred[0]) {
-                                            liveData.setValue(Resource.success(resultList));
-                                        } else {
-                                            liveData.setValue(Resource.error("Có lỗi khi lấy chi tiết phim"));
-                                        }
-                                    }
-                                }
-
-                                @Override
-                                public void onFailure(Call<MovieDetailModel> call, Throwable t) {
-                                    count[0]++;
-                                    errorOccurred[0] = true;
-                                    if (count[0] == total) {
-                                        liveData.setValue(Resource.error("Lỗi mạng khi lấy chi tiết phim"));
-                                    }
-                                }
-                            });
-                        }
-                    } else {
-                        Log.e("Lấy lịch sử thất bại" ,"Lấy lịch sử thất bại failed: " +response);
-                        liveData.setValue(Resource.error("Lấy lịch sử thất bại"));
+                    if (historyList.isEmpty()) {
+                        liveData.setValue(Resource.success(new ArrayList<>()));
+                        return;
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
 
-                    liveData.setValue(Resource.error("Lỗi đọc dữ liệu lịch sử"));
+                    // Bước 2: Lấy chi tiết phim cho từng video_id
+                    List<HistoryWithMovie> resultList = new ArrayList<>();
+                    final int total = historyList.size();
+                    final int[] count = {0};
+                    final boolean[] errorOccurred = {false};
+
+                    for (HistoryModel history : historyList) {
+                        movieService.getMovieById(history.getVideo_id().trim()).enqueue(new Callback<MovieDetailModel>() {
+                            @Override
+                            public void onResponse(Call<MovieDetailModel> call, Response<MovieDetailModel> response) {
+                                Log.e("movieService" ,"movieService failed: " +response);
+                                count[0]++;
+                                if (response.isSuccessful() && response.body() != null) {
+                                    HistoryWithMovie hwm = new HistoryWithMovie(history, response.body());
+                                    resultList.add(hwm);
+                                    Log.e("resultList" ,"resultList failed: " +resultList);
+                                } else {
+                                    errorOccurred[0] = true;
+                                }
+                                if (count[0] == total) {
+                                    if (!errorOccurred[0]) {
+                                        liveData.setValue(Resource.success(resultList));
+                                    } else {
+                                        liveData.setValue(Resource.error("Có lỗi khi lấy chi tiết phim"));
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<MovieDetailModel> call, Throwable t) {
+                                count[0]++;
+                                errorOccurred[0] = true;
+                                if (count[0] == total) {
+                                    liveData.setValue(Resource.error("Lỗi mạng khi lấy chi tiết phim"));
+                                }
+                            }
+                        });
+                    }
+                } else {
+                    Log.e("Lấy lịch sử thất bại" ,"Lấy lịch sử thất bại failed: " +response);
+                    liveData.setValue(Resource.error("Lấy lịch sử thất bại"));
                 }
-            }
+            } catch (Exception e) {
+                e.printStackTrace();
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+                liveData.setValue(Resource.error("Lỗi đọc dữ liệu lịch sử"));
             }
-        });
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+            liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+        }
+    });
     }
 }
