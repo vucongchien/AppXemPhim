@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 public interface HistoryService {
 
@@ -14,4 +15,7 @@ public interface HistoryService {
 
     @GET("history/getAll")
     Call<ResponseBody> getAllHistory();
+
+    @GET("history/by-video/{video_id}")
+    Call<ResponseBody> getHistoryByVdId(@Path("video_id") String video_id);
 }
