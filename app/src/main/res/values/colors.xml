@@ -51,7 +51,7 @@
     <color name="colorHighlight">#BBDEFB</color>          <!-- light blue accent -->
 
 <!--    color for media3-->
-    <color name="icon_color">#000000</color>
+    <color name="icon_color">#FFFFFF</color>
 
     <color name="colorTextActivityMain">#2C3E50</color>
     <color name="colorBtnBgActivityMain">#009688</color>
