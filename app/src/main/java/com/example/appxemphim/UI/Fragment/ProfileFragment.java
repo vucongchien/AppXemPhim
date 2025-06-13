@@ -2,11 +2,14 @@ package com.example.appxemphim.UI.Fragment;
 
 import static android.content.Context.MODE_PRIVATE;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,16 +17,25 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.appxemphim.LoginRegister.LoginActivity;
+import com.example.appxemphim.Model.Profile;
 import com.example.appxemphim.Model.ProfileOption;
 import com.example.appxemphim.R;
+import com.example.appxemphim.Repository.ProfileRepository;
 import com.example.appxemphim.UI.Activity.EditProfileActivity;
+import com.example.appxemphim.UI.Activity.MovieDetailsActivity;
 import com.example.appxemphim.UI.Adapter.HistoryAdapter;
 import com.example.appxemphim.UI.Adapter.ProfileOptionAdapter;
+import com.example.appxemphim.UI.Utils.Resource;
 import com.example.appxemphim.ViewModel.HistoryViewModel;
+import com.example.appxemphim.ViewModel.ProfileViewModel;
+import com.example.appxemphim.databinding.FragmentProfileBinding;
 
 import java.util.ArrayList;
 
@@ -34,21 +46,21 @@ public class ProfileFragment extends Fragment {
     private static final int HELP = 2;
     private static final int LOGOUT = 3;
 
-    ListView listView;
-    ArrayList<ProfileOption> optionArrayList;
+    private FragmentProfileBinding binding;
+    private ArrayList<ProfileOption> optionArrayList;
 
-    private RecyclerView recyclerViewHistory;
+    private ProfileViewModel profileViewModel;
     private HistoryAdapter historyAdapter;
     private HistoryViewModel historyViewModel;
 
+    private ProfileRepository profileRepository;
+
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        binding = FragmentProfileBinding.inflate(inflater, container, false);
 
-        listView = view.findViewById(R.id.listViewProfile);
         optionArrayList = new ArrayList<>();
-
         optionArrayList.add(new ProfileOption(R.drawable.iconedit, "Edit Profile"));
         optionArrayList.add(new ProfileOption(R.drawable.iconnotifi, "Notification"));
         optionArrayList.add(new ProfileOption(R.drawable.iconhelp, "Help"));
@@ -60,9 +72,15 @@ public class ProfileFragment extends Fragment {
                 optionArrayList
         );
 
-        listView.setAdapter(adapter);
+        binding.listViewProfile.setAdapter(adapter);
+        // Khởi tạo profileViewModel với Factory
+        profileViewModel = new ViewModelProvider(
+                requireActivity(),
+                new ProfileViewModelFactory(requireContext()) // <-- Sử dụng Factory
+        ).get(ProfileViewModel.class);
+        setData();
 
-        listView.setOnItemClickListener((parent, view1, position, id) -> {
+        binding.listViewProfile.setOnItemClickListener((parent, view1, position, id) -> {
             switch (position) {
                 case EDIT_PROFILE:
                     openEditProfile();
@@ -78,24 +96,26 @@ public class ProfileFragment extends Fragment {
                     break;
             }
         });
-        // --- Phần mới thêm cho History ---
 
-        recyclerViewHistory = view.findViewById(R.id.recyclerViewHistory);
+        // --- History ---
         historyAdapter = new HistoryAdapter();
-        recyclerViewHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        recyclerViewHistory.setAdapter(historyAdapter);
+        historyAdapter.setOnItemClickListener(item -> {
+            // Chuyển sang màn hình chi tiết phim
+            Intent intent = new Intent(getActivity(), MovieDetailsActivity.class);
+            intent.putExtra("movie_id", item.getMovie().getMovie_Id()); // Giả sử movie có id
+            startActivity(intent);
+        });
+        binding.recyclerViewHistory.setAdapter(historyAdapter);
+        binding.recyclerViewHistory.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
+        binding.recyclerViewHistory.setAdapter(historyAdapter);
 
-        // Lấy ViewModel dùng chung với Activity (hoặc tạo riêng)
         historyViewModel = new ViewModelProvider(requireActivity()).get(HistoryViewModel.class);
-
         observeHistoryData();
-
-        // Load dữ liệu lịch sử phim
         historyViewModel.loadHistoryWithMovies();
 
-
-        return view;
+        return binding.getRoot();
     }
+
     private void observeHistoryData() {
         historyViewModel.historyWithMovieLiveData.observe(getViewLifecycleOwner(), result -> {
             switch (result.getStatus()) {
@@ -106,16 +126,13 @@ public class ProfileFragment extends Fragment {
                     Toast.makeText(getContext(), "Lỗi: " + result.getMessage(), Toast.LENGTH_SHORT).show();
                     break;
                 case LOADING:
-                    // Nếu cần có thể show loading (hoặc ProgressBar)
+                    // Optionally show loading
                     break;
             }
         });
     }
 
-
-    private void openEditProfile() {
-
-        startActivity(new Intent(getActivity(), EditProfileActivity.class));
+    private void openEditProfile() {startActivity(new Intent(getActivity(), EditProfileActivity.class));
     }
 
     private void openNotificationSettings() {
@@ -129,10 +146,48 @@ public class ProfileFragment extends Fragment {
     private void logout() {
         Toast.makeText(getContext(), "Đã đăng xuất", Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPref = requireActivity().getSharedPreferences("LocalStore", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.clear();
-        editor.apply();
+        sharedPref.edit().clear().apply();
         startActivity(new Intent(getActivity(), LoginActivity.class));
         requireActivity().finish();
+    }
+
+    private void setData() {
+        profileViewModel.getprofile();
+        profileViewModel.getDataReslt.observe(requireActivity(), resource -> {
+            if (resource != null) {
+                switch (resource.getStatus()) {
+                    case LOADING:
+                        break;
+                    case SUCCESS:
+                        Profile result = resource.getData();
+                        if (result != null) {
+                            Glide.with(requireContext())
+                                    .load(result.getAvatar())
+                                    .into(binding.imageAvartar);
+                            binding.textViewProfile.setText(result.getName());
+                        }
+                        break;
+                    case ERROR:
+                        Toast.makeText(requireContext(), "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            }
+        });
+    }
+    public class ProfileViewModelFactory implements ViewModelProvider.Factory {
+        private final Context context;
+
+        public ProfileViewModelFactory(Context context) {
+            this.context = context;
+        }
+
+        @NonNull
+        @Override
+        public <T extends ViewModel> T create(@NonNull Class<T> modelClass) {
+            if (modelClass.isAssignableFrom(ProfileViewModel.class)) {
+                return (T) new ProfileViewModel(context);
+            }
+            throw new IllegalArgumentException("Unknown ViewModel class");
+        }
     }
 }
