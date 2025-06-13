@@ -61,13 +61,7 @@
                 tools:src="@tools:sample/avatars" />
         </androidx.cardview.widget.CardView>
 
-        <TextView
-            android:id="@+id/textViewProfile"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Hello Tung"
-            android:textColor="@color/onSurface" />
+
 
 
     </LinearLayout>
