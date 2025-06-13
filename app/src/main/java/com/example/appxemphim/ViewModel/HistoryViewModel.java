@@ -20,6 +20,9 @@ public class HistoryViewModel extends AndroidViewModel {
     public MutableLiveData<Resource<List<HistoryWithMovie>>> historyWithMovieLiveData = new MutableLiveData<>();
     public MutableLiveData<Resource<String>> addHistoryLiveData = new MutableLiveData<>();
 
+    public MutableLiveData<Resource<List<HistoryModel>>> historyByVideoIdLiveData = new MutableLiveData<>();
+
+
     public HistoryViewModel(@NonNull Application application) {
         super(application);
         historyRepository = new HistoryRepository(application.getApplicationContext());
@@ -32,4 +35,11 @@ public class HistoryViewModel extends AndroidViewModel {
     public void loadHistoryWithMovies() {
         historyRepository.getHistoryWithMovies(historyWithMovieLiveData);
     }
+
+    public MutableLiveData<Resource<List<HistoryModel>>> getHistoryByVideoId(String videoId) {
+        MutableLiveData<Resource<List<HistoryModel>>> historyLiveData = new MutableLiveData<>();
+        historyRepository.getHistoryByVideoId(videoId, historyLiveData);
+        return historyLiveData;
+    }
+
 }

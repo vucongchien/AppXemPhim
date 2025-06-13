@@ -34,4 +34,9 @@ public interface MovieApiService {
             @Path("id") String movieId,
             @Path("detailType") String detailType
     );
+
+    @GET("/api/v1/movies/by-video/{videoId}")
+    Call<MovieDetailModel> getMovieByVideoId(
+            @Path("videoId") String videoId
+    );
 }

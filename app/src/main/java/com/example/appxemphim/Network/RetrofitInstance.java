@@ -19,7 +19,7 @@ public class RetrofitInstance {
     public static void init(Context context) {
         tokenManager = new TokenManager(context);
     }
-    private static final String BASE_URL = "http://10.0.2.2:8081/";
+    private static final String BASE_URL = "http://192.168.41.25:8081/";
 
     // 1. Không cần static retrofit cố định khi dùng token độnxg
     private static Retrofit createRetrofit() {
