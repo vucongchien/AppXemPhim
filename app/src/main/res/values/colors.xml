@@ -58,4 +58,8 @@
     <color name="colorBtnTintYear">#E3F2FD</color>
     <color name="colorBtnTextYear">#333333</color>
     <color name="colorBtnStrokeYear">#90CAF9</color>
+
+    <color name="bg_login">#FFFFFF</color>
+    <color name="text_login">#141414</color>
+    <color name="bg_input_container">#FFFFFF</color>
 </resources>

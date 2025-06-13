@@ -1,5 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
-    <solid android:color="#5F5858" /> <!-- nền xám nhạt -->
+    <!-- Nền xám nhạt -->
+    <solid android:color="@color/bg_input_container" />
+
+    <!-- Đường viền nhẹ để tạo chiều sâu (optional) -->
+    <stroke
+        android:width="0.5dp"
+        android:color="#33000000" /> <!-- Màu đen mờ 20% (dạng overlay) -->
+
+    <!-- Bo tròn mềm mại -->
     <corners android:radius="20dp" />
+
+    <!-- Đổ bóng nhẹ giả lập chiều sâu (áp dụng tốt với CardView hoặc background shadow) -->
+    <padding
+        android:left="12dp"
+        android:top="12dp"
+        android:right="12dp"
+        android:bottom="12dp" />
 </shape>
