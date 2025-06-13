@@ -62,4 +62,5 @@
     <color name="bg_login">#FFFFFF</color>
     <color name="text_login">#141414</color>
     <color name="bg_input_container">#FFFFFF</color>
+    <color name="text_comment">#66141414</color>
 </resources>

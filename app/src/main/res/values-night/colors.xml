@@ -55,4 +55,5 @@
     <color name="bg_login">#1E1E1E</color>
     <color name="text_login">#FFFFFF</color>
     <color name="bg_input_container">#242424</color>
+    <color name="text_comment">#1A000000</color>
 </resources>
