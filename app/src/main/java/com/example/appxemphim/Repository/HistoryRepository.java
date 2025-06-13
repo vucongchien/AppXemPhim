@@ -39,14 +39,17 @@ public class HistoryRepository {
     public HistoryRepository(Context context) {
         SharedPreferences sharedPref = context.getSharedPreferences("LocalStore", MODE_PRIVATE);
         String token = sharedPref.getString("Token", "");
+        Log.e("token" ,"token failed: " +token);
         this.historyService = RetrofitInstance.createService(HistoryService.class);
         this.movieService = RetrofitInstance.createService(MovieApiService.class);
     }
     public void addHistory(HistoryRequest historyRequest, MutableLiveData<Resource<String>> liveData) {
         liveData.setValue(Resource.loading());
+        Log.e("addHistory1" ,"addHistory1 failed: ");
         historyService.createHistory(historyRequest).enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                Log.e("addHistory" ,"addHistory failed: " +response);
                 try {
                     if (response.isSuccessful() && response.body() != null) {
                         liveData.setValue(Resource.success(response.body().string()));
@@ -58,6 +61,7 @@ public class HistoryRepository {
                         liveData.setValue(Resource.error(errorMessage));
                     }
                 } catch (Exception e) {
+                    log.error("Lỗi chi tiết: ", e); // Thêm dòng này
                     liveData.setValue(Resource.error("Lỗi đọc dữ liệu"));
                 }
             }
@@ -76,7 +80,7 @@ public class HistoryRepository {
         historyService.getAllHistory().enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Log.e("historyList" ,"historyList failed: " +response);
+                Log.e("historyList1" ,"historyList1 failed: " +response);
                 try {
 
                     if (response.isSuccessful() && response.body() != null) {
@@ -98,7 +102,7 @@ public class HistoryRepository {
                         final boolean[] errorOccurred = {false};
 
                         for (HistoryModel history : historyList) {
-                            movieService.getMovieById(history.getVideo_id().trim()).enqueue(new Callback<MovieDetailModel>() {
+                            movieService.getMovieByVideoId(history.getVideo_id().trim()).enqueue(new Callback<MovieDetailModel>() {
                                 @Override
                                 public void onResponse(Call<MovieDetailModel> call, Response<MovieDetailModel> response) {
                                     Log.e("movieService" ,"movieService failed: " +response);
@@ -146,4 +150,37 @@ public class HistoryRepository {
             }
         });
     }
+    // Trong HistoryRepository.java
+    public void getHistoryByVideoId(String videoId, MutableLiveData<Resource<List<HistoryModel>>> liveData) {
+        liveData.setValue(Resource.loading());
+        historyService.getHistoryByVdId(videoId).enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                try {
+                    if (response.isSuccessful() && response.body() != null) {
+                        String jsonString = response.body().string();
+                        Gson gson = new Gson();
+                        Type listType = new com.google.common.reflect.TypeToken<List<HistoryModel>>() {}.getType();
+                        List<HistoryModel> historyList = gson.fromJson(jsonString, listType);
+                        liveData.setValue(Resource.success(historyList));
+                    } else {
+                        String error = "Không lấy được lịch sử";
+                        if (response.errorBody() != null) {
+                            error = response.errorBody().string();
+                        }
+                        liveData.setValue(Resource.error(error));
+                    }
+                } catch (Exception e) {
+                    liveData.setValue(Resource.error("Lỗi đọc dữ liệu"));
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+            }
+        });
+    }
+
+
 }
