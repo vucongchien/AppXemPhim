@@ -49,7 +49,7 @@ public class MovieForHomeViewModel extends ViewModel {
                 null,
                 null,
                 null,
-                0,
+                1,
                 10,
                 _forYou
         );
@@ -62,7 +62,7 @@ public class MovieForHomeViewModel extends ViewModel {
                 null,
                 null,
                 null,
-                0,
+                2,
                 10,
                 _only
         );

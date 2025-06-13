@@ -45,10 +45,14 @@
 
     <color name="colorTextActivityMain">#FFFFFF</color>
     <color name="colorBtnBgActivityMain">#009688</color>
-    <color name="colorBtnTintYear">#5C5470</color>
-    <color name="colorBtnTextYear">#FFFFFF</color>
-    <color name="colorBtnStrokeYear">#7E6C9C</color>
+    <color name="colorBtnTintYear">#674FC3F7</color>
+    <color name="colorBtnTextYear">#CCFFFFFF</color>
+    <color name="colorBtnStrokeYear">#CB2196F3</color>
 
     <!--    color for media3-->
     <color name="icon_color">#FFFFFF</color>
+
+    <color name="bg_login">#1E1E1E</color>
+    <color name="text_login">#FFFFFF</color>
+    <color name="bg_input_container">#242424</color>
 </resources>
