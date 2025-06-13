@@ -6,6 +6,7 @@ import android.net.Uri;
 import androidx.annotation.Nullable;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
 import com.example.appxemphim.Model.Profile;
 import com.example.appxemphim.Model.ReviewModel;
@@ -16,7 +17,7 @@ import com.example.appxemphim.UI.Utils.Resource;
 
 import java.util.List;
 
-public class ProfileViewModel {
+public class ProfileViewModel extends ViewModel{
     private  final ProfileRepository profileRepository;
     public ProfileViewModel(Context context){
         profileRepository = new ProfileRepository(context);

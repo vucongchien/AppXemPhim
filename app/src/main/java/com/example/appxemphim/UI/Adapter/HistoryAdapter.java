@@ -19,6 +19,17 @@ import java.util.List;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private List<HistoryWithMovie> data = new ArrayList<>();
 
+    private OnItemClickListener listener;
+
+    // Interface để Fragment xử lý sự kiện click
+    public interface OnItemClickListener {
+        void onItemClick(HistoryWithMovie item);
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
     public void setData(List<HistoryWithMovie> newData) {
         data = newData;
         notifyDataSetChanged();
@@ -27,6 +38,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView title, watchedAt;
         ImageView poster;
+
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -48,6 +61,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         HistoryWithMovie item = data.get(position);
         holder.title.setText(item.getMovie().getTitle());
 
+
+
         double percentViewed = item.getHistory().getPerson_view();
         String text = String.format("Đã xem %.0f%%", percentViewed);
         holder.watchedAt.setText(text);
@@ -58,6 +73,12 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 .load(posterUrl)
                 .placeholder(R.drawable.ic_launcher_background)
                 .into(holder.poster);
+        // Xử lý click vào item
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onItemClick(item);
+            }
+        });
     }
 
     @Override
