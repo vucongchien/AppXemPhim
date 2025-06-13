@@ -3,7 +3,7 @@
     <domain-config cleartextTrafficPermitted="true">
         <!-- Allow localhost and 10.0.2.2 for development -->
         <domain includeSubdomains="true">localhost</domain>
-        <domain includeSubdomains="true">192.168.41.25</domain>
+        <domain includeSubdomains="true">192.168.100.3</domain>
         <domain includeSubdomains="true">192.168.1.155</domain>
         <domain includeSubdomains="true">172.0.0.67</domain>
     </domain-config>
