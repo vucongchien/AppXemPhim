@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="6dp"
                     android:text="Thu Trúc"
-                    android:textColor="#000000"
+                    android:textColor="@color/text_login"
                     android:textSize="14sp"
                     android:textStyle="bold" />
 
@@ -63,7 +63,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tuyệt! Cập nhật thêm tiếng nhật thì hoàn hảo"
-                android:textColor="#888888"
+                android:textColor="@color/text_login"
                 android:textSize="13sp" />
 
             <!-- Nút Like và Reply dạng chữ -->
@@ -92,7 +92,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="4dp"
                         android:text="Thích"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_comment"
                         android:textSize="13sp" />
 
                     <TextView
@@ -104,7 +104,7 @@
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="4dp"
                         android:text="Phản hồi"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_comment"
                         android:textSize="13sp" />
 
                     <TextView
@@ -115,8 +115,8 @@
                         android:clickable="true"
                         android:foreground="?attr/selectableItemBackground"
                         android:padding="4dp"
-                        android:text="Xem thêm"
-                        android:textColor="#666666"
+                        android:text="@color/text_comment"
+                        android:textColor="@color/text_comment"
                         android:textSize="13sp" />
                 </LinearLayout>
 
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="4dp"
                         android:text="847"
-                        android:textColor="#666666"
+                        android:textColor="@color/text_comment"
                         android:textSize="13sp" />
 
                     <ImageView
@@ -162,6 +162,7 @@
                     android:padding="10dp"
                     android:maxLines="5"
                     android:minHeight="40dp"
+                    android:textColor="@color/text_login"
                     android:inputType="textMultiLine" />
 
                 <ImageButton
