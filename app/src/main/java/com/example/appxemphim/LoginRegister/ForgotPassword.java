@@ -48,49 +48,49 @@ public class ForgotPassword extends AppCompatActivity {
         progressDialog.setCancelable(true);
         binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-//        binding.editTextEmailtoOtp.addTextChangedListener(new TextWatcher() {
-//            private Timer timer = new Timer();
-//            private final long DELAY = 1000;
-//            @Override
-//            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//                //thongbao.setVisibility(View.GONE);
-//                isCheckingEmail = true;
-//                timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
-//                timer = new Timer();
-//                String email = charSequence.toString().trim();
-//                timer.schedule(new TimerTask() {
-//                    @Override
-//                    public void run() {
-//                        CheckEmail.checkEmailFromApi(email, ForgotPassword.this, new CheckEmail.EmailCheckCallback() {
-//                            @Override
-//                            public void onResult(boolean exists) {
-//                                isCheckingEmail = exists;
-//                                if (!exists) {
-//                                    isCheckingEmail = false;
-//                                    Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//                    }
-//                }, DELAY);
-//            }
-//            @Override
-//            public void afterTextChanged(Editable editable) {
-//
-//            }
-//        });
+        binding.editTextEmailtoOtp.addTextChangedListener(new TextWatcher() {
+            private Timer timer = new Timer();
+            private final long DELAY = 5000;
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                //thongbao.setVisibility(View.GONE);
+                isCheckingEmail = true;
+                timer.cancel(); // Hủy đếm thời gian trước đó nếu người dùng tiếp tục nhập
+                timer = new Timer();
+                String email = charSequence.toString().trim();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        CheckEmail.checkEmailFromApi(email, ForgotPassword.this, new CheckEmail.EmailCheckCallback() {
+                            @Override
+                            public void onResult(boolean exists) {
+                                isCheckingEmail = exists;
+                                if (!exists) {
+                                    isCheckingEmail = false;
+                                    Toast.makeText(ForgotPassword.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        });
+                    }
+                }, DELAY);
+            }
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         binding.buttonSendEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                if(!isCheckingEmail) {
-//                    Toast.makeText(ForgotPassword.this, "email không tồn tại", Toast.LENGTH_SHORT).show();
-//                    return;
-//                }
+                if(!isCheckingEmail) {
+                    Toast.makeText(ForgotPassword.this, "email không tồn tại", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
                 AuthViewModel authViewModel = new AuthViewModel();
                 authViewModel.sendDTO(binding.editTextEmailtoOtp.getText().toString().trim());

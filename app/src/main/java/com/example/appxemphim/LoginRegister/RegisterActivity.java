@@ -50,7 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         binding.editTextEmail.addTextChangedListener(new TextWatcher() {
             private Timer timer = new Timer();
-            private final long DELAY = 1000;
+            private final long DELAY = 3000;
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
             }
@@ -94,7 +94,7 @@ public class RegisterActivity extends AppCompatActivity {
                 String password = binding.editTextPasswordRegister.getText().toString();
                 String confirmPassword = binding.editTextConfirmPassword.getText().toString();
 
-                if (!emailExists) {
+                if (!isCheckingEmail) {
                     Toast.makeText(RegisterActivity.this, "Email không tồn tại", Toast.LENGTH_SHORT).show();
                     //thongbaodk.setVisibility(View.VISIBLE);
                     //thongbaodk.setText("Email không tồn tại");

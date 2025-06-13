@@ -73,8 +73,8 @@ public class HistoryRepository {
         });
 
     }
-        public void getHistoryWithMovies(MutableLiveData<Resource<List<HistoryWithMovie>>> liveData) {
-        liveData.setValue(Resource.loading());
+    public void getHistoryWithMovies(MutableLiveData<Resource<List<HistoryWithMovie>>> liveData) {
+    liveData.setValue(Resource.loading());
 
         // Bước 1: Lấy danh sách lịch sử
         historyService.getAllHistory().enqueue(new Callback<ResponseBody>() {
@@ -83,23 +83,23 @@ public class HistoryRepository {
                 Log.e("historyList1" ,"historyList1 failed: " +response);
                 try {
 
-                    if (response.isSuccessful() && response.body() != null) {
-                        String jsonString = response.body().string();
-                        Gson gson = new Gson();
-                        Type listType = new TypeToken<List<HistoryModel>>() {}.getType();
-                        List<HistoryModel> historyList = gson.fromJson(jsonString, listType);
-                        Log.e("historyList" ,"historyList failed: " +historyList);
+                if (response.isSuccessful() && response.body() != null) {
+                    String jsonString = response.body().string();
+                    Gson gson = new Gson();
+                    Type listType = new TypeToken<List<HistoryModel>>() {}.getType();
+                    List<HistoryModel> historyList = gson.fromJson(jsonString, listType);
+                    Log.e("historyList" ,"historyList failed: " +historyList);
 
-                        if (historyList.isEmpty()) {
-                            liveData.setValue(Resource.success(new ArrayList<>()));
-                            return;
-                        }
+                    if (historyList.isEmpty()) {
+                        liveData.setValue(Resource.success(new ArrayList<>()));
+                        return;
+                    }
 
-                        // Bước 2: Lấy chi tiết phim cho từng video_id
-                        List<HistoryWithMovie> resultList = new ArrayList<>();
-                        final int total = historyList.size();
-                        final int[] count = {0};
-                        final boolean[] errorOccurred = {false};
+                    // Bước 2: Lấy chi tiết phim cho từng video_id
+                    List<HistoryWithMovie> resultList = new ArrayList<>();
+                    final int total = historyList.size();
+                    final int[] count = {0};
+                    final boolean[] errorOccurred = {false};
 
                         for (HistoryModel history : historyList) {
                             movieService.getMovieByVideoId(history.getVideo_id().trim()).enqueue(new Callback<MovieDetailModel>() {
@@ -123,32 +123,32 @@ public class HistoryRepository {
                                     }
                                 }
 
-                                @Override
-                                public void onFailure(Call<MovieDetailModel> call, Throwable t) {
-                                    count[0]++;
-                                    errorOccurred[0] = true;
-                                    if (count[0] == total) {
-                                        liveData.setValue(Resource.error("Lỗi mạng khi lấy chi tiết phim"));
-                                    }
+                            @Override
+                            public void onFailure(Call<MovieDetailModel> call, Throwable t) {
+                                count[0]++;
+                                errorOccurred[0] = true;
+                                if (count[0] == total) {
+                                    liveData.setValue(Resource.error("Lỗi mạng khi lấy chi tiết phim"));
                                 }
-                            });
-                        }
-                    } else {
-                        Log.e("Lấy lịch sử thất bại" ,"Lấy lịch sử thất bại failed: " +response);
-                        liveData.setValue(Resource.error("Lấy lịch sử thất bại"));
+                            }
+                        });
                     }
-                } catch (Exception e) {
-                    e.printStackTrace();
-
-                    liveData.setValue(Resource.error("Lỗi đọc dữ liệu lịch sử"));
+                } else {
+                    Log.e("Lấy lịch sử thất bại" ,"Lấy lịch sử thất bại failed: " +response);
+                    liveData.setValue(Resource.error("Lấy lịch sử thất bại"));
                 }
-            }
+            } catch (Exception e) {
+                e.printStackTrace();
 
-            @Override
-            public void onFailure(Call<ResponseBody> call, Throwable t) {
-                liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+                liveData.setValue(Resource.error("Lỗi đọc dữ liệu lịch sử"));
             }
-        });
+        }
+
+        @Override
+        public void onFailure(Call<ResponseBody> call, Throwable t) {
+            liveData.setValue(Resource.error("Lỗi mạng: " + t.getMessage()));
+        }
+    });
     }
     // Trong HistoryRepository.java
     public void getHistoryByVideoId(String videoId, MutableLiveData<Resource<List<HistoryModel>>> liveData) {

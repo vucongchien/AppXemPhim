@@ -32,7 +32,6 @@ public class VerifyOTP extends AppCompatActivity {
         setContentView(binding.getRoot());
         SharedPreferences sharedPref = getSharedPreferences("LocalStore", MODE_PRIVATE);
         ma = sharedPref.getString("OTP","");
-        Toast.makeText(this, ma, Toast.LENGTH_SHORT).show();
         otpInputs = new EditText[]{
                 binding.otp1,
                 binding.otp2,
