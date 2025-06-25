@@ -1,5 +1,6 @@
 package com.example.appxemphim.UI.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -34,6 +35,11 @@ public class SearchActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         searchAdapter = new SearchAdapter();
+        searchAdapter.setOnMovieClickListener(movieId -> {
+            Intent intent = new Intent(this, MovieDetailsActivity.class);
+            intent.putExtra("movie_id", movieId);
+            startActivity(intent);
+        });
         initViews();
         initData();
 
@@ -50,7 +56,7 @@ public class SearchActivity extends AppCompatActivity {
 
     protected void initData() {
         // Khởi tạo repository của bạn, nếu dùng singleton thì gọi qua getter
-        MovieRepository repository = new MovieRepository(); // hoặc MovieRepository.getInstance()
+        MovieRepository repository = new MovieRepository();
 
         // Tạo factory
         MovieSearchViewModelFactory factory = new MovieSearchViewModelFactory(repository);

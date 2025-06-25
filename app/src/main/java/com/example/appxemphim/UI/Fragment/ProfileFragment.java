@@ -153,22 +153,25 @@ public class ProfileFragment extends Fragment {
 
     private void setData() {
         profileViewModel.getprofile();
-        profileViewModel.getDataReslt.observe(requireActivity(), resource -> {
+        profileViewModel.getDataReslt.observe(getViewLifecycleOwner(), resource -> {
             if (resource != null) {
                 switch (resource.getStatus()) {
                     case LOADING:
                         break;
                     case SUCCESS:
                         Profile result = resource.getData();
-                        if (result != null) {
+                        if (isAdded() && result != null) {
                             Glide.with(requireContext())
                                     .load(result.getAvatar())
                                     .into(binding.imageAvartar);
+
                             binding.textViewProfile.setText(result.getName());
                         }
                         break;
                     case ERROR:
-                        Toast.makeText(requireContext(), "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                        if (isAdded()) {
+                            Toast.makeText(requireContext(), "Có lỗi xảy ra: " + resource.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
                         break;
                 }
             }

@@ -76,7 +76,7 @@
                 android:text="Blade Runner 2049"
                 android:textSize="20sp"
                 android:textStyle="bold"
-                android:textColor="#FFFFFF"
+                android:textColor="@color/onBackground"
                 android:layout_marginBottom="8dp" />
 
             <!-- Sub Info -->
@@ -92,21 +92,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2017"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/onBackground"
                     android:layout_marginEnd="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="16+"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/onBackground"
                     android:layout_marginEnd="12dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="HD"
-                    android:textColor="#FFFFFF"
+                    android:textColor="@color/onBackground"
                     android:background="#444"
                     android:padding="4dp" />
             </LinearLayout>
