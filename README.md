@@ -6,7 +6,7 @@
 [![Media Engine](https://img.shields.io/badge/Player-AndroidX%20Media3%20ExoPlayer-E50914?style=flat-square)](https://developer.android.com/media/media3)
 [![License](https://img.shields.io/badge/License-Academic%20%2F%20Personal-lightgrey?style=flat-square)]()
 
-A native Android movie streaming application built with **MVVM** and **Repository** patterns. Integrates **AndroidX Media3 ExoPlayer** for video playback with smart watch-progress resumption, **Retrofit 2 / OkHttp 3** with silent token refresh, and full-text search powered by a **Spring Boot & MeiliSearch** backend.
+A native Android movie streaming application built with **MVVM** and **Repository** patterns. Integrates **AndroidX Media3 ExoPlayer** for video playback with smart watch-progress resumption, **Retrofit 2 / OkHttp 3** with silent token refresh, and full-text search powered by the [App_xem_Phim_API](https://github.com/vucongchien/App_xem_Phim_API) (Spring Boot & MeiliSearch) backend.
 
 ---
 
@@ -141,7 +141,7 @@ AppXemPhim/
 * **Android Studio**: Ladybug (2024.2+) or later
 * **JDK**: Version 17
 * **Android SDK**: API Level 35 installed
-* Running instance of the accompanying Spring Boot API (`App_xem_Phim_API`)
+* Running instance of the backend service: [App_xem_Phim_API](https://github.com/vucongchien/App_xem_Phim_API) (Spring Boot + MeiliSearch)
 
 ### 1. Configure Backend Endpoint
 By default, the client points to a local network IP. Update the base URL to match your server or emulator environment:
